@@ -102,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				65A1E24F25490BB900C92101 /* Model */,
+				65A1E2532549EF5400C92101 /* More */,
+				65A1E2542549EF6E00C92101 /* Todos */,
 				65A1E20A2548DE7900C92101 /* AppDelegate.swift */,
 				65A1E20C2548DE7900C92101 /* SceneDelegate.swift */,
 				65A1E20E2548DE7900C92101 /* ViewController.swift */,
@@ -137,6 +139,20 @@
 				65A1E2132548DE7900C92101 /* XYZTodos.xcdatamodeld */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		65A1E2532549EF5400C92101 /* More */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
+		65A1E2542549EF6E00C92101 /* Todos */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Todos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
