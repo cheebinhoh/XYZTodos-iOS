@@ -11,6 +11,7 @@
     <entity name="Root" representedClassName="Root" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="dayOfWeek" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DayOfWeek" inverseName="root" inverseEntity="DayOfWeek"/>
+        <relationship name="todo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Todo" inverseName="root" inverseEntity="Todo"/>
     </entity>
     <entity name="Todo" representedClassName="Todo" syncable="YES" codeGenerationType="class">
         <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -19,10 +20,11 @@
         <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="sequenceNr" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dayOfWeek" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DayOfWeek" inverseName="todo" inverseEntity="DayOfWeek"/>
+        <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Root" inverseName="todo" inverseEntity="Root"/>
     </entity>
     <elements>
-        <element name="DayOfWeek" positionX="-2134.818420410156" positionY="-1870.211486816406" width="128" height="133"/>
-        <element name="Root" positionX="-2541.87646484375" positionY="-1855.374816894531" width="128" height="73"/>
-        <element name="Todo" positionX="-2141.336303710938" positionY="-1641.09326171875" width="128" height="133"/>
+        <element name="DayOfWeek" positionX="-2294.825500488281" positionY="-1889.444732666016" width="128" height="133"/>
+        <element name="Root" positionX="-2620.626281738281" positionY="-1844.699615478516" width="128" height="88"/>
+        <element name="Todo" positionX="-2470.677673339844" positionY="-1502.89599609375" width="128" height="148"/>
     </elements>
 </model>
