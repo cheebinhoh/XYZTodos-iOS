@@ -16,6 +16,7 @@
 		65A1E21A2548DE7B00C92101 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A1E2182548DE7B00C92101 /* LaunchScreen.storyboard */; };
 		65A1E2252548DE7B00C92101 /* XYZTodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E2242548DE7B00C92101 /* XYZTodosTests.swift */; };
 		65A1E2302548DE7B00C92101 /* XYZTodosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E22F2548DE7B00C92101 /* XYZTodosUITests.swift */; };
+		65A1E245254904E000C92101 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E243254904E000C92101 /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		65A1E22B2548DE7B00C92101 /* XYZTodosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XYZTodosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A1E22F2548DE7B00C92101 /* XYZTodosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodosUITests.swift; sourceTree = "<group>"; };
 		65A1E2312548DE7B00C92101 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65A1E244254904E000C92101 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				65A1E20A2548DE7900C92101 /* AppDelegate.swift */,
+				65A1E243254904E000C92101 /* Model.xcdatamodeld */,
 				65A1E20C2548DE7900C92101 /* SceneDelegate.swift */,
 				65A1E20E2548DE7900C92101 /* ViewController.swift */,
 				65A1E2102548DE7900C92101 /* Main.storyboard */,
@@ -263,6 +266,7 @@
 			files = (
 				65A1E20F2548DE7900C92101 /* ViewController.swift in Sources */,
 				65A1E2152548DE7900C92101 /* XYZTodos.xcdatamodeld in Sources */,
+				65A1E245254904E000C92101 /* Model.xcdatamodeld in Sources */,
 				65A1E20B2548DE7900C92101 /* AppDelegate.swift in Sources */,
 				65A1E20D2548DE7900C92101 /* SceneDelegate.swift in Sources */,
 			);
@@ -441,6 +445,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
 				INFOPLIST_FILE = XYZTodos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -460,6 +465,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
 				INFOPLIST_FILE = XYZTodos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -606,6 +612,16 @@
 			);
 			currentVersion = 65A1E2142548DE7900C92101 /* XYZTodos.xcdatamodel */;
 			path = XYZTodos.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		65A1E243254904E000C92101 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				65A1E244254904E000C92101 /* Model.xcdatamodel */,
+			);
+			currentVersion = 65A1E244254904E000C92101 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
