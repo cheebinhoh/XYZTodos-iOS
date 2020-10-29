@@ -13,11 +13,15 @@ class XYZMoreTableViewController: UITableViewController {
     
     func loadSectionCellData() {
 
-        let aboutSection = TableViewSectionCell(identifier: "about", title: nil, cellList: ["about"], data: nil)
+        let aboutSection = TableViewSectionCell(identifier: "about",
+                                                title: nil,
+                                                cellList: ["about"],
+                                                data: nil)
         sectionCellList.append(aboutSection)
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         tableView.tableFooterView = UIView(frame: .zero)
@@ -31,7 +35,6 @@ class XYZMoreTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        print("-- XYZMoreTableViewController: UITableViewController")
         loadSectionCellData()
     }
 
@@ -45,27 +48,39 @@ class XYZMoreTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
         return sectionCellList[section].cellList.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         var cell: UITableViewCell?
         
+        let sectionId = sectionCellList[indexPath.section].identifier
         let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
-        switch cellId {
-            
-            case "about" :
-                guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreTableViewCell", for: indexPath) as? XYZMoreTableViewCell else {
+        
+        switch sectionId {
+        
+            case "about":
+                switch cellId {
                     
-                    fatalError("Exception: error on creating moreTableViewCell")
+                    case "about" :
+                        guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreTableViewCell", for: indexPath) as? XYZMoreTableViewCell else {
+                            
+                            fatalError("Exception: error on creating moreTableViewCell")
+                        }
+                        
+                        newcell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+                        newcell.title.text = "About"
+                        cell = newcell
+                        
+                    default:
+                        fatalError("Unsupport more table view cell \(cellId)")
+                        break;
                 }
-                
-                newcell.title.text = "About"
-                cell = newcell
-                
+        
             default:
-                fatalError("Unsupport more table view cell \(cellId)")
-                break;
+                fatalError("Unsupport section id \(sectionId)")
         }
 
         return cell!
@@ -158,5 +173,5 @@ class XYZMoreTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

@@ -14,3 +14,23 @@ struct TableViewSectionCell {
     var cellList = [String]()
     var data: Any?
 }
+
+func createAttributeText(text: String, font: UIFont, link: String? = nil) -> NSMutableAttributedString {
+    
+    var attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font]
+    
+    if #available(iOS 13.0, *) {
+        
+        attributes[NSAttributedString.Key.foregroundColor] = UIColor.label
+    } else {
+        
+        // Fallback on earlier versions
+    }
+    
+    if let link = link {
+        
+        attributes[NSAttributedString.Key.link] = link
+    }
+    
+    return NSMutableAttributedString(string: text, attributes: attributes)
+}

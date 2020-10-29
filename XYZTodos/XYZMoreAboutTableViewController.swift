@@ -44,6 +44,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         tableView.tableFooterView = UIView(frame: .zero)
@@ -68,6 +69,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
         return sectionCellList[section].cellList.count
     }
 
@@ -76,6 +78,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
         var cell: UITableViewCell?
         
         let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
+        
         switch cellId {
             
             case "copyright" :
@@ -84,57 +87,35 @@ class XYZMoreAboutTableViewController: UITableViewController {
                     fatalError("Exception: error on creating moreAboutTableViewCell")
                 }
                 
-                let textVersion
-                    = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
-                
-                let textHeading = """
+                let appName = """
                 
                 \(Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "")
                 """
                 
-                let headingAttributes: [NSAttributedString.Key: Any]? = [NSAttributedString.Key.font: newcell.textView.font!,
-                                                                         NSAttributedString.Key.link: "https://apps.apple.com/us/app/xyztodos-what-is-next/id1537702920"]
-                let headingAttributeText = NSMutableAttributedString(string: textHeading, attributes: headingAttributes)
-   
-                var attributes: [NSAttributedString.Key: Any]? = [NSAttributedString.Key.font: newcell.textView.font!]
+                let textVersion
+                    = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
                 
-                if #available(iOS 13.0, *) {
-                    
-                    attributes?[NSAttributedString.Key.foregroundColor] = UIColor.label
-                } else {
-                    
-                    // Fallback on earlier versions
-                }
-                
-                let authorPreText = """
-                 (\(textVersion)) \("was created by ")
-                """
-                
-                let attributeAuthorPreText = NSAttributedString(string: authorPreText, attributes: attributes)
-                headingAttributeText.append(attributeAuthorPreText)
-
-                let authorText = """
-                 \("Chee Bin Hoh")
+                let authorName = """
+                Chee Bin HOH
 
                 """
                 
-                let authorTextAttributes: [NSAttributedString.Key: Any]? = [NSAttributedString.Key.font: newcell.textView.font!,
-                                                                            NSAttributedString.Key.link: "https://www.linkedin.com/in/cheebinhoh"]
+                let copyrightText = createAttributeText(text: appName,
+                                                        font: newcell.textView.font!,
+                                                        link: "https://apps.apple.com/us/app/xyztodos-what-is-next/id1537702920")
                 
-                let attributeAuthorText = NSAttributedString(string: authorText, attributes: authorTextAttributes)
-                headingAttributeText.append(attributeAuthorText)
-
+                let authorPreText = createAttributeText(text: " (\(textVersion)) \("was created by ")",
+                                                        font: newcell.textView.font!)
                 
-                let copyRightText = """
+                copyrightText.append(authorPreText)
                 
-                \u{A9} \("2020 Chee Bin Hoh, All rights reserved.")
-
-                """
+                let authorText = createAttributeText(text: authorName,
+                                                     font: newcell.textView.font!,
+                                                     link: "https://www.linkedin.com/in/cheebinhoh")
                 
-                let attributeCopyRightText = NSAttributedString(string: copyRightText, attributes: attributes)
-                headingAttributeText.append(attributeCopyRightText)
+                copyrightText.append(authorText)
                 
-                newcell.textView.attributedText = headingAttributeText
+                newcell.textView.attributedText = copyrightText
                 cell = newcell
                 
             case "credit":
@@ -143,37 +124,24 @@ class XYZMoreAboutTableViewController: UITableViewController {
                     fatalError("Exception: error on creating moreAboutTableViewCell")
                 }
                 
-                var attributes: [NSAttributedString.Key: Any]? = [NSAttributedString.Key.font: newcell.textView.font!]
-                
-                if #available(iOS 13.0, *) {
-                    
-                    attributes?[NSAttributedString.Key.foregroundColor] = UIColor.label
-                } else {
-                    
-                    // Fallback on earlier versions
-                }
-                
                 let preText = """
                 
                 \("The icons are from Noun Project by")
 
                 """
                 
-                let attributeCreditText = NSMutableAttributedString(string: preText, attributes: attributes)
+                let attributeCreditText = createAttributeText(text: preText, font: newcell.textView.font!)
                 
                 let authorText = """
                 \("Kimmi Studio")
 
                 """
                 
-                let authorTextAttributes: [NSAttributedString.Key: Any]? = [NSAttributedString.Key.font: newcell.textView.font!,
-                                                                            NSAttributedString.Key.link: "https://thenounproject.com/KimmiStudio/"]
-                
-                let attributeAuthorText = NSAttributedString(string: authorText, attributes: authorTextAttributes)
+                let attributeAuthorText = createAttributeText(text: authorText,
+                                                              font: newcell.textView.font!,
+                                                              link: "https://thenounproject.com/KimmiStudio/")
                 attributeCreditText.append(attributeAuthorText)
-                //attributeCreditText.append(attributeAuthorText)
-                
-                //let attributedText = NSMutableAttributedString(string: textHeading, attributes: headingAttributes)
+
                 newcell.textView.attributedText = attributeCreditText
                 cell = newcell
             
@@ -240,5 +208,5 @@ class XYZMoreAboutTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
