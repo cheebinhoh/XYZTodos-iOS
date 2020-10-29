@@ -96,26 +96,36 @@ class XYZMoreAboutTableViewController: UITableViewController {
                     = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
                 
                 let authorName = """
-                Chee Bin HOH
+                \("Chee Bin HOH".localized())
 
                 """
                 
-                let copyrightText = createAttributeText(text: appName,
-                                                        font: newcell.textView.font!,
-                                                        link: "https://apps.apple.com/us/app/xyztodos-what-is-next/id1537702920")
+                let aboutText = createAttributeText(text: appName,
+                                                    font: newcell.textView.font!,
+                                                    link: "https://apps.apple.com/us/app/xyztodos-what-is-next/id1537702920")
                 
-                let authorPreText = createAttributeText(text: " (\(textVersion)) \("was created by ")",
+                let authorPreText = createAttributeText(text: " (\(textVersion)) \("was created by ".localized())",
                                                         font: newcell.textView.font!)
                 
-                copyrightText.append(authorPreText)
+                aboutText.append(authorPreText)
                 
                 let authorText = createAttributeText(text: authorName,
                                                      font: newcell.textView.font!,
                                                      link: "https://www.linkedin.com/in/cheebinhoh")
                 
-                copyrightText.append(authorText)
+                aboutText.append(authorText)
                 
-                newcell.textView.attributedText = copyrightText
+                let copyRightText = """
+                
+                \u{A9} \("2020 Chee Bin HOH, All rights reserved".localized())
+
+                """
+                
+                let attributedCopyrightText = createAttributeText(text: copyRightText,
+                                                                  font: newcell.textView.font!)
+                
+                aboutText.append(attributedCopyrightText)
+                newcell.textView.attributedText = aboutText
                 cell = newcell
                 
             case "credit":
@@ -126,7 +136,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
                 
                 let preText = """
                 
-                \("The icons are from Noun Project by")
+                \("The icons are from Noun Project by ".localized())
 
                 """
                 
