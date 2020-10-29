@@ -11,13 +11,13 @@
         <scene sceneID="UeD-CN-XWA">
             <objects>
                 <tableViewController id="3Sj-VC-GLO" customClass="XYZMoreTableViewController" customModule="XYZTodos" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Bs9-4D-avv">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Bs9-4D-avv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="moreTableViewCell" rowHeight="50" id="Cen-ie-hvC" customClass="XYZMoreTableViewCell" customModule="XYZTodos" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="50"/>
+                                <rect key="frame" x="0.0" y="55.5" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Cen-ie-hvC" id="fu2-Ne-8U0">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
@@ -53,37 +53,21 @@
             </objects>
             <point key="canvasLocation" x="310" y="-400"/>
         </scene>
-        <!--More About Table View Controller-->
+        <!--About-->
         <scene sceneID="Xu1-iN-8XZ">
             <objects>
                 <tableViewController id="y5l-Vb-5FS" customClass="XYZMoreAboutTableViewController" customModule="XYZTodos" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ckk-F7-IuJ">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="ckk-F7-IuJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="aCT-Hl-hzf" customClass="XYZMoreAboutTableViewCell" customModule="XYZTodos" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="300.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="moreAboutTableViewCell" id="aCT-Hl-hzf" customClass="XYZMoreAboutTableViewCell" customModule="XYZTodos" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aCT-Hl-hzf" id="dx0-ON-JxA">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="300.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="350" placeholderIntrinsicHeight="300" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="LI1-Sk-meP" userLabel="UITextView">
-                                            <rect key="frame" x="15" y="0.0" width="389" height="300"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                            <color key="textColor" systemColor="labelColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        </textView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="LI1-Sk-meP" secondAttribute="trailing" constant="10" id="02N-6J-CRD"/>
-                                        <constraint firstAttribute="bottom" secondItem="LI1-Sk-meP" secondAttribute="bottom" id="47l-RV-nHw"/>
-                                        <constraint firstItem="LI1-Sk-meP" firstAttribute="top" secondItem="dx0-ON-JxA" secondAttribute="top" id="heU-yL-izH"/>
-                                        <constraint firstItem="LI1-Sk-meP" firstAttribute="leading" secondItem="dx0-ON-JxA" secondAttribute="leading" constant="15" id="rCx-7z-T0O"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -92,7 +76,7 @@
                             <outlet property="delegate" destination="y5l-Vb-5FS" id="Ys9-Uq-kXW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="YU7-sA-MZ4"/>
+                    <navigationItem key="navigationItem" title="About" id="YU7-sA-MZ4"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QPK-or-yZ7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -205,9 +189,6 @@
     <resources>
         <image name="More" width="16.333333969116211" height="4.3333334922790527"/>
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

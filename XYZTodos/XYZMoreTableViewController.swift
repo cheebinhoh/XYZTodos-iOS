@@ -57,7 +57,7 @@ class XYZMoreTableViewController: UITableViewController {
             case "about" :
                 guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreTableViewCell", for: indexPath) as? XYZMoreTableViewCell else {
                     
-                    fatalError("Exception: error on creating settingTableViewCell")
+                    fatalError("Exception: error on creating moreTableViewCell")
                 }
                 
                 newcell.title.text = "About"
@@ -70,6 +70,16 @@ class XYZMoreTableViewController: UITableViewController {
 
         return cell!
     }
+    
+    func showAbout() {
+        
+        guard let moreAboutNavigator = self.storyboard?.instantiateViewController(withIdentifier: "moreAboutNavigator") as? UINavigationController else {
+            
+            fatalError("Exception: error on instantiating moreAboutNavigator")
+        }
+
+        self.present(moreAboutNavigator, animated: false, completion: nil)
+    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -81,7 +91,7 @@ class XYZMoreTableViewController: UITableViewController {
             case "about":
                 switch cellId {
                     case "about":
-                        print("--- about")
+                        showAbout()
                         
                     default:
                         fatalError("Unsupport cell id \(cellId)")
@@ -92,6 +102,16 @@ class XYZMoreTableViewController: UITableViewController {
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return section == 0 ? 35 : 17.5
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return sectionCellList[section].title
     }
     
     /*
