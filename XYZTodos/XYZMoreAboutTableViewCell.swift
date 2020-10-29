@@ -12,8 +12,12 @@ class XYZMoreAboutTableViewCell: UITableViewCell {
     @IBOutlet weak var textView: UITextView!
     
     override func awakeFromNib() {
+        
         super.awakeFromNib()
-        // Initialization code
+        
+        textView.textContainer.maximumNumberOfLines = 0
+        textView.isScrollEnabled = false
+        textView.sizeToFit()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

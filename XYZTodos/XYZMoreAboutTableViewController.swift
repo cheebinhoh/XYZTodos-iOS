@@ -13,8 +13,18 @@ class XYZMoreAboutTableViewController: UITableViewController {
     
     func loadSectionCellData() {
 
-        let aboutSection = TableViewSectionCell(identifier: "about", title: nil, cellList: ["copyright"], data: nil)
+        let aboutSection = TableViewSectionCell(identifier: "about",
+                                                title: nil,
+                                                cellList: ["copyright"],
+                                                data: nil)
         sectionCellList.append(aboutSection)
+        
+        let creditSection = TableViewSectionCell(identifier: "credit",
+                                                 title: nil,
+                                                 cellList: ["credit"],
+                                                 data: nil)
+        
+        sectionCellList.append(creditSection)
     }
     
     func showBarButtons() {
@@ -40,6 +50,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
         
         showBarButtons()
         loadSectionCellData()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -60,7 +71,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
         return sectionCellList[section].cellList.count
     }
 
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell?
@@ -74,7 +84,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
                     fatalError("Exception: error on creating moreAboutTableViewCell")
                 }
                 
-                /*
                 let textVersion
                     = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
                 
@@ -105,7 +114,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
                 headingAttributeText.append(attributeAuthorPreText)
 
                 let authorText = """
-                \("Chee Bin Hoh")
+                 \("Chee Bin Hoh")
 
                 """
                 
@@ -125,9 +134,50 @@ class XYZMoreAboutTableViewController: UITableViewController {
                 let attributeCopyRightText = NSAttributedString(string: copyRightText, attributes: attributes)
                 headingAttributeText.append(attributeCopyRightText)
                 
-                newcell.textView.attributedText = headingAttributeText */
+                newcell.textView.attributedText = headingAttributeText
                 cell = newcell
                 
+            case "credit":
+                guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreAboutTableViewCell", for: indexPath) as? XYZMoreAboutTableViewCell else {
+                    
+                    fatalError("Exception: error on creating moreAboutTableViewCell")
+                }
+                
+                var attributes: [NSAttributedString.Key: Any]? = [NSAttributedString.Key.font: newcell.textView.font!]
+                
+                if #available(iOS 13.0, *) {
+                    
+                    attributes?[NSAttributedString.Key.foregroundColor] = UIColor.label
+                } else {
+                    
+                    // Fallback on earlier versions
+                }
+                
+                let preText = """
+                
+                \("The icons are from Noun Project by")
+
+                """
+                
+                let attributeCreditText = NSMutableAttributedString(string: preText, attributes: attributes)
+                
+                let authorText = """
+                \("Kimmi Studio")
+
+                """
+                
+                let authorTextAttributes: [NSAttributedString.Key: Any]? = [NSAttributedString.Key.font: newcell.textView.font!,
+                                                                            NSAttributedString.Key.link: "https://thenounproject.com/KimmiStudio/"]
+                
+                let attributeAuthorText = NSAttributedString(string: authorText, attributes: authorTextAttributes)
+                attributeCreditText.append(attributeAuthorText)
+                //attributeCreditText.append(attributeAuthorText)
+                
+                //let attributedText = NSMutableAttributedString(string: textHeading, attributes: headingAttributes)
+                newcell.textView.attributedText = attributeCreditText
+                cell = newcell
+            
+                    
             default:
                 fatalError("Unsupport more table view cell \(cellId)")
                 break;
@@ -135,7 +185,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
 
         return cell!
     }
-    
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
