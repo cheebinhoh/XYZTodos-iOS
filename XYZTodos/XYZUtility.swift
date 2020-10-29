@@ -7,6 +7,17 @@
 
 import Foundation
 
+enum DayOfWeek: String, CaseIterable {
+
+    case Monday
+    case Tuesday
+    case Wednesday
+    case Thursday
+    case Friday
+    case Saturday
+    case Sunday
+}
+
 extension String {
     
     func localized() -> String {

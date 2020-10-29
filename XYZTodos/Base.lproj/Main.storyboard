@@ -103,19 +103,36 @@
         <!--Todos-->
         <scene sceneID="gAp-NF-GRH">
             <objects>
-                <tableViewController id="dtf-LU-Lkm" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EkN-cj-Af7">
+                <tableViewController id="dtf-LU-Lkm" customClass="XYZTodoTableViewController" customModule="XYZTodos" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="EkN-cj-Af7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todosTableViewCell" rowHeight="50" id="wlY-zg-hJp">
-                                <rect key="frame" x="0.0" y="28" width="414" height="50"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="todosTableViewCell" rowHeight="50" id="wlY-zg-hJp" customClass="XYZTodoTableViewCell" customModule="XYZTodos" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wlY-zg-hJp" id="7lv-Np-0ox">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="370" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lo3-Xv-nKE">
+                                            <rect key="frame" x="14" y="15" width="342" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Lo3-Xv-nKE" firstAttribute="leading" secondItem="7lv-Np-0ox" secondAttribute="leadingMargin" constant="-6" id="R0I-if-n0k"/>
+                                        <constraint firstItem="Lo3-Xv-nKE" firstAttribute="top" secondItem="7lv-Np-0ox" secondAttribute="topMargin" constant="4" id="ZsA-Sp-8Ir"/>
+                                        <constraint firstItem="Lo3-Xv-nKE" firstAttribute="centerX" secondItem="7lv-Np-0ox" secondAttribute="centerX" id="aIn-bx-6dj"/>
+                                        <constraint firstItem="Lo3-Xv-nKE" firstAttribute="centerY" secondItem="7lv-Np-0ox" secondAttribute="centerY" id="uwV-oG-MAw"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="title" destination="Lo3-Xv-nKE" id="1uY-aD-Jqf"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

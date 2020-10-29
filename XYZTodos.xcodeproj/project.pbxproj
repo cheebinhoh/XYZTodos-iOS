@@ -23,6 +23,8 @@
 		65A1E2692549FCA200C92101 /* XYZMoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E2682549FCA200C92101 /* XYZMoreTableViewController.swift */; };
 		65F06B55254B32EC00DB3E16 /* XYZUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06B54254B32EC00DB3E16 /* XYZUtility.swift */; };
 		65F06B74254B45C500DB3E16 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65F06B76254B45C500DB3E16 /* Localizable.strings */; };
+		65F06B82254B5E8B00DB3E16 /* XYZTodoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06B81254B5E8B00DB3E16 /* XYZTodoTableViewController.swift */; };
+		65F06B8A254B5EB200DB3E16 /* XYZTodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06B89254B5EB200DB3E16 /* XYZTodoTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		65F06B7A254B45D900DB3E16 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		65F06B7B254B45D900DB3E16 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		65F06B7C254B45D900DB3E16 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		65F06B81254B5E8B00DB3E16 /* XYZTodoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodoTableViewController.swift; sourceTree = "<group>"; };
+		65F06B89254B5EB200DB3E16 /* XYZTodoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodoTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,8 @@
 			isa = PBXGroup;
 			children = (
 				65A1E24F25490BB900C92101 /* Model */,
+				65F06B81254B5E8B00DB3E16 /* XYZTodoTableViewController.swift */,
+				65F06B89254B5EB200DB3E16 /* XYZTodoTableViewCell.swift */,
 				65A1E2682549FCA200C92101 /* XYZMoreTableViewController.swift */,
 				653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */,
 				653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */,
@@ -296,8 +302,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				653B9F96254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift in Sources */,
+				65F06B8A254B5EB200DB3E16 /* XYZTodoTableViewCell.swift in Sources */,
 				65A1E20F2548DE7900C92101 /* ViewController.swift in Sources */,
 				65F06B55254B32EC00DB3E16 /* XYZUtility.swift in Sources */,
+				65F06B82254B5E8B00DB3E16 /* XYZTodoTableViewController.swift in Sources */,
 				65A1E2152548DE7900C92101 /* XYZTodos.xcdatamodeld in Sources */,
 				65A1E2692549FCA200C92101 /* XYZMoreTableViewController.swift in Sources */,
 				65A1E20B2548DE7900C92101 /* AppDelegate.swift in Sources */,
