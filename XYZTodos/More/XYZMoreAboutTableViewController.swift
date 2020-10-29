@@ -1,5 +1,5 @@
 //
-//  XYZMoreTableViewController.swift
+//  XYZMoreAboutTableViewController.swift
 //  XYZTodos
 //
 //  Created by Chee Bin Hoh on 10/28/20.
@@ -7,93 +7,40 @@
 
 import UIKit
 
-class XYZMoreTableViewController: UITableViewController {
+class XYZMoreAboutTableViewController: UITableViewController {
 
-    var sectionCellList = [TableViewSectionCell]()
-    
-    func loadSectionCellData() {
-
-        let aboutSection = TableViewSectionCell(identifier: "about", title: nil, cellList: ["about"], data: nil)
-        sectionCellList.append(aboutSection)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.tableFooterView = UIView(frame: .zero)
-
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        print("-- XYZMoreTableViewController: UITableViewController")
-        loadSectionCellData()
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        
-        return sectionCellList.count
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return sectionCellList[section].cellList.count
+        return 0
     }
 
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell?
-        
-        let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
-        switch cellId {
-            
-            case "about" :
-                guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreTableViewCell", for: indexPath) as? XYZMoreTableViewCell else {
-                    
-                    fatalError("Exception: error on creating settingTableViewCell")
-                }
-                
-                newcell.title.text = "About"
-                cell = newcell
-                
-            default:
-                fatalError("Unsupport more table view cell \(cellId)")
-                break;
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        return cell!
-    }
+        // Configure the cell...
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let sectionId = sectionCellList[indexPath.section].identifier
-        let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
-        
-        switch sectionId {
-        
-            case "about":
-                switch cellId {
-                    case "about":
-                        print("--- about")
-                        
-                    default:
-                        fatalError("Unsupport cell id \(cellId)")
-                }
-                
-            default:
-                fatalError("Unsupport section id \(sectionId)")
-        }
-        
-        tableView.deselectRow(at: indexPath, animated: false)
+        return cell
     }
-    
+    */
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
