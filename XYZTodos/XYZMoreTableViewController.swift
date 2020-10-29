@@ -71,7 +71,7 @@ class XYZMoreTableViewController: UITableViewController {
                         }
                         
                         newcell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-                        newcell.title.text = "About"
+                        newcell.title.text = "About".localized()
                         cell = newcell
                         
                     default:

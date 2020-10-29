@@ -1,0 +1,27 @@
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "CFH-rI-omV"; */
+"CFH-rI-omV.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Ehs-B3-DD5"; */
+"Ehs-B3-DD5.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "Todos"; ObjectID = "NyI-8z-OjC"; */
+"NyI-8z-OjC.title" = "任务";
+
+/* Class = "UINavigationController"; title = "Todo navigator"; ObjectID = "QXH-OK-7Di"; */
+"QXH-OK-7Di.title" = "Todo navigator";
+
+/* Class = "UITabBarItem"; title = "More"; ObjectID = "WtT-uu-ZIB"; */
+"WtT-uu-ZIB.title" = "更多";
+
+/* Class = "UINavigationItem"; title = "About"; ObjectID = "YU7-sA-MZ4"; */
+"YU7-sA-MZ4.title" = "大概";
+
+/* Class = "UINavigationController"; title = "More navigator"; ObjectID = "bXL-D5-Q5N"; */
+"bXL-D5-Q5N.title" = "More navigator";
+
+/* Class = "UINavigationItem"; title = "More"; ObjectID = "wDw-iJ-N5j"; */
+"wDw-iJ-N5j.title" = "更多";
+
+/* Class = "UITabBarItem"; title = "Todos"; ObjectID = "xsJ-JC-8r9"; */
+"xsJ-JC-8r9.title" = "任务";
