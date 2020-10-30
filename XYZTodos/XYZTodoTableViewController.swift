@@ -35,7 +35,23 @@ class XYZTodoTableViewController: UITableViewController {
     
     // MARK: - Property
     
-    var sectionCellList = [TableViewSectionCell]()
+    var sectionCellList = [TableViewSectionCell]() {
+        
+        didSet {
+            
+            let hasNoCollapse = sectionCellList.contains {
+            
+                    guard let todoGroup = $0.data as? TodoGroup else {
+                        
+                        return true
+                    }
+                    
+                    return !todoGroup.collapse
+                }
+            
+            self.navigationItem.leftBarButtonItem?.isEnabled = hasNoCollapse
+        }
+    }
     
     
     // MARK: - Function
@@ -165,6 +181,7 @@ class XYZTodoTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem
+        self.navigationItem.leftBarButtonItem?.isEnabled = false
     }
     
 
@@ -251,19 +268,36 @@ class XYZTodoTableViewController: UITableViewController {
                     if let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup {
                         
                         let hastodos = !todoGroup.todos.isEmpty
-                        if hastodos && todoGroup.complete  {
+                        let collapse = todoGroup.collapse
+                        let complete = todoGroup.complete
+                        
+                        if hastodos {
                             
-                            newcell.accessoryType = .checkmark
-                        } else if hastodos && todoGroup.collapse {
-                            
-                            newcell.accessoryType = .detailButton
+                            if collapse {
+                                
+                                if complete {
+                                    
+                                    newcell.accessoryType = .checkmark
+                                    newcell.accessoryView = nil
+                                } else {
+                                    
+                                    newcell.accessoryType = .disclosureIndicator
+                                    newcell.accessoryView = nil
+                                }
+                            } else {
+                                
+                                newcell.accessoryType = .none
+                                newcell.accessoryView = createDownDisclosureIndicatorImage()
+                            }
                         } else {
                             
                             newcell.accessoryType = .none
+                            newcell.accessoryView = nil
                         }
                     } else {
                         
                         newcell.accessoryType = .none
+                        newcell.accessoryView = nil
                     }
                     
                     newcell.title.text = sectionCellList[indexPath.section].cellList[0]
@@ -306,13 +340,12 @@ class XYZTodoTableViewController: UITableViewController {
                 var todoGroup = section.data as! TodoGroup
                 
                 todoGroup.todos.remove(at: indexPath.row - 1)
+                todoGroup.collapse = todoGroup.todos.isEmpty
                 section.data = todoGroup
                 self.sectionCellList[indexPath.section] = section
                 
-                print("---- after delete = \(indexPath)")
                 self.printSectionCellData()
                 
-                tableView.deleteRows(at: [indexPath], with: .fade)
                 tableView.reloadData()
                 
                 handler(true)
@@ -381,12 +414,12 @@ class XYZTodoTableViewController: UITableViewController {
             var todoGroup = section.data as! TodoGroup
             
             todoGroup.todos.remove(at: indexPath.row - 1)
+            todoGroup.collapse = todoGroup.todos.isEmpty
             section.data = todoGroup
             sectionCellList[indexPath.section] = section
             
             printSectionCellData()
             
-            tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -419,14 +452,17 @@ class XYZTodoTableViewController: UITableViewController {
                 let todo = fromSectionTodoGroup!.todos.remove(at: fromIndexPath.row - 1)
                 toSectionTodoGroup!.todos.insert(todo, at: to.row - 1)
                 
+                fromSectionTodoGroup!.collapse = fromSectionTodoGroup!.todos.isEmpty
                 fromSection.data = fromSectionTodoGroup
                 sectionCellList[fromIndexPath.section] = fromSection
                 
+                toSectionTodoGroup!.collapse = false
                 toSection.data = toSectionTodoGroup
                 sectionCellList[to.section] = toSection
             }
         }
 
+        tableView.reloadData()
         printSectionCellData()
     }
 
