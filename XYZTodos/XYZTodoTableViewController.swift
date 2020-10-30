@@ -4,20 +4,24 @@
 //
 //  Created by Chee Bin Hoh on 10/29/20.
 //
+//  Copyright © 2020 Chee Bin Hoh. All rights reserved.
+//
 
 import UIKit
 
 class XYZTodoTableViewController: UITableViewController {
 
+    // MARK: - Type
+    
     struct Todo {
         
-        var detail: String = ""
-        var complete: Bool = false
+        var detail = ""
+        var complete = false
     }
     
     struct TodoGroup {
         
-        var iscollapse = true
+        var collapse = true
         var todos = [Todo]()
         var complete: Bool {
             
@@ -28,8 +32,13 @@ class XYZTodoTableViewController: UITableViewController {
         }
     }
     
+    
+    // MARK: - Property
+    
     var sectionCellList = [TableViewSectionCell]()
     
+    
+    // MARK: - Function
     
     func loadModelDataIntoSectionCellData() {
         
@@ -67,7 +76,7 @@ class XYZTodoTableViewController: UITableViewController {
         let today = Date()
         let dateFormat = DateFormatter()
 
-        dateFormat.dateFormat = "EEEE"
+        dateFormat.dateFormat = "EEEE" // Day of week
         let todayDoW = dateFormat.string(from: today)
 
         var sectionCellListBeforeTodayDoW = [TableViewSectionCell]()
@@ -77,17 +86,18 @@ class XYZTodoTableViewController: UITableViewController {
         for dayOfWeek in DayOfWeek.allCases {
         
             let dow = dayOfWeek.rawValue
+            let dowlocalized = dow.localized()
             
             let groupSection = TableViewSectionCell(identifier: dow,
                                                     title: nil,
-                                                    cellList: [dow.localized()],
+                                                    cellList: [dowlocalized],
                                                     data: nil)
             if hitTodayDoW {
                 
                 sectionCellListAfterAndTodayDoW.append(groupSection)
             } else {
                 
-                hitTodayDoW = dow.localized() == todayDoW
+                hitTodayDoW = dowlocalized == todayDoW
                 if hitTodayDoW {
                  
                     sectionCellListAfterAndTodayDoW.append(groupSection)
@@ -99,7 +109,7 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         sectionCellList.append(contentsOf: sectionCellListAfterAndTodayDoW)
-        sectionCellList.append(contentsOf: sectionCellListBeforeTodayDoW)
+        sectionCellList.append(contentsOf: sectionCellListBeforeTodayDoW) // any day before today is wrap toward the end
         
         let groupSection = TableViewSectionCell(identifier: "Other",
                                                 title: nil,
@@ -111,7 +121,7 @@ class XYZTodoTableViewController: UITableViewController {
         loadModelDataIntoSectionCellData()
     }
     
-    func reload() {
+    func reloadData() {
         
         loadSectionCellData()
         tableView.reloadData()
@@ -134,6 +144,7 @@ class XYZTodoTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
 
     // MARK: - Table view data source
 
@@ -150,12 +161,9 @@ class XYZTodoTableViewController: UITableViewController {
         
         var numTodos = 0
         
-        if let todoGroup = todoGroup, !todoGroup.iscollapse {
+        if let todoGroup = todoGroup, !todoGroup.collapse {
             
-            numTodos = todoGroup.todos.reduce(0, { result, todo -> Int in
-            
-                            return result + 1
-                        })
+            numTodos = todoGroup.todos.count
         }
         
         return sectionCellList[section].cellList.count
@@ -168,7 +176,7 @@ class XYZTodoTableViewController: UITableViewController {
             
             var todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
             
-            todoGroup!.iscollapse = !todoGroup!.iscollapse
+            todoGroup!.collapse = !todoGroup!.collapse
             sectionCellList[indexPath.section].data = todoGroup
         }
         
@@ -215,7 +223,7 @@ class XYZTodoTableViewController: UITableViewController {
 
                     guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoTableViewCell", for: indexPath) as? XYZTodoTableViewCell else {
                         
-                        fatalError("Exception: error on creating todosTableViewCell")
+                        fatalError("Exception: error on creating todoTableViewCell")
                     }
                     
                     if let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup {
@@ -224,7 +232,7 @@ class XYZTodoTableViewController: UITableViewController {
                         if hastodos && todoGroup.complete  {
                             
                             newcell.accessoryType = .checkmark
-                        } else if hastodos && todoGroup.iscollapse {
+                        } else if hastodos && todoGroup.collapse {
                             
                             newcell.accessoryType = .detailButton
                         } else {
@@ -238,11 +246,11 @@ class XYZTodoTableViewController: UITableViewController {
                     
                     newcell.title.text = sectionCellList[indexPath.section].cellList[0]
                     cell = newcell
-                } else {
+                } else { // if indexPath.row <= 0
                     
                     guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoItemTableViewCell", for: indexPath) as? XYZTodoItemTableViewCell else {
                         
-                        fatalError("Exception: error on creating todosTableViewCell")
+                        fatalError("Exception: error on creating todoItemTableViewCell")
                     }
                     
                     let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
@@ -259,7 +267,7 @@ class XYZTodoTableViewController: UITableViewController {
                     newcell.detail.text = todoGroup?.todos[indexPath.row - 1].detail
                     cell = newcell
                 }
-        }
+        } // switch sectionId
 
         return cell!
     }
@@ -285,11 +293,11 @@ class XYZTodoTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         var commands = [UIContextualAction]()
-        let allTodos = indexPath.row <= 0
         
         let complete = UIContextualAction(style: .destructive, title: "Complete".localized()) { _, _, handler in
 
             var todoGroup = self.sectionCellList[indexPath.section].data as? TodoGroup
+            let allTodos = indexPath.row <= 0
             
             if allTodos {
                 
@@ -311,8 +319,8 @@ class XYZTodoTableViewController: UITableViewController {
             }
             
             self.sectionCellList[indexPath.section].data = todoGroup
-            
             tableView.reloadData()
+            
             handler(true)
         }
         

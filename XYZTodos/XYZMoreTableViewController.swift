@@ -9,7 +9,12 @@ import UIKit
 
 class XYZMoreTableViewController: UITableViewController {
 
+    // MARK: - Property
+    
     var sectionCellList = [TableViewSectionCell]()
+    
+    
+    // MARK: - Function
     
     func loadSectionCellData() {
 
@@ -38,6 +43,7 @@ class XYZMoreTableViewController: UITableViewController {
         loadSectionCellData()
     }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -75,12 +81,12 @@ class XYZMoreTableViewController: UITableViewController {
                         cell = newcell
                         
                     default:
-                        fatalError("Unsupport more table view cell \(cellId)")
+                        fatalError("Exception: unsupport cell id \(cellId)")
                         break;
                 }
         
             default:
-                fatalError("Unsupport section id \(sectionId)")
+                fatalError("Exception: unsupport section id \(sectionId)")
         }
 
         return cell!
@@ -109,11 +115,11 @@ class XYZMoreTableViewController: UITableViewController {
                         showAbout()
                         
                     default:
-                        fatalError("Unsupport cell id \(cellId)")
+                        fatalError("Exception: unsupport cell id \(cellId)")
                 }
                 
             default:
-                fatalError("Unsupport section id \(sectionId)")
+                fatalError("Exception: Unsupport section id \(sectionId)")
         }
         
         tableView.deselectRow(at: indexPath, animated: false)

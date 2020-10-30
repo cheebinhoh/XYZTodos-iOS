@@ -9,7 +9,20 @@ import UIKit
 
 class XYZMoreAboutTableViewController: UITableViewController {
 
+    // MARK: - Property
+    
     var sectionCellList = [TableViewSectionCell]()
+    
+    
+    // MARK: - IBAction
+    
+    @IBAction func backAction(_ sender: UIButton) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    // MARK: - Function
     
     func loadSectionCellData() {
 
@@ -38,11 +51,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
-    @IBAction func backAction(_ sender: UIButton) {
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -59,6 +67,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

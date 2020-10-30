@@ -9,7 +9,12 @@ import UIKit
 
 class XYZMoreAboutTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlet
+    
     @IBOutlet weak var textView: UITextView!
+    
+    
+    // MARK: - Function
     
     override func awakeFromNib() {
         
