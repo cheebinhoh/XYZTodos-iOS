@@ -16,6 +16,11 @@ enum DayOfWeek: String, CaseIterable {
     case Friday
     case Saturday
     case Sunday
+    
+    var index: Int {
+        
+        return DayOfWeek.allCases.firstIndex(of: self)!
+    }
 }
 
 extension String {

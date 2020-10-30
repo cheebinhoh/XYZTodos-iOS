@@ -9,7 +9,56 @@ import UIKit
 
 class XYZTodoTableViewController: UITableViewController {
 
+    struct Todo {
+        
+        var detail: String = ""
+        var complete: Bool = false
+    }
+    
+    struct TodoGroup {
+        
+        var iscollapse = true
+        var todos = [Todo]()
+        var iscomplete: Bool {
+            
+            return todos.reduce(true) { (result, todo) -> Bool in
+                
+                return result && todo.complete
+            }
+        }
+    }
+    
     var sectionCellList = [TableViewSectionCell]()
+    
+    
+    func loadModelDataIntoSectionCellData() {
+        
+        var loadedSectionCellList = [TableViewSectionCell]()
+        
+        for var section in sectionCellList {
+            
+            let dow = section.identifier
+            var group = TodoGroup()
+            
+            // testing data
+            if dow == DayOfWeek.Thursday.rawValue {
+                
+                let todo1 = Todo(detail: "Wash bathroom", complete: false)
+               
+                group.todos.append(todo1)
+                
+                let todo2 = Todo(detail: "Laundry", complete: false)
+               
+                group.todos.append(todo2)
+            }
+            
+            section.data = group
+            
+            loadedSectionCellList.append(section)
+        }
+        
+        sectionCellList = loadedSectionCellList
+    }
     
     func loadSectionCellData() {
 
@@ -27,18 +76,18 @@ class XYZTodoTableViewController: UITableViewController {
         
         for dayOfWeek in DayOfWeek.allCases {
         
-            let dow = dayOfWeek.rawValue.localized()
+            let dow = dayOfWeek.rawValue
             
             let groupSection = TableViewSectionCell(identifier: dow,
                                                     title: nil,
-                                                    cellList: [dow],
+                                                    cellList: [dow.localized()],
                                                     data: nil)
             if hitTodayDoW {
                 
                 sectionCellListAfterAndTodayDoW.append(groupSection)
             } else {
                 
-                hitTodayDoW = dow == todayDoW
+                hitTodayDoW = dow.localized() == todayDoW
                 if hitTodayDoW {
                  
                     sectionCellListAfterAndTodayDoW.append(groupSection)
@@ -51,6 +100,21 @@ class XYZTodoTableViewController: UITableViewController {
         
         sectionCellList.append(contentsOf: sectionCellListAfterAndTodayDoW)
         sectionCellList.append(contentsOf: sectionCellListBeforeTodayDoW)
+        
+        let groupSection = TableViewSectionCell(identifier: "Other",
+                                                title: nil,
+                                                cellList: ["Other".localized()],
+                                                data: nil)
+        
+        sectionCellList.append(groupSection)
+        
+        loadModelDataIntoSectionCellData()
+    }
+    
+    func reload() {
+        
+        loadSectionCellData()
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -82,12 +146,50 @@ class XYZTodoTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
+        let todoGroup = sectionCellList[section].data as? TodoGroup
+        
+        var numTodos = 0
+        
+        if let todoGroup = todoGroup, !todoGroup.iscollapse {
+            
+            numTodos = todoGroup.todos.reduce(0, { result, todo -> Int in
+            
+                            return result + 1
+                        })
+        }
+        
         return sectionCellList[section].cellList.count
+                + numTodos
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row <= 0 {
+            
+            var todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
+            
+            todoGroup!.iscollapse = !todoGroup!.iscollapse
+            sectionCellList[indexPath.section].data = todoGroup
+        }
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return section == 0 ? 35 : 2.0 // 17.5
+        var height: CGFloat = 2.0
+        
+        if section == 0 {
+            
+            height = 35.0
+        } else if section == sectionCellList.count - 1 {
+            
+            height = 15.0
+        }
+        
+        return height
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -105,8 +207,7 @@ class XYZTodoTableViewController: UITableViewController {
         var cell: UITableViewCell?
         
         let sectionId = sectionCellList[indexPath.section].identifier
-        let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
-        
+
         switch sectionId {
         
             default:
@@ -117,11 +218,37 @@ class XYZTodoTableViewController: UITableViewController {
                         fatalError("Exception: error on creating todosTableViewCell")
                     }
                     
-                    newcell.title.text = cellId
+                    if let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup {
+                        
+                        let hastodos = !todoGroup.todos.isEmpty
+                        if hastodos && todoGroup.iscomplete  {
+                            
+                            newcell.accessoryType = .checkmark
+                        } else if hastodos && todoGroup.iscollapse {
+                            
+                            newcell.accessoryType = .detailButton
+                        } else {
+                            
+                            newcell.accessoryType = .none
+                        }
+                    } else {
+                        
+                        newcell.accessoryType = .none
+                    }
+                    
+                    newcell.title.text = sectionCellList[indexPath.section].cellList[0]
                     cell = newcell
                 } else {
                     
-                    fatalError("Exception: error that \(indexPath.row) <= 0")
+                    guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todosTableViewCell", for: indexPath) as? XYZTodoTableViewCell else {
+                        
+                        fatalError("Exception: error on creating todosTableViewCell")
+                    }
+                    
+                    let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
+                    
+                    newcell.title.text = todoGroup?.todos[indexPath.row - 1].detail
+                    cell = newcell
                 }
         }
 
