@@ -39,7 +39,7 @@ class XYZTodoTableViewController: UITableViewController {
     
     
     // MARK: - Function
-    
+
     func loadModelDataIntoSectionCellData() {
         
         var loadedSectionCellList = [TableViewSectionCell]()
@@ -67,6 +67,26 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         sectionCellList = loadedSectionCellList
+    }
+    
+    func printSectionCellData() {
+        
+        print("---- start printSectionCellData")
+        
+        for section in sectionCellList {
+            
+            print("---- ---- section id = \(section.identifier)")
+            
+            if let todoGroup = section.data as? TodoGroup {
+                
+                for todo in todoGroup.todos {
+                    
+                    print("---- ---- ---- todo = \(todo.detail)")
+                }
+            }
+        }
+        
+        print("---- end printSectionCellData")
     }
     
     func loadSectionCellData() {
@@ -119,6 +139,8 @@ class XYZTodoTableViewController: UITableViewController {
         sectionCellList.append(groupSection)
         
         loadModelDataIntoSectionCellData()
+        
+        printSectionCellData()
     }
     
     func reloadData() {
@@ -142,7 +164,7 @@ class XYZTodoTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
     
 
@@ -329,41 +351,73 @@ class XYZTodoTableViewController: UITableViewController {
 
         return UISwipeActionsConfiguration(actions: commands)
     }
-
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
         // Return false if you do not want the specified item to be editable.
-        return true
+        return indexPath.row > 0
     }
-    */
-
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
 
-    /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
 
-    }
-    */
+        var fromSection = sectionCellList[fromIndexPath.section]
+        var toSection = sectionCellList[to.section]
+        var fromSectionTodoGroup = fromSection.data as? TodoGroup
+        var toSectionTodoGroup = toSection.data as? TodoGroup
+        
+        if let _ = fromSectionTodoGroup,
+           let _ = toSectionTodoGroup {
+            
+            // same section
+            if fromIndexPath.section == to.section {
+                
+                let todo = fromSectionTodoGroup!.todos.remove(at: fromIndexPath.row - 1)
+                fromSectionTodoGroup!.todos.insert(todo, at: to.row - 1 )
+                
+                fromSection.data = fromSectionTodoGroup
+                sectionCellList[fromIndexPath.section] = fromSection
+            } else {
+                
+                let todo = fromSectionTodoGroup!.todos.remove(at: fromIndexPath.row - 1)
+                toSectionTodoGroup!.todos.insert(todo, at: to.row - 1)
+                
+                fromSection.data = fromSectionTodoGroup
+                sectionCellList[fromIndexPath.section] = fromSection
+                
+                toSection.data = toSectionTodoGroup
+                sectionCellList[to.section] = toSection
+            }
+        }
 
-    /*
+        //printSectionCellData()
+    }
+
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true
     }
-    */
+
+    override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        
+        var target = proposedDestinationIndexPath
+            
+        target.row = max( 1, target.row )
+        
+        return target
+    }
 
     /*
     // MARK: - Navigation
