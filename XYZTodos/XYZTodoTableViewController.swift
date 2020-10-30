@@ -438,18 +438,19 @@ class XYZTodoTableViewController: UITableViewController {
         
         if let _ = fromSectionTodoGroup,
            let _ = toSectionTodoGroup {
+  
+            var todo = fromSectionTodoGroup!.todos.remove(at: fromIndexPath.row - 1)
+            todo.complete = false
             
             // same section
             if fromIndexPath.section == to.section {
                 
-                let todo = fromSectionTodoGroup!.todos.remove(at: fromIndexPath.row - 1)
                 fromSectionTodoGroup!.todos.insert(todo, at: to.row - 1 )
                 
                 fromSection.data = fromSectionTodoGroup
                 sectionCellList[fromIndexPath.section] = fromSection
             } else {
                 
-                let todo = fromSectionTodoGroup!.todos.remove(at: fromIndexPath.row - 1)
                 toSectionTodoGroup!.todos.insert(todo, at: to.row - 1)
                 
                 fromSectionTodoGroup!.collapse = fromSectionTodoGroup!.todos.isEmpty
