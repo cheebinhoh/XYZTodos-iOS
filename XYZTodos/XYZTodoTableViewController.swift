@@ -319,10 +319,8 @@ class XYZTodoTableViewController: UITableViewController {
         complete.backgroundColor = UIColor.systemBlue
         commands.append(complete)
 
-        
         return UISwipeActionsConfiguration(actions: commands)
     }
-
 
     /*
     // Override to support conditional editing of the table view.
