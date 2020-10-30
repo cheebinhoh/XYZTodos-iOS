@@ -9,6 +9,21 @@ import UIKit
 
 class XYZTodoDetailTableViewController: UITableViewController {
 
+    // MARK: - IBOutlet
+    
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    
+    // MARK: - IBAction
+    
+    @IBAction func cancel(_ sender: Any) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    // MARK: - Function
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -94,14 +109,22 @@ class XYZTodoDetailTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        super.prepare(for: segue, sender: sender)
+        
+        guard let returnButton = sender as? UIBarButtonItem, returnButton == saveButton else {
+        
+            print("---- not returning from save button")
+            return
+        }
+        
+        print("---- return from save button")
     }
-    */
 
 }

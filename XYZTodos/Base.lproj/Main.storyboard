@@ -168,7 +168,7 @@
                     <navigationItem key="navigationItem" title="Todos" id="NyI-8z-OjC">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="zKY-1g-0HE">
                             <connections>
-                                <segue destination="f3A-cf-vy6" kind="show" id="XdG-1F-iCT"/>
+                                <segue destination="8q6-qY-gHK" kind="showDetail" id="XdG-1F-iCT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -216,11 +216,26 @@
                             <outlet property="delegate" destination="f3A-cf-vy6" id="Pgi-q2-UYz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="m2Q-Xy-AUJ"/>
+                    <navigationItem key="navigationItem" title="New todo" id="m2Q-Xy-AUJ">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="mVJ-h0-Md6">
+                            <connections>
+                                <action selector="cancel:" destination="f3A-cf-vy6" id="KGG-Ye-K7Q"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="L1v-re-K0V">
+                            <connections>
+                                <segue destination="KvS-yn-E3A" kind="unwind" unwindAction="unwindToTodoListWithSender:" id="lJe-E8-kVr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="saveButton" destination="L1v-re-K0V" id="LA4-jw-PjB"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36a-dU-NIB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="KvS-yn-E3A" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1228" y="344"/>
+            <point key="canvasLocation" x="2134.7826086956525" y="343.52678571428572"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="kti-gr-pL5">
@@ -295,6 +310,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NcG-lG-coJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1381" y="-400"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Kod-Px-MT1">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8q6-qY-gHK" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9GT-3D-ilG">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="f3A-cf-vy6" kind="relationship" relationship="rootViewController" id="asg-en-jJO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gyL-1T-m2E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1227.536231884058" y="343.52678571428572"/>
         </scene>
     </scenes>
     <resources>
