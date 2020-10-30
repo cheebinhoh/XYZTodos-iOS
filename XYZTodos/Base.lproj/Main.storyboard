@@ -109,7 +109,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todosTableViewCell" rowHeight="50" id="wlY-zg-hJp" customClass="XYZTodoTableViewCell" customModule="XYZTodos" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoTableViewCell" rowHeight="50" id="wlY-zg-hJp" customClass="XYZTodoTableViewCell" customModule="XYZTodos" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wlY-zg-hJp" id="7lv-Np-0ox">
@@ -132,6 +132,31 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="title" destination="Lo3-Xv-nKE" id="1uY-aD-Jqf"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoItemTableViewCell" rowHeight="50" id="GXM-Ze-80F" customClass="XYZTodoItemTableViewCell" customModule="XYZTodos" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="105.5" width="414" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GXM-Ze-80F" id="1df-w1-iJI">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuV-GN-bn2">
+                                            <rect key="frame" x="14" y="15" width="386" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="leading" secondItem="1df-w1-iJI" secondAttribute="leadingMargin" constant="-6" id="83p-96-ULN"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="centerY" secondItem="1df-w1-iJI" secondAttribute="centerY" id="QP6-rL-kae"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="top" secondItem="1df-w1-iJI" secondAttribute="topMargin" constant="4" id="crQ-bj-0zY"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="centerX" secondItem="1df-w1-iJI" secondAttribute="centerX" id="sif-bc-D1n"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detail" destination="tuV-GN-bn2" id="GSA-wF-sLh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

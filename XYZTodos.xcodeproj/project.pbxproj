@@ -25,6 +25,7 @@
 		65F06B74254B45C500DB3E16 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65F06B76254B45C500DB3E16 /* Localizable.strings */; };
 		65F06B82254B5E8B00DB3E16 /* XYZTodoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06B81254B5E8B00DB3E16 /* XYZTodoTableViewController.swift */; };
 		65F06B8A254B5EB200DB3E16 /* XYZTodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06B89254B5EB200DB3E16 /* XYZTodoTableViewCell.swift */; };
+		65F06B95254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06B94254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		65F06B7C254B45D900DB3E16 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		65F06B81254B5E8B00DB3E16 /* XYZTodoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodoTableViewController.swift; sourceTree = "<group>"; };
 		65F06B89254B5EB200DB3E16 /* XYZTodoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodoTableViewCell.swift; sourceTree = "<group>"; };
+		65F06B94254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodoItemTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				65A1E24F25490BB900C92101 /* Model */,
 				65F06B81254B5E8B00DB3E16 /* XYZTodoTableViewController.swift */,
 				65F06B89254B5EB200DB3E16 /* XYZTodoTableViewCell.swift */,
+				65F06B94254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift */,
 				65A1E2682549FCA200C92101 /* XYZMoreTableViewController.swift */,
 				653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */,
 				653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */,
@@ -311,6 +314,7 @@
 				65A1E20B2548DE7900C92101 /* AppDelegate.swift in Sources */,
 				65A1E20D2548DE7900C92101 /* SceneDelegate.swift in Sources */,
 				65A1E2612549FB6A00C92101 /* XYZUIUtility.swift in Sources */,
+				65F06B95254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift in Sources */,
 				653B9F91254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift in Sources */,
 				653B9FA3254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift in Sources */,
 			);

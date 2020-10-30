@@ -213,7 +213,7 @@ class XYZTodoTableViewController: UITableViewController {
             default:
                 if indexPath.row <= 0 {
 
-                    guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todosTableViewCell", for: indexPath) as? XYZTodoTableViewCell else {
+                    guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoTableViewCell", for: indexPath) as? XYZTodoTableViewCell else {
                         
                         fatalError("Exception: error on creating todosTableViewCell")
                     }
@@ -240,14 +240,14 @@ class XYZTodoTableViewController: UITableViewController {
                     cell = newcell
                 } else {
                     
-                    guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todosTableViewCell", for: indexPath) as? XYZTodoTableViewCell else {
+                    guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoItemTableViewCell", for: indexPath) as? XYZTodoItemTableViewCell else {
                         
                         fatalError("Exception: error on creating todosTableViewCell")
                     }
                     
                     let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
                     
-                    newcell.title.text = todoGroup?.todos[indexPath.row - 1].detail
+                    newcell.detail.text = todoGroup?.todos[indexPath.row - 1].detail
                     cell = newcell
                 }
         }
