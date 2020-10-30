@@ -302,7 +302,16 @@ class XYZTodoTableViewController: UITableViewController {
             
             let delete = UIContextualAction(style: .destructive, title: "Delete".localized()) { _, _, handler in
                 
-                // TODO: delete data and reload data
+                var section = self.sectionCellList[indexPath.section]
+                var todoGroup = section.data as! TodoGroup
+                
+                todoGroup.todos.remove(at: indexPath.row - 1)
+                section.data = todoGroup
+                self.sectionCellList[indexPath.section] = section
+                
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.reloadData()
+                
                 handler(true)
             }
             
@@ -361,11 +370,23 @@ class XYZTodoTableViewController: UITableViewController {
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+                
         if editingStyle == .delete {
             // Delete the row from the data source
-//            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            var section = sectionCellList[indexPath.section]
+            var todoGroup = section.data as! TodoGroup
+            
+            todoGroup.todos.remove(at: indexPath.row - 1)
+            section.data = todoGroup
+            sectionCellList[indexPath.section] = section
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            
+            fatalError("Exception: yet to be implemented")
         }    
     }
 
