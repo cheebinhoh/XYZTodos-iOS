@@ -309,6 +309,9 @@ class XYZTodoTableViewController: UITableViewController {
                 section.data = todoGroup
                 self.sectionCellList[indexPath.section] = section
                 
+                print("---- after delete = \(indexPath)")
+                self.printSectionCellData()
+                
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 tableView.reloadData()
                 
@@ -381,6 +384,8 @@ class XYZTodoTableViewController: UITableViewController {
             section.data = todoGroup
             sectionCellList[indexPath.section] = section
             
+            printSectionCellData()
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
         } else if editingStyle == .insert {
@@ -422,7 +427,7 @@ class XYZTodoTableViewController: UITableViewController {
             }
         }
 
-        //printSectionCellData()
+        printSectionCellData()
     }
 
     // Override to support conditional rearranging of the table view.
