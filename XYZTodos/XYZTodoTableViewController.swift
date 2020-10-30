@@ -169,8 +169,8 @@ class XYZTodoTableViewController: UITableViewController {
         
         super.viewDidLoad()
 
-        tableView.tableFooterView = UIView(frame: .zero)
         tableView.tableHeaderView = UIView(frame: .zero)
+        tableView.tableFooterView = UIView(frame: .zero)
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always

@@ -29,8 +29,9 @@ class XYZMoreTableViewController: UITableViewController {
         
         super.viewDidLoad()
 
+        tableView.tableHeaderView = UIView(frame: .zero)
         tableView.tableFooterView = UIView(frame: .zero)
-
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         

@@ -55,6 +55,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
         
         super.viewDidLoad()
 
+        tableView.tableHeaderView = UIView(frame: .zero)
         tableView.tableFooterView = UIView(frame: .zero)
         
         showBarButtons()

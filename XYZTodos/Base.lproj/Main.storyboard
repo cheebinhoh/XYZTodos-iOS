@@ -165,11 +165,62 @@
                             <outlet property="delegate" destination="dtf-LU-Lkm" id="8f4-R0-v2P"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todos" id="NyI-8z-OjC"/>
+                    <navigationItem key="navigationItem" title="Todos" id="NyI-8z-OjC">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="zKY-1g-0HE">
+                            <connections>
+                                <segue destination="f3A-cf-vy6" kind="show" id="XdG-1F-iCT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="628-UO-tC5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="123.18840579710145" y="337.5"/>
+        </scene>
+        <!--Todo detail-->
+        <scene sceneID="tqY-3P-Ybn">
+            <objects>
+                <tableViewController title="Todo detail" id="f3A-cf-vy6" customClass="XYZTodoDetailTableViewController" customModule="XYZTodos" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="3LU-nH-uIg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailTextTableViewCell" rowHeight="50" id="Fay-Gr-FHx">
+                                <rect key="frame" x="0.0" y="55.5" width="414" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fay-Gr-FHx" id="wuZ-2I-eZs">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailSelectionTableViewCell" rowHeight="50" id="1aS-tf-jXF">
+                                <rect key="frame" x="0.0" y="105.5" width="414" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1aS-tf-jXF" id="LgZ-PA-TPX">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailCommandTableViewCell" rowHeight="50" id="tEm-kw-P0O">
+                                <rect key="frame" x="0.0" y="155.5" width="414" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tEm-kw-P0O" id="E0i-Na-Ey4">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="f3A-cf-vy6" id="iod-ky-vmg"/>
+                            <outlet property="delegate" destination="f3A-cf-vy6" id="Pgi-q2-UYz"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="m2Q-Xy-AUJ"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="36a-dU-NIB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1228" y="344"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="kti-gr-pL5">
@@ -248,6 +299,7 @@
     </scenes>
     <resources>
         <image name="More" width="16.333333969116211" height="4.3333334922790527"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
