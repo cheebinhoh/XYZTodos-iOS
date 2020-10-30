@@ -361,7 +361,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         var commands = [UIContextualAction]()
         
-        let complete = UIContextualAction(style: .destructive, title: "Complete".localized()) { _, _, handler in
+        let complete = UIContextualAction(style: .destructive, title: "Done".localized()) { _, _, handler in
 
             var todoGroup = self.sectionCellList[indexPath.section].data as? TodoGroup
             let allTodos = indexPath.row <= 0
