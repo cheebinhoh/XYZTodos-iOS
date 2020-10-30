@@ -19,7 +19,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         var iscollapse = true
         var todos = [Todo]()
-        var iscomplete: Bool {
+        var complete: Bool {
             
             return todos.reduce(true) { (result, todo) -> Bool in
                 
@@ -179,7 +179,7 @@ class XYZTodoTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        var height: CGFloat = 2.0
+        var height: CGFloat = 5.0
         
         if section == 0 {
             
@@ -221,7 +221,7 @@ class XYZTodoTableViewController: UITableViewController {
                     if let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup {
                         
                         let hastodos = !todoGroup.todos.isEmpty
-                        if hastodos && todoGroup.iscomplete  {
+                        if hastodos && todoGroup.complete  {
                             
                             newcell.accessoryType = .checkmark
                         } else if hastodos && todoGroup.iscollapse {
@@ -246,6 +246,15 @@ class XYZTodoTableViewController: UITableViewController {
                     }
                     
                     let todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
+                    let complete = todoGroup?.todos[indexPath.row - 1].complete ?? false
+                    
+                    if complete {
+                        
+                        newcell.accessoryType = .checkmark
+                    }  else {
+                        
+                        newcell.accessoryType = .none
+                    }
                     
                     newcell.detail.text = todoGroup?.todos[indexPath.row - 1].detail
                     cell = newcell
@@ -253,6 +262,65 @@ class XYZTodoTableViewController: UITableViewController {
         }
 
         return cell!
+    }
+
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        var commands = [UIContextualAction]()
+
+        if indexPath.row > 0 {
+            
+            let delete = UIContextualAction(style: .destructive, title: "Delete".localized()) { _, _, handler in
+                
+                // TODO: delete data and reload data
+                handler(true)
+            }
+            
+            commands.append(delete)
+        }
+        
+        return UISwipeActionsConfiguration(actions: commands)
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        var commands = [UIContextualAction]()
+        let allTodos = indexPath.row <= 0
+        
+        let complete = UIContextualAction(style: .destructive, title: "Complete".localized()) { _, _, handler in
+
+            var todoGroup = self.sectionCellList[indexPath.section].data as? TodoGroup
+            
+            if allTodos {
+                
+                let complete = !(todoGroup?.complete ?? false)
+                var newTodos = [Todo]()
+                
+                for var todo in todoGroup!.todos {
+                    
+                    todo.complete = complete
+                    newTodos.append(todo)
+                }
+                
+                todoGroup?.todos = newTodos
+            } else {
+                
+                let complete = todoGroup?.todos[indexPath.row - 1].complete
+                
+                todoGroup?.todos[indexPath.row - 1].complete = !(complete ?? true)
+            }
+            
+            self.sectionCellList[indexPath.section].data = todoGroup
+            
+            tableView.reloadData()
+            handler(true)
+        }
+        
+        complete.backgroundColor = UIColor.systemBlue
+        commands.append(complete)
+
+        
+        return UISwipeActionsConfiguration(actions: commands)
     }
 
 
