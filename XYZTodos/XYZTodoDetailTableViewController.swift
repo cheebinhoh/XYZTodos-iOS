@@ -8,8 +8,16 @@
 import UIKit
 
 class XYZTodoDetailTableViewController: UITableViewController,
-                                        XYZTextTableViewCellDelegate,
-                                        XYZSelectionDelegate {
+                                        XYZSelectionDelegate,
+                                        XYZTextViewTableViewCellDelegate {
+    
+    // MARK: - XYZTextViewTableViewCellDelegate
+    
+    func textViewDidChange(_ text: String, sender: XYZTextViewTableViewCell ) {
+        
+        detail = text
+    }
+    
     
     // MARK: - XYZSelectionDelegate
     
@@ -21,25 +29,12 @@ class XYZTodoDetailTableViewController: UITableViewController,
         tableView.reloadData()
     }
     
-    
-    // MARK: - XYZTextTableViewCellDelegate
-    
-    func textDidBeginEditing(sender: XYZTextTableViewCell) {
-        
-    }
-    
-    func textDidEndEditing(sender: XYZTextTableViewCell) {
-    
-    }
-    
-    
     // MARK: - IBOutlet
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     
     // MARK: - IBAction
-    
     
     @IBAction func cancel(_ sender: Any) {
         
@@ -52,8 +47,11 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var sectionCellList = [TableViewSectionCell]()
     var dowLocalized: String?
     var dow: DayOfWeek?
+    var detail: String?
+    
     
     // MARK: - Function
+    
     func loadModelData() {
         
         let today = Date()
@@ -64,19 +62,27 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         let dc = Calendar.current.dateComponents([.weekday], from: today)
         dow = DayOfWeek[dc.weekday!]
-        print("--\(dow)")
+        
+        detail = ""
     }
     
     func loadSectionCellData() {
 
         sectionCellList = []
         
-        let groupSection = TableViewSectionCell(identifier: "Time",
+        let timeSection = TableViewSectionCell(identifier: "Time",
                                                 title: nil,
                                                 cellList: ["dow"],
                                                 data: nil)
         
-        sectionCellList.append(groupSection)
+        sectionCellList.append(timeSection)
+        
+        let detailSection = TableViewSectionCell(identifier: "Detail",
+                                                 title: nil,
+                                                 cellList: ["text"],
+                                                 data: nil)
+        
+        sectionCellList.append(detailSection)
     }
     
     override func viewDidLoad() {
@@ -93,6 +99,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -144,6 +151,22 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         newcell.setSelection( dowLocalized ?? "" )
                         newcell.selectionStyle = .none
                 
+                        cell = newcell
+                        
+                    default:
+                        fatalError("Exception: unsupported cell id \(cellId)")
+                }
+                
+            case "Detail":
+                switch cellId {
+                    case "text":
+                        guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoDetailTextViewTableViewCell", for: indexPath) as? XYZTextViewTableViewCell else {
+                            
+                            fatalError("Exception: error on creating todoTableViewCell")
+                        }
+                
+                        newcell.textview.text = detail
+                        newcell.delegate = self
                         cell = newcell
                         
                     default:
@@ -248,6 +271,9 @@ class XYZTodoDetailTableViewController: UITableViewController,
         }
         
         print("---- return from save button")
+
+        print("day of week = \(dow)")
+        print("detail = \(detail)")
     }
 
 }
