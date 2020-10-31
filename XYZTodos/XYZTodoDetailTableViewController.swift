@@ -45,8 +45,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
     
     @IBAction func cancel(_ sender: Any) {
         
-        let isPresentingInAddMealMode = presentingViewController is UINavigationController
-        
         if editmode {
             
             navigationController?.popViewController(animated: true)
@@ -222,8 +220,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
             case "Time":
                 switch cellId {
                     case "dow":
-                        var dowsLocalized = DayOfWeek.allCasesStringLocalized
-                        var dows = DayOfWeek.allCasesString
+                        let dowsLocalized = DayOfWeek.allCasesStringLocalized
+                        let dows = DayOfWeek.allCasesString
                         
                         guard let selectionTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "selectionTableViewController") as? XYZSelectionTableViewController else {
                             
@@ -313,8 +311,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         print("---- return from save button")
 
-        print("day of week = \(dow)")
-        print("detail = \(detail)")
     }
 
 }
