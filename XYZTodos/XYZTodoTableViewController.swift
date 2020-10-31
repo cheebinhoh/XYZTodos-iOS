@@ -193,16 +193,6 @@ class XYZTodoTableViewController: UITableViewController {
     func loadSectionCellData() {
 
         sectionCellList = []
-
-        let today = Date()
-        let dateFormat = DateFormatter()
-
-        dateFormat.dateFormat = "EEEE" // Day of week
-        let todayDoW = dateFormat.string(from: today)
-
-        var sectionCellListBeforeTodayDoW = [TableViewSectionCell]()
-        var sectionCellListAfterAndTodayDoW = [TableViewSectionCell]()
-        var hitTodayDoW = false
         
         for dayOfWeek in DayOfWeek.allCases {
         
@@ -213,24 +203,9 @@ class XYZTodoTableViewController: UITableViewController {
                                                     title: nil,
                                                     cellList: [dowlocalized],
                                                     data: nil)
-            if hitTodayDoW {
-                
-                sectionCellListAfterAndTodayDoW.append(groupSection)
-            } else {
-                
-                hitTodayDoW = dowlocalized == todayDoW
-                if hitTodayDoW {
-                 
-                    sectionCellListAfterAndTodayDoW.append(groupSection)
-                } else {
-                    
-                    sectionCellListBeforeTodayDoW.append(groupSection)
-                }
-            }
+     
+            sectionCellList.append(groupSection)
         }
-        
-        sectionCellList.append(contentsOf: sectionCellListAfterAndTodayDoW)
-        sectionCellList.append(contentsOf: sectionCellListBeforeTodayDoW) // any day before today is wrap toward the end
         
         let groupSection = TableViewSectionCell(identifier: other,
                                                 title: nil,

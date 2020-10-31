@@ -16,6 +16,9 @@ class XYZTodoDetailTableViewController: UITableViewController,
     func textViewDidChange(_ text: String, sender: XYZTextViewTableViewCell ) {
         
         detail = text
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
     
     

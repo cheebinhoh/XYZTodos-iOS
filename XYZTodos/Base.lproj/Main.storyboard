@@ -221,19 +221,19 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailTextViewTableViewCell" id="sF5-5R-28K" customClass="XYZTextViewTableViewCell" customModule="XYZTodos" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="155.5" width="414" height="400.5"/>
+                                <rect key="frame" x="0.0" y="155.5" width="414" height="300.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sF5-5R-28K" id="GcJ-zW-BaV">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="400.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="300.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="400" verticalCompressionResistancePriority="400" placeholderIntrinsicWidth="394" placeholderIntrinsicHeight="300" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jfz-Pd-Ngc">
-                                            <rect key="frame" x="10" y="0.0" width="394" height="400.5"/>
+                                            <rect key="frame" x="10" y="0.0" width="394" height="300.5"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" allowsDirectInteraction="YES"/>
                                             </accessibility>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="400" id="Jye-jy-ZVo"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="Jye-jy-ZVo"/>
                                             </constraints>
                                             <color key="textColor" systemColor="labelColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
