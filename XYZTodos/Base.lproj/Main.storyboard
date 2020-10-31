@@ -142,14 +142,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuV-GN-bn2">
-                                            <rect key="frame" x="14" y="15" width="386" height="20"/>
+                                            <rect key="frame" x="30" y="15" width="354" height="20"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="leading" secondItem="1df-w1-iJI" secondAttribute="leadingMargin" constant="-6" id="83p-96-ULN"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="leading" secondItem="1df-w1-iJI" secondAttribute="leading" constant="30" id="83p-96-ULN"/>
                                         <constraint firstItem="tuV-GN-bn2" firstAttribute="centerY" secondItem="1df-w1-iJI" secondAttribute="centerY" id="QP6-rL-kae"/>
                                         <constraint firstItem="tuV-GN-bn2" firstAttribute="top" secondItem="1df-w1-iJI" secondAttribute="topMargin" constant="4" id="crQ-bj-0zY"/>
                                         <constraint firstItem="tuV-GN-bn2" firstAttribute="centerX" secondItem="1df-w1-iJI" secondAttribute="centerX" id="sif-bc-D1n"/>

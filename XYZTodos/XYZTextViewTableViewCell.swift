@@ -34,7 +34,7 @@ class XYZTextViewTableViewCell: UITableViewCell,
         textview.sizeToFit()
         
         textview.delegate = self
-        /*
+
         let (target, action) = (target: self, action:#selector(doneButtonTapped))
         let toolbar = UIToolbar()
         
@@ -47,16 +47,13 @@ class XYZTextViewTableViewCell: UITableViewCell,
         
         toolbar.sizeToFit()
         textview.inputAccessoryView = toolbar
-         */
     }
     
-    /*
     @objc
     func doneButtonTapped() {
         
         textview.resignFirstResponder()
     }
-     */
     
     func textViewDidChange(_ textView: UITextView) {
         
