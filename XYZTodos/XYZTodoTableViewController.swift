@@ -21,6 +21,7 @@ class XYZTodoTableViewController: UITableViewController {
     
     struct TodoGroup {
         
+        var dow: DayOfWeek?
         var collapse = true
         var todos = [Todo]()
         var complete: Bool {
@@ -61,26 +62,68 @@ class XYZTodoTableViewController: UITableViewController {
         if let sourceViewController = sender.source as? XYZTodoDetailTableViewController {
             
             print("---- unwind from todo detail")
-            
-            addTodo(dow: sourceViewController.dow!, detail: sourceViewController.detail!)
+
+            if sourceViewController.editmode {
+                
+                print("--- here")
+                editTodo(dow: sourceViewController.dow, detail: sourceViewController.detail!, existing: sourceViewController.indexPath!)
+            } else {
+                
+                addTodo(dow: sourceViewController.dow, detail: sourceViewController.detail!)
+            }
         }
     }
     
     
     // MARK: - Function
 
-    func addTodo(dow: DayOfWeek, detail: String) {
+    func editTodo(dow: DayOfWeek?, detail: String, existing indexPath: IndexPath) {
+        
+        let sectionId = dow?.rawValue ?? other
+        var originalSection = sectionCellList[indexPath.section]
+        let todo = Todo(detail: detail, complete: false)
+        
+        if sectionId == originalSection.identifier {
+            
+            var originalTodoGroup = originalSection.data as! TodoGroup
+            
+            originalTodoGroup.todos[indexPath.row - 1] = todo
+            
+            originalSection.data = originalTodoGroup
+            sectionCellList[indexPath.section] = originalSection
+        } else {
+            
+            var originalTodoGroup = originalSection.data as! TodoGroup
+            
+            originalTodoGroup.todos.remove(at: indexPath.row - 1)
+            originalSection.data = originalTodoGroup
+            sectionCellList[indexPath.section] = originalSection
+            
+            let targetSectionIndex = sectionCellList.firstIndex {
+                
+                return $0.identifier == sectionId
+            }
+            
+            var targetSection = sectionCellList[targetSectionIndex!]
+            var targetTodoGroup = targetSection.data as! TodoGroup
+            
+            targetTodoGroup.todos.append(todo)
+            targetSection.data = targetTodoGroup
+            sectionCellList[targetSectionIndex!] = targetSection
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func addTodo(dow: DayOfWeek?, detail: String) {
+        
+        let sectionId = dow?.rawValue ?? other
         
         let dowSectionIndex = sectionCellList.firstIndex {
             
-            guard let sectionDoW = DayOfWeek(rawValue: $0.identifier) else {
-                
-                return false
-            }
-            
-            return sectionDoW == dow
+            return sectionId == $0.identifier
         }
-
+    
         if let dowSectionIndex = dowSectionIndex {
             
             var section = sectionCellList[dowSectionIndex]
@@ -104,6 +147,8 @@ class XYZTodoTableViewController: UITableViewController {
             
             let dow = section.identifier
             var group = TodoGroup()
+            
+            group.dow = DayOfWeek(rawValue: section.identifier)
             
             // testing data
             if dow == DayOfWeek.Thursday.rawValue {
@@ -187,9 +232,9 @@ class XYZTodoTableViewController: UITableViewController {
         sectionCellList.append(contentsOf: sectionCellListAfterAndTodayDoW)
         sectionCellList.append(contentsOf: sectionCellListBeforeTodayDoW) // any day before today is wrap toward the end
         
-        let groupSection = TableViewSectionCell(identifier: "Other",
+        let groupSection = TableViewSectionCell(identifier: other,
                                                 title: nil,
-                                                cellList: ["Other".localized()],
+                                                cellList: [other.localized()],
                                                 data: nil)
         
         sectionCellList.append(groupSection)
@@ -522,14 +567,46 @@ class XYZTodoTableViewController: UITableViewController {
         return target
     }
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        super.prepare(for: segue, sender: sender)
+        
+        switch segue.identifier {
+        
+            case "showTodoDetail":
+                guard let todoDetalTableViewController = segue.destination as? XYZTodoDetailTableViewController else {
+                    
+                    fatalError("Exception: error in XYZTodoDetailTableViewController")
+                }
+                
+                guard let cell = sender as? XYZTodoItemTableViewCell else {
+                    
+                    fatalError("Exception: error in XYZTodoItemTableViewCell")
+                }
+                
+                guard let indexPath = tableView.indexPath(for: cell) else {
+                    
+                    fatalError("Exception: error in indexPath")
+                }
+                
+                let section = sectionCellList[indexPath.section]
+                let todoGroup = section.data as? TodoGroup
+                let todo = todoGroup!.todos[indexPath.row - 1]
+                
+                todoDetalTableViewController.dow = todoGroup!.dow
+                todoDetalTableViewController.detail = todo.detail
+                todoDetalTableViewController.editmode = true
+                todoDetalTableViewController.indexPath = indexPath
+                
+            default:
+                break
+        }
     }
-    */
 
 }

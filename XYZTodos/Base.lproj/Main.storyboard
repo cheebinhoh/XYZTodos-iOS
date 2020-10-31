@@ -157,6 +157,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="detail" destination="tuV-GN-bn2" id="GSA-wF-sLh"/>
+                                    <segue destination="f3A-cf-vy6" kind="show" identifier="showTodoDetail" id="6UZ-eP-t4h"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -367,7 +368,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyL-1T-m2E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1227.536231884058" y="343.52678571428572"/>
+            <point key="canvasLocation" x="1122" y="717"/>
         </scene>
         <!--Selection Table View Controller-->
         <scene sceneID="dot-s0-yef">
@@ -436,7 +437,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="npX-e0-2OE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2135" y="1093"/>
+            <point key="canvasLocation" x="123" y="1093"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NeK-zO-jRu">
@@ -454,9 +455,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vI3-lp-D7e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1228" y="1093"/>
+            <point key="canvasLocation" x="-1213" y="1093"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="6UZ-eP-t4h"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="More" width="16.333333969116211" height="4.3333334922790527"/>
         <image name="plus" catalog="system" width="128" height="113"/>

@@ -7,6 +7,8 @@
 
 import Foundation
 
+let other = "Other"
+
 enum DayOfWeek: String, CaseIterable {
 
     case Monday

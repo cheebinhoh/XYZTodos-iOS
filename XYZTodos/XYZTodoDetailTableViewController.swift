@@ -24,7 +24,14 @@ class XYZTodoDetailTableViewController: UITableViewController,
     func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
   
         dow = DayOfWeek(rawValue: item!)
-        dowLocalized = dow?.rawValue.localized()
+        
+        if let dow = dow {
+            
+            dowLocalized = dow.rawValue.localized()
+        } else {
+            
+            dowLocalized = other
+        }
         
         tableView.reloadData()
     }
@@ -38,7 +45,18 @@ class XYZTodoDetailTableViewController: UITableViewController,
     
     @IBAction func cancel(_ sender: Any) {
         
-        dismiss(animated: true, completion: nil)
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddMealMode {
+            
+            dismiss(animated: true, completion: nil)
+        } else if let owningNavigationController = navigationController {
+            
+            owningNavigationController.popViewController(animated: true)
+        } else {
+            
+            fatalError("Exception: unsupport cancel mode")
+        }
     }
     
     
@@ -49,21 +67,30 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var dow: DayOfWeek?
     var detail: String?
     
+    // communicate between detail view with list view
+    var editmode = false
+    var indexPath: IndexPath?
     
     // MARK: - Function
     
     func loadModelData() {
         
-        let today = Date()
-        let dateFormat = DateFormatter()
+        if !editmode {
+        
+            let today = Date()
+            let dateFormat = DateFormatter()
 
-        dateFormat.dateFormat = "EEEE" // Day of week
-        dowLocalized = dateFormat.string(from: today)
-        
-        let dc = Calendar.current.dateComponents([.weekday], from: today)
-        dow = DayOfWeek[dc.weekday!]
-        
-        detail = ""
+            dateFormat.dateFormat = "EEEE" // Day of week
+            dowLocalized = dateFormat.string(from: today)
+            
+            let dc = Calendar.current.dateComponents([.weekday], from: today)
+            dow = DayOfWeek[dc.weekday!]
+            
+            detail = ""
+        } else {
+            
+            dowLocalized = dow?.rawValue.localized() ?? other.localized()
+        }
     }
     
     func loadSectionCellData() {
@@ -89,6 +116,14 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         super.viewDidLoad()
 
+        if editmode {
+            
+            navigationItem.title = "Edit todo".localized()
+        } else {
+            
+            navigationItem.title = "New todo".localized()
+        }
+        
         loadModelData()
         loadSectionCellData()
         
@@ -190,19 +225,23 @@ class XYZTodoDetailTableViewController: UITableViewController,
             case "Time":
                 switch cellId {
                     case "dow":
-                        let dowsLocalized = DayOfWeek.allCasesStringLocalized
-                        let dows = DayOfWeek.allCasesString
+                        var dowsLocalized = DayOfWeek.allCasesStringLocalized
+                        var dows = DayOfWeek.allCasesString
                         
                         guard let selectionTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "selectionTableViewController") as? XYZSelectionTableViewController else {
                             
                             fatalError("Exception: error on instantiating SelectionNavigationController")
                         }
                         
+                        dows.append(other)
+                        dowsLocalized.append(other)
+                        
                         selectionTableViewController.selectionIdentifier = "dow"
-                        selectionTableViewController.setSelections("",
+                        selectionTableViewController.setSelections("dow",
                                                                    false,
                                                                    dows,
                                                                    dowsLocalized)
+                        
                         selectionTableViewController.setSelectedItem(dowLocalized!)
                         selectionTableViewController.delegate = self
                         

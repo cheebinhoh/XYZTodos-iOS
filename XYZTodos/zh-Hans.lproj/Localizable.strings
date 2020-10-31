@@ -19,6 +19,6 @@
 "Friday" = "星期五";
 "Saturday" = "星期六";
 "Sunday" = "星期日";
-"Other" = "其他";
+other = "其他";
 "Done" = "完成";
 "Delete" = "删除";
