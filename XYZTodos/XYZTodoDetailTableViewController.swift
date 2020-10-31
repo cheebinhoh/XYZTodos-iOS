@@ -232,7 +232,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         //dowsLocalized.append(other)
                         
                         selectionTableViewController.selectionIdentifier = "dow"
-                        selectionTableViewController.setSelections("dow",
+                        selectionTableViewController.setSelections("Day of week",
                                                                    false,
                                                                    dows,
                                                                    dowsLocalized)

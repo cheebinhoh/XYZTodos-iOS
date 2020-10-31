@@ -230,7 +230,7 @@ class XYZSelectionTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return tableSectionList[section].title
+        return tableSectionList[section].title?.localized()
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

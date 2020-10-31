@@ -19,6 +19,9 @@
 "Friday" = "星期五";
 "Saturday" = "星期六";
 "Sunday" = "星期日";
-other = "其他";
+"Other" = "其他";
 "Done" = "完成";
 "Delete" = "删除";
+"Edit todo" = "更改任务";
+"New todo" = "新任务";
+"Day of week" = "星期几";

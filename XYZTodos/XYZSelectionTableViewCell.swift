@@ -9,10 +9,15 @@ import UIKit
 
 class XYZSelectionTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlet
+    
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var selection: UILabel!
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var icon: UIImageView!
+    
+
+    // MARK: - function
     
     override func awakeFromNib() {
         
@@ -27,8 +32,7 @@ class XYZSelectionTableViewCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    
-    // MARK: - function
+
     func setLabel(_ label: String) {
         
         self.label.text = label
