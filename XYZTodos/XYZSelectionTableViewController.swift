@@ -123,7 +123,7 @@ class XYZSelectionTableViewController: UITableViewController {
                        _ selection: [String],
                        _ displayStrings: [String] = [String]()) {
         
-        self.displayStrings = displayStrings
+        self.displayStrings.append(contentsOf: displayStrings)
         
         if indexing {
         
@@ -173,7 +173,19 @@ class XYZSelectionTableViewController: UITableViewController {
             cell.label.text = tableSectionList[indexPath.section].cellList[indexPath.row].localized()
         } else {
             
-            cell.label.text = displayStrings[indexPath.row]
+            var totalRowBeforeSection = 0
+            
+            for (index, section) in tableSectionList.enumerated() {
+                
+                if index == indexPath.section {
+                    
+                    break
+                }
+                
+                totalRowBeforeSection += section.cellList.count
+            }
+            
+            cell.label.text = displayStrings[totalRowBeforeSection + indexPath.row]
         }
         
         if !selectionColors.isEmpty {

@@ -47,15 +47,12 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         let isPresentingInAddMealMode = presentingViewController is UINavigationController
         
-        if isPresentingInAddMealMode {
+        if editmode {
             
-            dismiss(animated: true, completion: nil)
-        } else if let owningNavigationController = navigationController {
-            
-            owningNavigationController.popViewController(animated: true)
+            navigationController?.popViewController(animated: true)
         } else {
             
-            fatalError("Exception: unsupport cancel mode")
+            dismiss(animated: true, completion: nil)
         }
     }
     
@@ -233,14 +230,19 @@ class XYZTodoDetailTableViewController: UITableViewController,
                             fatalError("Exception: error on instantiating SelectionNavigationController")
                         }
                         
-                        dows.append(other)
-                        dowsLocalized.append(other)
+                        //dows.append(other)
+                        //dowsLocalized.append(other)
                         
                         selectionTableViewController.selectionIdentifier = "dow"
                         selectionTableViewController.setSelections("dow",
                                                                    false,
                                                                    dows,
                                                                    dowsLocalized)
+                        
+                        selectionTableViewController.setSelections(other,
+                                                                   false,
+                                                                   [other],
+                                                                   [other.localized()])
                         
                         selectionTableViewController.setSelectedItem(dowLocalized!)
                         selectionTableViewController.delegate = self
