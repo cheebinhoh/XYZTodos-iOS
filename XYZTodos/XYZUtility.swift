@@ -8,6 +8,13 @@
 import Foundation
 
 let other = "Other"
+var todayDoW: DayOfWeek {
+    
+    let today = Date()
+    let dateComponent = Calendar.current.dateComponents([.weekday], from: today)
+    
+    return DayOfWeek[dateComponent.weekday!]
+}
 
 enum DayOfWeek: String, CaseIterable {
 

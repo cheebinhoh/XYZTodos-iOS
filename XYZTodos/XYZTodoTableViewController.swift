@@ -360,6 +360,12 @@ class XYZTodoTableViewController: UITableViewController {
                         newcell.accessoryView = nil
                     }
                     
+                    let isTheDoW = todayDoW.rawValue == sectionId
+                    if isTheDoW {
+                        
+                        newcell.title.textColor = UIColor.systemBlue
+                    }
+                    
                     newcell.title.text = sectionCellList[indexPath.section].cellList[0]
                     cell = newcell
                 } else { // if indexPath.row <= 0
