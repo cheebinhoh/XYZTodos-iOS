@@ -61,11 +61,41 @@ class XYZTodoTableViewController: UITableViewController {
         if let sourceViewController = sender.source as? XYZTodoDetailTableViewController {
             
             print("---- unwind from todo detail")
+            
+            addTodo(dow: sourceViewController.dow!, detail: sourceViewController.detail!)
         }
     }
     
+    
     // MARK: - Function
 
+    func addTodo(dow: DayOfWeek, detail: String) {
+        
+        let dowSectionIndex = sectionCellList.firstIndex {
+            
+            guard let sectionDoW = DayOfWeek(rawValue: $0.identifier) else {
+                
+                return false
+            }
+            
+            return sectionDoW == dow
+        }
+
+        if let dowSectionIndex = dowSectionIndex {
+            
+            var section = sectionCellList[dowSectionIndex]
+            var todoGroup = section.data as? TodoGroup
+            
+            let todo = Todo(detail: detail, complete: false)
+            todoGroup?.todos.append(todo)
+            
+            section.data = todoGroup
+            sectionCellList[dowSectionIndex] = section
+            
+            tableView.reloadData()
+        }
+    }
+    
     func loadModelDataIntoSectionCellData() {
         
         var loadedSectionCellList = [TableViewSectionCell]()
