@@ -16,6 +16,60 @@ enum DayOfWeek: String, CaseIterable {
     case Friday
     case Saturday
     case Sunday
+    
+    
+    static subscript(index: Int) -> DayOfWeek {
+        
+        get {
+            
+            var dow = DayOfWeek.Saturday
+            
+            switch index {
+                
+                case 1:
+                    dow = DayOfWeek.Sunday
+                    
+                case 2:
+                    dow = DayOfWeek.Monday
+                    
+                case 3:
+                    dow = DayOfWeek.Tuesday
+                    
+                case 4:
+                    dow = DayOfWeek.Wednesday
+                    
+                case 5:
+                    dow = DayOfWeek.Thursday
+                    
+                case 6:
+                    dow = DayOfWeek.Friday
+                    
+                case 7:
+                    dow = DayOfWeek.Saturday
+                    
+                default:
+                    fatalError("Exception: out of bound")
+            }
+            
+            return dow
+        }
+    }
+    
+    static var allCasesString: [String] {
+        
+        return DayOfWeek.allCases.map { (dow) -> String in
+        
+            return dow.rawValue
+        }
+    }
+    
+    static var allCasesStringLocalized: [String] {
+        
+        return DayOfWeek.allCases.map { (dow) -> String in
+        
+            return dow.rawValue.localized()
+        }
+    }
 }
 
 extension String {

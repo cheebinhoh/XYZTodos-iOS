@@ -8,7 +8,19 @@
 import UIKit
 
 class XYZTodoDetailTableViewController: UITableViewController,
-                                        XYZTextTableViewCellDelegate {
+                                        XYZTextTableViewCellDelegate,
+                                        XYZSelectionDelegate {
+    
+    // MARK: - XYZSelectionDelegate
+    
+    func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
+  
+        dow = DayOfWeek(rawValue: item!)
+        dowLocalized = dow?.rawValue.localized()
+        
+        tableView.reloadData()
+    }
+    
     
     // MARK: - XYZTextTableViewCellDelegate
     
@@ -38,7 +50,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
     // MARK: - Property
     
     var sectionCellList = [TableViewSectionCell]()
-    var dow: String?
+    var dowLocalized: String?
+    var dow: DayOfWeek?
     
     // MARK: - Function
     func loadModelData() {
@@ -47,7 +60,11 @@ class XYZTodoDetailTableViewController: UITableViewController,
         let dateFormat = DateFormatter()
 
         dateFormat.dateFormat = "EEEE" // Day of week
-        dow = dateFormat.string(from: today)
+        dowLocalized = dateFormat.string(from: today)
+        
+        let dc = Calendar.current.dateComponents([.weekday], from: today)
+        dow = DayOfWeek[dc.weekday!]
+        print("--\(dow)")
     }
     
     func loadSectionCellData() {
@@ -124,7 +141,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                             fatalError("Exception: error on creating todoTableViewCell")
                         }
                         
-                        newcell.setSelection( dow ?? "" )
+                        newcell.setSelection( dowLocalized ?? "" )
                         newcell.selectionStyle = .none
                 
                         cell = newcell
@@ -140,7 +157,46 @@ class XYZTodoDetailTableViewController: UITableViewController,
         return cell!
     }
 
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+        let sectionId = sectionCellList[indexPath.section].identifier
+        let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
+        
+        switch sectionId {
+        
+            case "Time":
+                switch cellId {
+                    case "dow":
+                        let dowsLocalized = DayOfWeek.allCasesStringLocalized
+                        let dows = DayOfWeek.allCasesString
+                        
+                        guard let selectionTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "selectionTableViewController") as? XYZSelectionTableViewController else {
+                            
+                            fatalError("Exception: error on instantiating SelectionNavigationController")
+                        }
+                        
+                        selectionTableViewController.selectionIdentifier = "dow"
+                        selectionTableViewController.setSelections("",
+                                                                   false,
+                                                                   dows,
+                                                                   dowsLocalized)
+                        selectionTableViewController.setSelectedItem(dowLocalized!)
+                        selectionTableViewController.delegate = self
+                        
+                        let nav = UINavigationController(rootViewController: selectionTableViewController)
+                        nav.modalPresentationStyle = .popover
+                        
+                        self.present(nav, animated: true, completion: nil)
+                        
+                    default:
+                        fatalError("Exception: unsupported cell id \(cellId)")
+                }
+        
+            default:
+                fatalError("Exception: unsupported section id \(sectionId)")
+        } // switch sectionId
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
