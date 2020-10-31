@@ -7,8 +7,20 @@
 
 import UIKit
 
-class XYZTodoDetailTableViewController: UITableViewController {
-
+class XYZTodoDetailTableViewController: UITableViewController,
+                                        XYZTextTableViewCellDelegate {
+    
+    // MARK: - XYZTextTableViewCellDelegate
+    
+    func textDidBeginEditing(sender: XYZTextTableViewCell) {
+        
+    }
+    
+    func textDidEndEditing(sender: XYZTextTableViewCell) {
+    
+    }
+    
+    
     // MARK: - IBOutlet
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -16,18 +28,47 @@ class XYZTodoDetailTableViewController: UITableViewController {
     
     // MARK: - IBAction
     
+    
     @IBAction func cancel(_ sender: Any) {
         
         dismiss(animated: true, completion: nil)
     }
     
     
+    // MARK: - Property
+    
+    var sectionCellList = [TableViewSectionCell]()
+    var dow: String?
+    
     // MARK: - Function
+    func loadModelData() {
+        
+        let today = Date()
+        let dateFormat = DateFormatter()
+
+        dateFormat.dateFormat = "EEEE" // Day of week
+        dow = dateFormat.string(from: today)
+    }
+    
+    func loadSectionCellData() {
+
+        sectionCellList = []
+        
+        let groupSection = TableViewSectionCell(identifier: "Time",
+                                                title: nil,
+                                                cellList: ["dow"],
+                                                data: nil)
+        
+        sectionCellList.append(groupSection)
+    }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
+        loadModelData()
+        loadSectionCellData()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -39,12 +80,14 @@ class XYZTodoDetailTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        
+        return sectionCellList.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        return sectionCellList[section].cellList.count
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -64,15 +107,39 @@ class XYZTodoDetailTableViewController: UITableViewController {
         return 2.0
     }
     
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+        var cell: UITableViewCell?
+        
+        let sectionId = sectionCellList[indexPath.section].identifier
+        let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
+        
+        switch sectionId {
+        
+            case "Time":
+                switch cellId {
+                    case "dow":
+                        guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoDetailSelectionTableViewCell", for: indexPath) as? XYZSelectionTableViewCell else {
+                            
+                            fatalError("Exception: error on creating todoTableViewCell")
+                        }
+                        
+                        newcell.setSelection( dow ?? "" )
+                        newcell.selectionStyle = .none
+                
+                        cell = newcell
+                        
+                    default:
+                        fatalError("Exception: unsupported cell id \(cellId)")
+                }
+            
+            default:
+                fatalError("Exception: unsupported section id \(sectionId)")
+        } // switch sectionId
 
-        return cell
+        return cell!
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.

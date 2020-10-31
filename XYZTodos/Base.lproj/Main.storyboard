@@ -186,15 +186,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailTextTableViewCell" rowHeight="50" id="Fay-Gr-FHx">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="todoDetailSelectionTableViewCell" rowHeight="50" id="Fay-Gr-FHx" customClass="XYZSelectionTableViewCell" customModule="XYZTodos" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fay-Gr-FHx" id="wuZ-2I-eZs">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="383" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0AY-ex-tXC">
+                                            <rect key="frame" x="14" y="15" width="355" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="0AY-ex-tXC" firstAttribute="centerY" secondItem="wuZ-2I-eZs" secondAttribute="centerY" id="Rrx-6w-V4a"/>
+                                        <constraint firstItem="0AY-ex-tXC" firstAttribute="top" secondItem="wuZ-2I-eZs" secondAttribute="topMargin" constant="4" id="VZP-bf-Mz3"/>
+                                        <constraint firstItem="0AY-ex-tXC" firstAttribute="leading" secondItem="wuZ-2I-eZs" secondAttribute="leadingMargin" constant="-6" id="cJy-Vl-3q4"/>
+                                        <constraint firstItem="0AY-ex-tXC" firstAttribute="centerX" secondItem="wuZ-2I-eZs" secondAttribute="centerX" id="cz6-Al-3VF"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="selection" destination="0AY-ex-tXC" id="s9o-SZ-mg0"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailSelectionTableViewCell" rowHeight="50" id="1aS-tf-jXF">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailTextTableViewCell" rowHeight="50" id="1aS-tf-jXF">
                                 <rect key="frame" x="0.0" y="105.5" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1aS-tf-jXF" id="LgZ-PA-TPX">
