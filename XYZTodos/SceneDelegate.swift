@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: XYZTodoTableViewController is expected" )
         }
         
-        tableViewController.refreshWeeklyTodo()
+        tableViewController.expandTodos(dows: [todayDoW])
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

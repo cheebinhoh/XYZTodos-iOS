@@ -244,11 +244,30 @@ class XYZTodoTableViewController: UITableViewController {
         loadSectionCellData()
         tableView.reloadData()
     }
-    
-    func refreshWeeklyTodo() {
+
+    func expandTodos(dows: [DayOfWeek]) {
         
-        print("----- ok")
-        reloadData()
+        var expndedSectionCellList = [TableViewSectionCell]()
+        
+        for var section in sectionCellList {
+            
+            if let dow = DayOfWeek(rawValue: section.identifier) {
+            
+                if dows.contains(dow) {
+                    
+                    var group = section.data as? TodoGroup
+                
+                    group!.collapse = false
+                    section.data = group
+                }
+            }
+            
+            expndedSectionCellList.append(section)
+        }
+        
+        sectionCellList = expndedSectionCellList
+        
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {

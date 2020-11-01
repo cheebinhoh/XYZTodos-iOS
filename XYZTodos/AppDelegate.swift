@@ -15,6 +15,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var todos: [XYZTodo]?
     var global: XYZGlobal?
     
+    func reconciliateData() {
+        
+        let globalDow = DayOfWeek(rawValue: global?.value(forKey: XYZGlobal.dow) as? String ?? "")
+        let refreshTodos = nil == globalDow
+                            || ( globalDow != todayDoW
+                                    && todayDoW == DayOfWeek.Monday ) // New Monday :(
+
+        if refreshTodos {
+            
+            for todo in todos! {
+   
+                todo.setValue(false, forKey: XYZTodo.complete)
+            }
+        }
+        
+        global!.setValue(todayDoW.rawValue, forKey: XYZGlobal.dow)
+        
+        saveManageContext()
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -23,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         todos = loadTodosFromManagedContext()
         printTodos(todos: todos!)
         
+        // reconciliate
+        self.reconciliateData()
+
         return true
     }
 
