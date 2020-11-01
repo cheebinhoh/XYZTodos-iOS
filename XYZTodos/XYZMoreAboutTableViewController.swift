@@ -165,8 +165,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
 
                 newcell.textView.attributedText = attributeCreditText
                 cell = newcell
-            
-                    
+                                
             default:
                 fatalError("Unsupport more table view cell \(cellId)")
                 break;

@@ -28,8 +28,16 @@ class XYZSelectionTableViewController: UITableViewController {
     var readonly = false
     var imageNames: [String]?
     var displayStrings = [String]()
+
     
+    // MARK: - IBAction
     
+    @IBAction func backAction(_ sender: UIButton) {
+
+        delegate?.selectedItem(selectedItem, sender: self)
+        dismiss(animated: true, completion: nil)
+    }
+
     // MARK: - function
     
     override func viewDidLoad() {
@@ -61,15 +69,6 @@ class XYZSelectionTableViewController: UITableViewController {
         backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-    }
-
-    
-    // MARK: - IBAction
-    
-    @IBAction func backAction(_ sender: UIButton) {
-
-        delegate?.selectedItem(selectedItem, sender: self)
-        dismiss(animated: true, completion: nil)
     }
 
     func setSelectedItem(_ item: String?,

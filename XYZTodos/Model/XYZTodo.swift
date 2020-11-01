@@ -22,12 +22,14 @@ class XYZTodo : NSManagedObject {
     static let detail = "detail"
     static let complete = "complete"
 
+    
     // MARK: - property
     
     var group = ""
     var sequenceNr = 0
     var detail = ""
     var complete = false
+    
     
     // MARK: - function
     

@@ -74,21 +74,15 @@ class XYZTodoDetailTableViewController: UITableViewController,
     
     func loadModelData() {
         
-        if !editmode {
+        if editmode {
+               
+            dowLocalized = dow?.rawValue.localized() ?? other.localized()
+        } else {
         
-            let today = Date()
-            let dateFormat = DateFormatter()
-
-            dateFormat.dateFormat = "EEEE" // Day of week
-            dowLocalized = dateFormat.string(from: today)
-            
-            let dc = Calendar.current.dateComponents([.weekday], from: today)
-            dow = DayOfWeek[dc.weekday!]
+            dowLocalized = todayDowLocalized
+            dow = todayDoW
             
             detail = ""
-        } else {
-            
-            dowLocalized = dow?.rawValue.localized() ?? other.localized()
         }
     }
     
@@ -223,6 +217,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
             case "Time":
                 switch cellId {
+                
                     case "dow":
                         let dowsLocalized = DayOfWeek.allCasesStringLocalized
                         let dows = DayOfWeek.allCasesString
@@ -231,9 +226,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
                             
                             fatalError("Exception: error on instantiating SelectionNavigationController")
                         }
-                        
-                        //dows.append(other)
-                        //dowsLocalized.append(other)
                         
                         selectionTableViewController.selectionIdentifier = "dow"
                         selectionTableViewController.setSelections("Day of week",
@@ -256,7 +248,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         
                     default:
                         fatalError("Exception: unsupported cell id \(cellId)")
-                }
+                } // switch cellId 
         
             default:
                 fatalError("Exception: unsupported section id \(sectionId)")

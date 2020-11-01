@@ -83,23 +83,25 @@ class XYZTodoTableViewController: UITableViewController {
         if sectionId == originalSection.identifier {
             
             var originalTodoGroup = originalSection.data as! TodoGroup
+            let originalRow = indexPath.row - 1
             
-            originalTodoGroup.todos[indexPath.row - 1] = todo
+            originalTodoGroup.todos[originalRow] = todo
             
             originalSection.data = originalTodoGroup
             sectionCellList[indexPath.section] = originalSection
             
             editTodoInManagedContext(oldGroup: sectionId,
-                                     oldSequenceNr: indexPath.row - 1,
+                                     oldSequenceNr: originalRow,
                                      newGroup: sectionId,
-                                     newSequenceNr: indexPath.row - 1,
+                                     newSequenceNr: originalRow,
                                      detail: detail,
                                      complete: false)
         } else {
             
             var originalTodoGroup = originalSection.data as! TodoGroup
+            let originalRow = indexPath.row - 1
             
-            originalTodoGroup.todos.remove(at: indexPath.row - 1)
+            originalTodoGroup.todos.remove(at: originalRow)
             originalSection.data = originalTodoGroup
             sectionCellList[indexPath.section] = originalSection
             
@@ -116,7 +118,7 @@ class XYZTodoTableViewController: UITableViewController {
             sectionCellList[targetSectionIndex!] = targetSection
             
             editTodoInManagedContext(oldGroup: originalSection.identifier,
-                                     oldSequenceNr: indexPath.row - 1,
+                                     oldSequenceNr: originalRow,
                                      newGroup: sectionId,
                                      newSequenceNr: targetTodoGroup.todos.count - 1,
                                      detail: detail,
@@ -251,17 +253,18 @@ class XYZTodoTableViewController: UITableViewController {
         
         for var section in sectionCellList {
             
-            if let dow = DayOfWeek(rawValue: section.identifier) {
+            var group = section.data as? TodoGroup
             
-                if dows.contains(dow) {
-                    
-                    var group = section.data as? TodoGroup
+            if let dow = DayOfWeek(rawValue: section.identifier),
+               dows.contains(dow) {
+        
+                group!.collapse = false
+            } else {
                 
-                    group!.collapse = false
-                    section.data = group
-                }
+                group!.collapse = true
             }
-            
+
+            section.data = group
             expndedSectionCellList.append(section)
         }
         
@@ -588,7 +591,6 @@ class XYZTodoTableViewController: UITableViewController {
         }
 
         tableView.reloadData()
-        //printSectionCellData()
     }
 
     // Override to support conditional rearranging of the table view.

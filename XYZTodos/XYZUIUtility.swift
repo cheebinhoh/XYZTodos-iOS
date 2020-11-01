@@ -39,8 +39,9 @@ func createAttributeText(text: String, font: UIFont, link: String? = nil) -> NSM
 
 func createDownDisclosureIndicatorImage() -> UIImageView {
     
-    let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 20, y: 20), size: CGSize(width: 18, height: 15)))
-    imageView.image = UIImage(named:"down_disclosure_indicator")
+    let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 20, y: 20),
+                                              size: CGSize(width: 18, height: 15)))
+    imageView.image = UIImage(named: "down_disclosure_indicator")
     
     return imageView
 }

@@ -17,6 +17,16 @@ var todayDoW: DayOfWeek {
     return DayOfWeek[dateComponent.weekday!]
 }
 
+var todayDowLocalized: String {
+    
+    let today = Date()
+    let dateFormat = DateFormatter()
+
+    dateFormat.dateFormat = "EEEE" // Day of week
+    
+    return dateFormat.string(from: today)
+}
+
 enum DayOfWeek: String, CaseIterable {
 
     case Monday
@@ -93,6 +103,7 @@ extension String {
         return NSLocalizedString(self, comment:"")
     }
 }
+
 
 // MARK: - formatting
 

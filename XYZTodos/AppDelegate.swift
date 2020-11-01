@@ -222,6 +222,14 @@ func deleteTodoFromManagedContext(group: String,
     printTodos(todos: appDelegate.todos!)
 }
 
+func moveTodoInManagedContext(fromGroup: String,
+                              fromSequenceNr: Int,
+                              toGroup: String,
+                              toSequenceNr: Int )
+{
+    
+}
+
 func editTodoInManagedContext(oldGroup: String,
                               oldSequenceNr: Int,
                               newGroup: String,
@@ -289,7 +297,7 @@ func getTodosFromManagedContext() -> [XYZTodo] {
 
 func printTodos(todos: [XYZTodo]) {
     
-    print("---- todos")
+    print("---- print todos")
     
     for todo in todos {
         
@@ -304,7 +312,7 @@ func printTodos(todos: [XYZTodo]) {
 
 func printGlobal(global: XYZGlobal) {
     
-    print("---- global")
+    print("---- print global")
     
     let dow = global.value(forKey: XYZGlobal.dow) as? String ?? ""
     print("dow = ", dow)

@@ -18,7 +18,9 @@ class XYZTextViewTableViewCell: UITableViewCell,
 
     
     // MARK: - Property
+    
     var delegate: XYZTextViewTableViewCellDelegate?
+    
     
     // MARK: - IBOutlet
     
