@@ -152,9 +152,9 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
         
         let dow1 = DayOfWeek(rawValue: g1)
         let dow2 = DayOfWeek(rawValue: g2)
-        
-        return dow1!.index < dow2!.index
-               && s1 < s2
+           
+        return dow1!.index <= dow2!.index
+               && s1 <= s2
     }
 }
 
@@ -222,12 +222,33 @@ func deleteTodoFromManagedContext(group: String,
     printTodos(todos: appDelegate.todos!)
 }
 
-func moveTodoInManagedContext(fromGroup: String,
-                              fromSequenceNr: Int,
-                              toGroup: String,
-                              toSequenceNr: Int )
+func moveTodoInManagedContext(fromIndex: Int,
+                              toIndex: Int)
 {
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+        fatalError("Exception: AppDelegate is expected")
+    }
     
+    let removeTodo = appDelegate.todos?.remove(at: fromIndex)
+    appDelegate.todos?.insert(removeTodo!, at: toIndex)
+    
+    var index = 0
+    var lastGroup = ""
+    for todo in appDelegate.todos! {
+        
+        let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
+        if lastGroup == "" || lastGroup != group {
+            
+            lastGroup = group
+            index = 0
+        }
+        
+        todo.setValue(index, forKey: XYZTodo.sequenceNr)
+        index += 1
+    }
+    
+    saveManageContext()
 }
 
 func editTodoInManagedContext(oldGroup: String,
@@ -282,6 +303,7 @@ func addTodoToManagedContext(group: String,
     appDelegate.todos!.append(todo)
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
     
+    printTodos(todos: appDelegate.todos!)
     saveManageContext()
 }
 

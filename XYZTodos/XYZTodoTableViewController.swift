@@ -566,19 +566,58 @@ class XYZTodoTableViewController: UITableViewController {
         if let _ = fromSectionTodoGroup,
            let _ = toSectionTodoGroup {
   
-            var todo = fromSectionTodoGroup!.todos.remove(at: fromIndexPath.row - 1)
+            let fromRow = fromIndexPath.row - 1
+            let toRow = to.row - 1
+            
+            var todo = fromSectionTodoGroup!.todos.remove(at: fromRow)
             todo.complete = false
             
             // same section
             if fromIndexPath.section == to.section {
                 
-                fromSectionTodoGroup!.todos.insert(todo, at: to.row - 1 )
+                var fromIndexBase = 0
+                for section in sectionCellList {
+                    
+                    if section.identifier == fromSection.identifier {
+                        
+                        break
+                    }
+                    
+                    fromIndexBase = fromIndexBase + ( section.data as? TodoGroup )!.todos.count
+                }
+                
+                var toIndexBase = 0
+                for section in sectionCellList {
+                    
+                    if section.identifier == toSection.identifier {
+                        
+                        break
+                    }
+                    
+                    toIndexBase = toIndexBase + ( section.data as? TodoGroup )!.todos.count
+                }
+                
+                moveTodoInManagedContext(fromIndex: fromIndexBase + fromRow,
+                                         toIndex: fromIndexBase + toRow)
+                
+                fromSectionTodoGroup!.todos.insert(todo, at: toRow)
                 
                 fromSection.data = fromSectionTodoGroup
                 sectionCellList[fromIndexPath.section] = fromSection
             } else {
                 
-                toSectionTodoGroup!.todos.insert(todo, at: to.row - 1)
+                // we add the todo to the last item of new section
+                // we then move the todo within that section to the intended position
+                
+                let newToGroupIndex = toSectionTodoGroup!.todos.count
+                editTodoInManagedContext(oldGroup: fromSection.identifier,
+                                         oldSequenceNr: fromRow,
+                                         newGroup: toSection.identifier,
+                                         newSequenceNr: newToGroupIndex,
+                                         detail: todo.detail,
+                                         complete: false)
+                
+                toSectionTodoGroup!.todos.insert(todo, at: toRow)
                 
                 fromSectionTodoGroup!.collapse = fromSectionTodoGroup!.todos.isEmpty
                 fromSection.data = fromSectionTodoGroup
@@ -587,6 +626,20 @@ class XYZTodoTableViewController: UITableViewController {
                 toSectionTodoGroup!.collapse = false
                 toSection.data = toSectionTodoGroup
                 sectionCellList[to.section] = toSection
+                
+                var toIndexBase = 0
+                for section in sectionCellList {
+                    
+                    if section.identifier == toSection.identifier {
+                        
+                        break
+                    }
+                    
+                    toIndexBase = toIndexBase + ( section.data as? TodoGroup )!.todos.count
+                }
+                
+                moveTodoInManagedContext(fromIndex: toIndexBase + newToGroupIndex,
+                                         toIndex: toIndexBase + toRow)
             }
         }
 
