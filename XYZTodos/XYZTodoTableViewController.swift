@@ -142,6 +142,7 @@ class XYZTodoTableViewController: UITableViewController {
             
             let todo = Todo(detail: detail, complete: false)
             todoGroup?.todos.append(todo)
+            todoGroup?.collapse = false
             
             section.data = todoGroup
             sectionCellList[dowSectionIndex] = section
@@ -293,9 +294,12 @@ class XYZTodoTableViewController: UITableViewController {
         if indexPath.row <= 0 {
             
             var todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
-            
-            todoGroup!.collapse = !todoGroup!.collapse
-            sectionCellList[indexPath.section].data = todoGroup
+           
+            if !todoGroup!.todos.isEmpty {
+                
+                todoGroup!.collapse = !todoGroup!.collapse
+                sectionCellList[indexPath.section].data = todoGroup
+            }
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
