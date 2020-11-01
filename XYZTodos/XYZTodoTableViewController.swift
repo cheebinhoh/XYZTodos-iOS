@@ -475,6 +475,13 @@ class XYZTodoTableViewController: UITableViewController {
                 let complete = todoGroup?.todos[indexPath.row - 1].complete
                 
                 todoGroup?.todos[indexPath.row - 1].complete = !(complete ?? true)
+                
+                editTodoInManagedContext(oldGroup: self.sectionCellList[indexPath.section].identifier,
+                                         oldSequenceNr: indexPath.row - 1,
+                                         newGroup: self.sectionCellList[indexPath.section].identifier,
+                                         newSequenceNr: indexPath.row - 1,
+                                         detail: todoGroup!.todos[indexPath.row - 1].detail,
+                                         complete: todoGroup!.todos[indexPath.row - 1].complete)
             }
             
             self.sectionCellList[indexPath.section].data = todoGroup

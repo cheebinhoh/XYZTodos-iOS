@@ -14,6 +14,7 @@ protocol XYZSelectionDelegate: class {
 
 class XYZSelectionTableViewController: UITableViewController {
 
+    
     // MARK: - property
     
     var delegate: XYZSelectionDelegate?
@@ -27,6 +28,7 @@ class XYZSelectionTableViewController: UITableViewController {
     var readonly = false
     var imageNames: [String]?
     var displayStrings = [String]()
+    
     
     // MARK: - function
     
@@ -61,7 +63,9 @@ class XYZSelectionTableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
 
+    
     // MARK: - IBAction
+    
     @IBAction func backAction(_ sender: UIButton) {
 
         delegate?.selectedItem(selectedItem, sender: self)
@@ -329,4 +333,5 @@ class XYZSelectionTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
 }

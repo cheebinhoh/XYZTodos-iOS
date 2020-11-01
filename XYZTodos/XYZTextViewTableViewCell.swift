@@ -16,12 +16,14 @@ protocol XYZTextViewTableViewCellDelegate : class {
 class XYZTextViewTableViewCell: UITableViewCell,
     UITextViewDelegate {
 
+    
     // MARK: - Property
     var delegate: XYZTextViewTableViewCellDelegate?
     
     // MARK: - IBOutlet
     
     @IBOutlet weak var textview: UITextView!
+    
     
     // MARK: - function
 

@@ -69,6 +69,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var editmode = false
     var indexPath: IndexPath?
     
+    
     // MARK: - Function
     
     func loadModelData() {
@@ -308,12 +309,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         guard let returnButton = sender as? UIBarButtonItem, returnButton == saveButton else {
         
-            print("---- not returning from save button")
             return
         }
-        
-        print("---- return from save button")
-
     }
 
 }
