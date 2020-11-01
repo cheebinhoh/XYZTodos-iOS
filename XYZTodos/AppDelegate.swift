@@ -13,10 +13,13 @@ import CloudKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var todos: [XYZTodo]?
+    var global: XYZGlobal?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        global = loadGlobalFromManagedContext();
+        printGlobal(global: global!)
         todos = loadTodosFromManagedContext()
         printTodos(todos: todos!)
         
@@ -28,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
+
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
@@ -146,6 +150,26 @@ func loadTodosFromManagedContext() -> [XYZTodo]? {
     return output
 }
 
+func loadGlobalFromManagedContext() -> XYZGlobal? {
+    
+    let aContext = managedContext()
+    let fetchRequest = NSFetchRequest<XYZGlobal>(entityName: XYZGlobal.type)
+    
+    guard let output = try? aContext?.fetch(fetchRequest) else {
+        
+        fatalError("Exception: error in fetchRequest XYZGlobal")
+    }
+
+    var global = output.first
+    if nil == global {
+        
+        global = XYZGlobal(dow: "", context: managedContext())
+        saveManageContext()
+    }
+    
+    return global
+}
+
 func deleteTodoFromManagedContext(group: String,
                                   sequenceNr: Int )
 {
@@ -205,7 +229,7 @@ func editTodoInManagedContext(oldGroup: String,
 
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
     
-    saveManageContext() 
+    saveManageContext()
 }
 
 func addTodoToManagedContext(group: String,
@@ -242,6 +266,8 @@ func getTodosFromManagedContext() -> [XYZTodo] {
 
 func printTodos(todos: [XYZTodo]) {
     
+    print("---- todos")
+    
     for todo in todos {
         
         let group = todo.value(forKey: XYZTodo.group) as? String ?? "_unknown_"
@@ -251,4 +277,12 @@ func printTodos(todos: [XYZTodo]) {
         
         print("group = \(group), sequenceNr = \(sequenceNr), detail = \(detail), complete = \(complete)")
     }
+}
+
+func printGlobal(global: XYZGlobal) {
+    
+    print("---- global")
+    
+    let dow = global.value(forKey: XYZGlobal.dow) as? String ?? ""
+    print("dow = ", dow)
 }

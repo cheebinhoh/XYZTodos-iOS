@@ -245,6 +245,12 @@ class XYZTodoTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    func refreshWeeklyTodo() {
+        
+        print("----- ok")
+        reloadData()
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()

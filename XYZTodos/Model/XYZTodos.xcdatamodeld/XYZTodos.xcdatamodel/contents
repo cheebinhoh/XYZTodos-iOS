@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="20A5395g" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="XYZGlobal" representedClassName="XYZGlobal" syncable="YES">
+        <attribute name="dow" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="XYZTodo" representedClassName="XYZTodo" syncable="YES">
         <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="detail" optional="YES" attributeType="String"/>
@@ -8,5 +11,6 @@
     </entity>
     <elements>
         <element name="XYZTodo" positionX="-2743.858459472657" positionY="-1594.702331542969" width="128" height="103"/>
+        <element name="XYZGlobal" positionX="-2745" positionY="-1557" width="128" height="44"/>
     </elements>
 </model>
