@@ -7,12 +7,19 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var todos: [XYZTodo]?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        todos = loadTodosFromManagedContext()
+        printTodos(todos: todos!)
+        
         return true
     }
 
@@ -84,3 +91,131 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
+func managedContext() -> NSManagedObjectContext? {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+        fatalError("Exception: AppDelegate is expected")
+    }
+    
+    return appDelegate.persistentContainer.viewContext
+}
+
+func saveManageContext() {
+    
+    let aContext = managedContext()
+    
+    do {
+        
+        try aContext?.save()
+    } catch let nserror as NSError {
+        
+        fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
+    }
+}
+
+func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
+    
+    return todos.sorted { (todo1, todo2) -> Bool in
+    
+        let g1 = todo1.value(forKey: XYZTodo.group) as? String ?? ""
+        let g2 = todo2.value(forKey: XYZTodo.group) as? String ?? ""
+        let s1 = todo1.value(forKey: XYZTodo.sequenceNr) as? Int ?? 0
+        let s2 = todo2.value(forKey: XYZTodo.sequenceNr) as? Int ?? 0
+        
+        let dow1 = DayOfWeek(rawValue: g1)
+        let dow2 = DayOfWeek(rawValue: g2)
+        
+        return dow1!.index < dow2!.index
+               && s1 < s2
+    }
+}
+
+func loadTodosFromManagedContext() -> [XYZTodo]? {
+    
+    var output: [XYZTodo]?
+    
+    let aContext = managedContext()
+    let fetchRequest = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
+    
+    if let unsorted = try? aContext?.fetch(fetchRequest) {
+        
+        output = sortTodos(todos: unsorted)
+    }
+    
+    return output
+}
+
+func deleteTodoFromManagedContext(group: String,
+                                  sequenceNr: Int )
+{
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+        fatalError("Exception: AppDelegate is expected")
+    }
+    
+    guard let index = appDelegate.todos?.firstIndex(where: {
+        
+    
+        let gr = $0.value(forKey: XYZTodo.group) as? String ?? ""
+        let seqNr = $0.value(forKey: XYZTodo.sequenceNr) as? Int ?? -1
+        
+        return group == gr && seqNr == sequenceNr
+    }) else {
+        
+        return
+    }
+
+    
+    let todo = appDelegate.todos?.remove(at: index)
+    
+    managedContext()?.delete(todo!)
+    saveManageContext()
+    
+    printTodos(todos: appDelegate.todos!)
+}
+
+func addTodoToManagedContext(group: String,
+                             sequenceNr: Int,
+                             detail: String,
+                             complete: Bool) {
+    
+    let todo = XYZTodo(group: group,
+                       sequenceNr: sequenceNr,
+                       detail: detail,
+                       complete: complete,
+                       context: managedContext())
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+        fatalError("Exception: AppDelegate is expected")
+    }
+    
+    appDelegate.todos!.append(todo)
+    appDelegate.todos = sortTodos(todos: appDelegate.todos!)
+    
+    saveManageContext()
+}
+
+func getTodosFromManagedContext() -> [XYZTodo] {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+        fatalError("Exception: AppDelegate is expected")
+    }
+    
+    return appDelegate.todos!
+}
+
+func printTodos(todos: [XYZTodo]) {
+    
+    for todo in todos {
+        
+        let group = todo.value(forKey: XYZTodo.group) as? String ?? "_unknown_"
+        let sequenceNr = todo.value(forKey: XYZTodo.sequenceNr) as? Int ?? -1
+        let detail = todo.value(forKey: XYZTodo.detail) as? String ?? ""
+        let complete = todo.value(forKey: XYZTodo.complete) as? Bool ?? false
+        
+        print("group = \(group), sequenceNr = \(sequenceNr), detail = \(detail), complete = \(complete)")
+    }
+}

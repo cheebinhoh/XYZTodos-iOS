@@ -61,11 +61,8 @@ class XYZTodoTableViewController: UITableViewController {
         
         if let sourceViewController = sender.source as? XYZTodoDetailTableViewController {
             
-            print("---- unwind from todo detail")
-
             if sourceViewController.editmode {
                 
-                print("--- here")
                 editTodo(dow: sourceViewController.dow, detail: sourceViewController.detail!, existing: sourceViewController.indexPath!)
             } else {
                 
@@ -135,12 +132,18 @@ class XYZTodoTableViewController: UITableViewController {
             section.data = todoGroup
             sectionCellList[dowSectionIndex] = section
             
+            addTodoToManagedContext(group: sectionId,
+                                    sequenceNr: todoGroup!.todos.count - 1,
+                                    detail: detail,
+                                    complete: false)
+            
             tableView.reloadData()
         }
     }
     
     func loadModelDataIntoSectionCellData() {
         
+        let todosInStored = getTodosFromManagedContext()
         var loadedSectionCellList = [TableViewSectionCell]()
         
         for var section in sectionCellList {
@@ -150,16 +153,18 @@ class XYZTodoTableViewController: UITableViewController {
             
             group.dow = DayOfWeek(rawValue: section.identifier)
             
-            // testing data
-            if dow == DayOfWeek.Thursday.rawValue {
+            for todoInStored in todosInStored {
                 
-                let todo1 = Todo(detail: "Wash bathroom", complete: false)
-               
-                group.todos.append(todo1)
+                let groupInStored = todoInStored.value(forKey: XYZTodo.group) as? String ?? other
                 
-                let todo2 = Todo(detail: "Laundry", complete: false)
-               
-                group.todos.append(todo2)
+                if dow == groupInStored {
+                    
+                    let detail = todoInStored.value(forKey: XYZTodo.detail) as? String ?? ""
+                    let complete = todoInStored.value(forKey: XYZTodo.complete) as? Bool ?? false
+                    
+                    let todo = Todo(detail: detail, complete: complete)
+                    group.todos.append(todo)
+                }
             }
             
             section.data = group
@@ -216,7 +221,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         loadModelDataIntoSectionCellData()
         
-        printSectionCellData()
+        //printSectionCellData()
     }
     
     func reloadData() {
@@ -410,7 +415,7 @@ class XYZTodoTableViewController: UITableViewController {
                 section.data = todoGroup
                 self.sectionCellList[indexPath.section] = section
                 
-                self.printSectionCellData()
+                deleteTodoFromManagedContext(group: section.identifier, sequenceNr: indexPath.row - 1)
                 
                 tableView.reloadData()
                 
@@ -484,7 +489,7 @@ class XYZTodoTableViewController: UITableViewController {
             section.data = todoGroup
             sectionCellList[indexPath.section] = section
             
-            printSectionCellData()
+            deleteTodoFromManagedContext(group: section.identifier, sequenceNr: indexPath.row - 1)
             
             tableView.reloadData()
         } else if editingStyle == .insert {
@@ -530,7 +535,7 @@ class XYZTodoTableViewController: UITableViewController {
         }
 
         tableView.reloadData()
-        printSectionCellData()
+        //printSectionCellData()
     }
 
     // Override to support conditional rearranging of the table view.

@@ -5,6 +5,7 @@
 //  Created by Chee Bin Hoh on 10/29/20.
 //
 
+
 import Foundation
 
 let other = "Other"
@@ -25,7 +26,6 @@ enum DayOfWeek: String, CaseIterable {
     case Friday
     case Saturday
     case Sunday
-    
     
     static subscript(index: Int) -> DayOfWeek {
         
@@ -62,6 +62,11 @@ enum DayOfWeek: String, CaseIterable {
             
             return dow
         }
+    }
+    
+    var index: Int {
+        
+        return DayOfWeek.allCasesString.firstIndex(of: self.rawValue)!
     }
     
     static var allCasesString: [String] {
@@ -266,3 +271,5 @@ func formattingCurrencyValue(of input: String,
     
     return formattedAmount
 }
+
+

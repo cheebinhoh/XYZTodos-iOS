@@ -32,6 +32,7 @@
 		65F06BDF254CE72600DB3E16 /* XYZSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06BDE254CE72600DB3E16 /* XYZSelectionTableViewCell.swift */; };
 		65F06BE7254CEC1F00DB3E16 /* XYZSelectionItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06BE6254CEC1F00DB3E16 /* XYZSelectionItemTableViewCell.swift */; };
 		65F06BEF254CECEB00DB3E16 /* XYZSelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06BEE254CECEB00DB3E16 /* XYZSelectionTableViewController.swift */; };
+		65F06C20254E365800DB3E16 /* XYZTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06C1F254E365800DB3E16 /* XYZTodo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		65F06BDE254CE72600DB3E16 /* XYZSelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		65F06BE6254CEC1F00DB3E16 /* XYZSelectionItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZSelectionItemTableViewCell.swift; sourceTree = "<group>"; };
 		65F06BEE254CECEB00DB3E16 /* XYZSelectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZSelectionTableViewController.swift; sourceTree = "<group>"; };
+		65F06C1F254E365800DB3E16 /* XYZTodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				65A1E2132548DE7900C92101 /* XYZTodos.xcdatamodeld */,
+				65F06C1F254E365800DB3E16 /* XYZTodo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				65A1E2612549FB6A00C92101 /* XYZUIUtility.swift in Sources */,
 				65F06B95254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift in Sources */,
 				653B9F91254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift in Sources */,
+				65F06C20254E365800DB3E16 /* XYZTodo.swift in Sources */,
 				653B9FA3254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

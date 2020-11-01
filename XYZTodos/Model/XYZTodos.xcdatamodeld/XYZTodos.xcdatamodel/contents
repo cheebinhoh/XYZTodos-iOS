@@ -1,29 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="20A5395g" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
-    <entity name="Root" representedClassName="Root" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="todo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Todo" inverseName="root" inverseEntity="Todo"/>
-        <relationship name="todoGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodoGroup" inverseName="root" inverseEntity="TodoGroup"/>
-    </entity>
-    <entity name="Todo" representedClassName="Todo" syncable="YES" codeGenerationType="class">
+    <entity name="XYZTodo" representedClassName="XYZTodo" syncable="YES">
         <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="detail" optional="YES" attributeType="String"/>
-        <attribute name="recordId" optional="YES" attributeType="String"/>
+        <attribute name="group" optional="YES" attributeType="String"/>
         <attribute name="sequenceNr" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Root" inverseName="todo" inverseEntity="Root"/>
-        <relationship name="todoGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodoGroup" inverseName="todo" inverseEntity="TodoGroup"/>
-    </entity>
-    <entity name="TodoGroup" representedClassName="TodoGroup" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="recordId" optional="YES" attributeType="String"/>
-        <attribute name="sequenceNr" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Root" inverseName="todoGroup" inverseEntity="Root"/>
-        <relationship name="todo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Todo" inverseName="todoGroup" inverseEntity="Todo"/>
     </entity>
     <elements>
-        <element name="Root" positionX="-3126.327453613281" positionY="-1926.915283203125" width="128" height="88"/>
-        <element name="Todo" positionX="-2743.858459472657" positionY="-1594.702331542969" width="128" height="148"/>
-        <element name="TodoGroup" positionX="-2934" positionY="-1764" width="128" height="104"/>
+        <element name="XYZTodo" positionX="-2743.858459472657" positionY="-1594.702331542969" width="128" height="103"/>
     </elements>
 </model>
