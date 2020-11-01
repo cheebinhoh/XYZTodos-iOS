@@ -108,7 +108,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
         if editmode {
             
             navigationItem.title = "Edit todo".localized()
