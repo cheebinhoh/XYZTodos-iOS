@@ -60,6 +60,11 @@ class XYZTextViewTableViewCell: UITableViewCell,
         delegate?.textViewDidChange(textview.text, sender: self)
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        
+        delegate?.textViewDidChange(textview.text, sender: self)
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         
         super.setSelected(selected, animated: animated)

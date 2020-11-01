@@ -88,6 +88,13 @@ class XYZTodoTableViewController: UITableViewController {
             
             originalSection.data = originalTodoGroup
             sectionCellList[indexPath.section] = originalSection
+            
+            editTodoInManagedContext(oldGroup: sectionId,
+                                     oldSequenceNr: indexPath.row - 1,
+                                     newGroup: sectionId,
+                                     newSequenceNr: indexPath.row - 1,
+                                     detail: detail,
+                                     complete: false)
         } else {
             
             var originalTodoGroup = originalSection.data as! TodoGroup
@@ -107,6 +114,13 @@ class XYZTodoTableViewController: UITableViewController {
             targetTodoGroup.todos.append(todo)
             targetSection.data = targetTodoGroup
             sectionCellList[targetSectionIndex!] = targetSection
+            
+            editTodoInManagedContext(oldGroup: originalSection.identifier,
+                                     oldSequenceNr: indexPath.row - 1,
+                                     newGroup: sectionId,
+                                     newSequenceNr: targetTodoGroup.todos.count - 1,
+                                     detail: detail,
+                                     complete: false)
         }
         
         tableView.reloadData()

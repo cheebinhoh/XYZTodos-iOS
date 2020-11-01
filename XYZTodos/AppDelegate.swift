@@ -175,6 +175,39 @@ func deleteTodoFromManagedContext(group: String,
     printTodos(todos: appDelegate.todos!)
 }
 
+func editTodoInManagedContext(oldGroup: String,
+                              oldSequenceNr: Int,
+                              newGroup: String,
+                              newSequenceNr: Int,
+                              detail: String,
+                              complete: Bool) {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+        fatalError("Exception: AppDelegate is expected")
+    }
+    
+    guard let todo = appDelegate.todos?.first(where: {
+    
+        let gr = $0.value(forKey: XYZTodo.group) as? String ?? ""
+        let seqNr = $0.value(forKey: XYZTodo.sequenceNr) as? Int ?? -1
+        
+        return oldGroup == gr && seqNr == oldSequenceNr
+    }) else {
+        
+        fatalError("Exception: todo does not exist")
+    }
+    
+    todo.setValue(newGroup, forKey: XYZTodo.group)
+    todo.setValue(newSequenceNr, forKey: XYZTodo.sequenceNr)
+    todo.setValue(detail, forKey: XYZTodo.detail)
+    todo.setValue(complete, forKey: XYZTodo.complete)
+
+    appDelegate.todos = sortTodos(todos: appDelegate.todos!)
+    
+    saveManageContext() 
+}
+
 func addTodoToManagedContext(group: String,
                              sequenceNr: Int,
                              detail: String,
