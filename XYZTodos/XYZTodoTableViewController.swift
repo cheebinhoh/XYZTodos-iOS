@@ -387,6 +387,9 @@ class XYZTodoTableViewController: UITableViewController {
                     if isTheDoW {
                         
                         newcell.title.textColor = UIColor.systemBlue
+                    } else {
+                        
+                        newcell.title.textColor = nil
                     }
                     
                     newcell.title.text = sectionCellList[indexPath.section].cellList[0]
