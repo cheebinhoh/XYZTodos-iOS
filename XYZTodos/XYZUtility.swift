@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Global Property
+
 let other = "Other"
 var todayDoW: DayOfWeek {
     
@@ -26,6 +28,9 @@ var todayDowLocalized: String {
     
     return dateFormat.string(from: today)
 }
+
+
+// MARK: - Type
 
 enum DayOfWeek: String, CaseIterable {
 

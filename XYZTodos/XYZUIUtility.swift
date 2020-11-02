@@ -9,6 +9,8 @@ import UIKit
 import CoreData
 import CloudKit
 
+// MARK: - Type
+
 struct TableViewSectionCell {
     
     let identifier: String
@@ -17,7 +19,12 @@ struct TableViewSectionCell {
     var data: Any?
 }
 
-func createAttributeText(text: String, font: UIFont, link: String? = nil) -> NSMutableAttributedString {
+
+// Mark: - Function
+
+func createAttributeText(text: String,
+                         font: UIFont,
+                         link: String? = nil) -> NSMutableAttributedString {
     
     var attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font]
     

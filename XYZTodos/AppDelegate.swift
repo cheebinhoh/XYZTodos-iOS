@@ -39,9 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         global = loadGlobalFromManagedContext();
-        //printGlobal(global: global!)
         todos = loadTodosFromManagedContext()
-        //printTodos(todos: todos!)
         
         // reconciliate
         self.reconciliateData()
@@ -89,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                fatalError("Exception: unresolved error \(error), \(error.userInfo)")
             }
         })
         
@@ -111,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                fatalError("Exception: unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
@@ -202,7 +200,6 @@ func deleteTodoFromManagedContext(group: String,
     }
     
     guard let index = appDelegate.todos?.firstIndex(where: {
-        
     
         let gr = $0.value(forKey: XYZTodo.group) as? String ?? ""
         let seqNr = $0.value(forKey: XYZTodo.sequenceNr) as? Int ?? -1
@@ -213,7 +210,6 @@ func deleteTodoFromManagedContext(group: String,
         return
     }
 
-    
     let todo = appDelegate.todos?.remove(at: index)
     
     managedContext()?.delete(todo!)
@@ -271,7 +267,7 @@ func editTodoInManagedContext(oldGroup: String,
         return oldGroup == gr && seqNr == oldSequenceNr
     }) else {
         
-        fatalError("Exception: todo does not exist")
+        fatalError("Exception: todo is not found for \(oldGroup), \(oldSequenceNr)")
     }
     
     todo.setValue(newGroup, forKey: XYZTodo.group)
@@ -303,7 +299,6 @@ func addTodoToManagedContext(group: String,
     appDelegate.todos!.append(todo)
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
     
-    printTodos(todos: appDelegate.todos!)
     saveManageContext()
 }
 
