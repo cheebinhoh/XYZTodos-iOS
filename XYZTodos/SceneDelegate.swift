@@ -44,6 +44,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: XYZTodoTableViewController is expected" )
         }
         
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        appDelegate.reconciliateData()
         tableViewController.expandTodos(dows: [])
     }
 
