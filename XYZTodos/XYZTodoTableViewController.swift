@@ -10,7 +10,23 @@
 import UIKit
 
 class XYZTodoTableViewController: UITableViewController {
-
+ 
+    // MARK - Context menu interaction
+    /*
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+ 
+        return UIContextMenuConfiguration( identifier: nil,
+                                           previewProvider: nil,
+                                           actionProvider: { _ in
+                                            
+                                                let children: [UIMenuElement] = []
+                                            
+                                                return UIMenu(title: "", children: children)
+                                           })
+    }
+    */
+    
     // MARK: - Type
     
     struct Todo {
@@ -291,7 +307,8 @@ class XYZTodoTableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         self.navigationItem.leftBarButtonItem?.isEnabled = false
     }
-    
+
+
 
     // MARK: - Table view data source
 
@@ -703,4 +720,51 @@ class XYZTodoTableViewController: UITableViewController {
         }
     }
 
+    override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        guard indexPath.row > 0 else {
+            
+            return nil
+        }
+        
+        let section = sectionCellList[indexPath.section]
+        let todoGroup = section.data as? TodoGroup
+        let detail = todoGroup!.todos[indexPath.row - 1].detail
+        
+        return UIContextMenuConfiguration( identifier: nil,
+                                           previewProvider: {
+                                            
+                                                let viewController = UIViewController()
+                                                
+                                                // 1
+                                                let textview = UITextView()
+                                                textview.text = detail
+                                                textview.font = UIFont.systemFont(ofSize: 18)
+                                                textview.isScrollEnabled = true
+                                                textview.sizeToFit()
+                                                textview.translatesAutoresizingMaskIntoConstraints = false
+                                                textview.textContainer.maximumNumberOfLines = 0
+                                            
+                                                // 2
+                                                textview.frame = CGRect(x: 0,
+                                                                        y: 0,
+                                                                        width: 500,
+                                                                        height: max( 400,
+                                                                                     textview.contentSize.height) )
+                                                textview.translatesAutoresizingMaskIntoConstraints = false
+                                                
+                                                // 3
+                                                viewController.preferredContentSize = textview.frame.size
+                                                viewController.view = textview
+                                            
+                                                return viewController
+                                           },
+                                           actionProvider: { _ in
+                                            
+                                                let children: [UIMenuElement] = []
+                                            
+                                                return UIMenu(title: "", children: children)
+                                           })
+    }
+    
 }
