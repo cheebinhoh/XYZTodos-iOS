@@ -11,22 +11,6 @@ import UIKit
 
 class XYZTodoTableViewController: UITableViewController {
  
-    // MARK - Context menu interaction
-    /*
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
-                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
- 
-        return UIContextMenuConfiguration( identifier: nil,
-                                           previewProvider: nil,
-                                           actionProvider: { _ in
-                                            
-                                                let children: [UIMenuElement] = []
-                                            
-                                                return UIMenu(title: "", children: children)
-                                           })
-    }
-    */
-    
     // MARK: - Type
     
     struct Todo {
