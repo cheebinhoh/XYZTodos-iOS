@@ -211,7 +211,6 @@ class XYZSelectionTableViewController: UITableViewController {
                 } else {
                     // Fallback on earlier versions
                 }
-                
             } else {
                 
                 cell.icon.image = UIImage(named: "bigemptyspace")
