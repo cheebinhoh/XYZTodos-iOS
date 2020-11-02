@@ -39,9 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         global = loadGlobalFromManagedContext();
-        printGlobal(global: global!)
+        //printGlobal(global: global!)
         todos = loadTodosFromManagedContext()
-        printTodos(todos: todos!)
+        //printTodos(todos: todos!)
         
         // reconciliate
         self.reconciliateData()

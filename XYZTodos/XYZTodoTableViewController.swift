@@ -739,22 +739,25 @@ class XYZTodoTableViewController: UITableViewController {
                                                 // 1
                                                 let textview = UITextView()
                                                 textview.text = detail
-                                                textview.font = UIFont.systemFont(ofSize: 18)
+                                                textview.font = UIFont.systemFont(ofSize: 16)
                                                 textview.isScrollEnabled = true
                                                 textview.sizeToFit()
-                                                textview.translatesAutoresizingMaskIntoConstraints = false
+                                                textview.translatesAutoresizingMaskIntoConstraints = true
                                                 textview.textContainer.maximumNumberOfLines = 0
+                                                textview.showsVerticalScrollIndicator = true
+                                                textview.isUserInteractionEnabled = true
+                                                textview.isSelectable = true
+                                                //textview.scrollRangeToVisible(NSMakeRange(0, 0))
                                             
                                                 // 2
                                                 textview.frame = CGRect(x: 0,
                                                                         y: 0,
-                                                                        width: 500,
+                                                                        width: 420,
                                                                         height: max( 400,
                                                                                      textview.contentSize.height) )
-                                                textview.translatesAutoresizingMaskIntoConstraints = false
-                                                
+        
                                                 // 3
-                                                viewController.preferredContentSize = textview.frame.size
+                                                //viewController.preferredContentSize = textview.frame.size
                                                 viewController.view = textview
                                             
                                                 return viewController
