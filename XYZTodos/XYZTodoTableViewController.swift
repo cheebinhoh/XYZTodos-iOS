@@ -404,21 +404,21 @@ class XYZTodoTableViewController: UITableViewController {
                         
                         if hastodos {
                             
-                            if collapse {
+                            if complete {
                                 
-                                if complete {
-                                    
-                                    newcell.accessoryType = .checkmark
-                                    newcell.accessoryView = nil
-                                } else {
+                                newcell.accessoryType = .checkmark
+                                newcell.accessoryView = nil
+                            } else {
+                                
+                                if collapse {
                                     
                                     newcell.accessoryType = .disclosureIndicator
                                     newcell.accessoryView = nil
+                                } else {
+                                    
+                                    newcell.accessoryType = .none
+                                    newcell.accessoryView = createDownDisclosureIndicatorImage()
                                 }
-                            } else {
-                                
-                                newcell.accessoryType = .none
-                                newcell.accessoryView = createDownDisclosureIndicatorImage()
                             }
                         } else {
                             
