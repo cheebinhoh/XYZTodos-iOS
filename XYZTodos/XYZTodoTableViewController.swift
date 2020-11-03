@@ -219,6 +219,9 @@ class XYZTodoTableViewController: UITableViewController {
 
         sectionCellList = []
         
+        var hitStartOfTheWeek = false
+        var trailingSectinoCellList = [TableViewSectionCell]()
+        
         for dayOfWeek in DayOfWeek.allCases {
         
             let dow = dayOfWeek.rawValue
@@ -228,9 +231,19 @@ class XYZTodoTableViewController: UITableViewController {
                                                     title: nil,
                                                     cellList: [dowlocalized],
                                                     data: nil)
-     
-            sectionCellList.append(groupSection)
+            
+            if hitStartOfTheWeek
+                || dayOfWeek.weekDayNr == Locale.current.calendar.firstWeekday {
+                
+                hitStartOfTheWeek = true
+                sectionCellList.append(groupSection)
+            } else {
+                
+                trailingSectinoCellList.append(groupSection)
+            }
         }
+        
+        sectionCellList.append(contentsOf: trailingSectinoCellList)
         
         let groupSection = TableViewSectionCell(identifier: other,
                                                 title: nil,

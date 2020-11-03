@@ -50,6 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         appDelegate.reconciliateData()
+        tableViewController.reloadData()
         tableViewController.expandTodos(dows: [])
     }
 
