@@ -34,13 +34,13 @@ var todayDowLocalized: String {
 
 enum DayOfWeek: String, CaseIterable {
 
+    case Sunday
     case Monday
     case Tuesday
     case Wednesday
     case Thursday
     case Friday
     case Saturday
-    case Sunday
     
     static subscript(index: Int) -> DayOfWeek {
         
@@ -79,9 +79,9 @@ enum DayOfWeek: String, CaseIterable {
         }
     }
     
-    var index: Int {
+    var weekDayNr: Int {
         
-        return DayOfWeek.allCasesString.firstIndex(of: self.rawValue)!
+        return DayOfWeek.allCasesString.firstIndex(of: self.rawValue)! + 1
     }
     
     static var allCasesString: [String] {

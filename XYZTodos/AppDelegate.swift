@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let globalDow = DayOfWeek(rawValue: global?.value(forKey: XYZGlobal.dow) as? String ?? "")
         let refreshTodos = nil == globalDow
                             || ( globalDow != todayDoW
-                                    && todayDoW == DayOfWeek.Monday ) // New Monday :(
+                                    && todayDoW.weekDayNr == Locale.current.calendar.firstWeekday ) // New Monday :(
 
         if refreshTodos {
             
@@ -151,7 +151,7 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
         let dow1 = DayOfWeek(rawValue: g1)
         let dow2 = DayOfWeek(rawValue: g2)
            
-        return dow1!.index <= dow2!.index
+        return dow1!.weekDayNr <= dow2!.weekDayNr
                && s1 <= s2
     }
 }
