@@ -74,7 +74,9 @@ class XYZTodoTableViewController: UITableViewController {
     
     // MARK: - Function
 
-    func editTodo(dow: DayOfWeek?, detail: String, existing indexPath: IndexPath) {
+    func editTodo(dow: DayOfWeek?,
+                  detail: String,
+                  existing indexPath: IndexPath) {
         
         let sectionId = dow?.rawValue ?? other
         var originalSection = sectionCellList[indexPath.section]
@@ -123,12 +125,13 @@ class XYZTodoTableViewController: UITableViewController {
                                      newSequenceNr: targetTodoGroup.todos.count - 1,
                                      detail: detail,
                                      complete: false)
-        }
+        } // if sectionId == originalSection.identifier
         
         tableView.reloadData()
     }
     
-    func addTodo(dow: DayOfWeek?, detail: String) {
+    func addTodo(dow: DayOfWeek?,
+                 detail: String) {
         
         let sectionId = dow?.rawValue ?? other
         
@@ -237,8 +240,6 @@ class XYZTodoTableViewController: UITableViewController {
         sectionCellList.append(groupSection)
         
         loadModelDataIntoSectionCellData()
-        
-        //printSectionCellData()
     }
     
     func reloadData() {
@@ -293,7 +294,6 @@ class XYZTodoTableViewController: UITableViewController {
     }
 
 
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -302,7 +302,8 @@ class XYZTodoTableViewController: UITableViewController {
         return sectionCellList.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
         let todoGroup = sectionCellList[section].data as? TodoGroup
@@ -318,7 +319,8 @@ class XYZTodoTableViewController: UITableViewController {
                 + numTodos
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row <= 0 {
             
@@ -336,7 +338,8 @@ class XYZTodoTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
         
         var height: CGFloat = 5.0
         
@@ -351,17 +354,20 @@ class XYZTodoTableViewController: UITableViewController {
         return height
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            heightForFooterInSection section: Int) -> CGFloat {
         
         return 2.0
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView,
+                            titleForHeaderInSection section: Int) -> String? {
         
         return sectionCellList[section].title
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell?
         
@@ -449,7 +455,8 @@ class XYZTodoTableViewController: UITableViewController {
         return cell!
     }
 
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    override func tableView(_ tableView: UITableView,
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         var commands = [UIContextualAction]()
 
@@ -478,7 +485,8 @@ class XYZTodoTableViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: commands)
     }
     
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    override func tableView(_ tableView: UITableView,
+                            leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         var commands = [UIContextualAction]()
         
@@ -526,14 +534,17 @@ class XYZTodoTableViewController: UITableViewController {
     }
     
     // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView,
+                            canEditRowAt indexPath: IndexPath) -> Bool {
         
         // Return false if you do not want the specified item to be editable.
         return indexPath.row > 0
     }
     
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCell.EditingStyle,
+                            forRowAt indexPath: IndexPath) {
                 
         if editingStyle == .delete {
             // Delete the row from the data source
@@ -557,7 +568,9 @@ class XYZTodoTableViewController: UITableViewController {
     }
 
     // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            moveRowAt fromIndexPath: IndexPath,
+                            to: IndexPath) {
 
         var fromSection = sectionCellList[fromIndexPath.section]
         var toSection = sectionCellList[to.section]
@@ -641,7 +654,7 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 moveTodoInManagedContext(fromIndex: toIndexBase + newToGroupIndex,
                                          toIndex: toIndexBase + toRow)
-            }
+            }//  if fromIndexPath.section == to.section ... else
         }
 
         tableView.reloadData()
@@ -653,7 +666,9 @@ class XYZTodoTableViewController: UITableViewController {
         return true
     }
 
-    override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+    override func tableView(_ tableView: UITableView,
+                            targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath,
+                            toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         
         var target = proposedDestinationIndexPath
             
@@ -677,12 +692,12 @@ class XYZTodoTableViewController: UITableViewController {
             case "showTodoDetail":
                 guard let todoDetalTableViewController = segue.destination as? XYZTodoDetailTableViewController else {
                     
-                    fatalError("Exception: error in XYZTodoDetailTableViewController")
+                    fatalError("Exception: error in casting destination as XYZTodoDetailTableViewController")
                 }
                 
                 guard let cell = sender as? XYZTodoItemTableViewCell else {
                     
-                    fatalError("Exception: error in XYZTodoItemTableViewCell")
+                    fatalError("Exception: error in casting sender as XYZTodoItemTableViewCell")
                 }
                 
                 guard let indexPath = tableView.indexPath(for: cell) else {
@@ -704,7 +719,9 @@ class XYZTodoTableViewController: UITableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+    override func tableView(_ tableView: UITableView,
+                            contextMenuConfigurationForRowAt indexPath: IndexPath,
+                            point: CGPoint) -> UIContextMenuConfiguration? {
         
         guard indexPath.row > 0 else {
             
