@@ -771,6 +771,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                 textview.showsVerticalScrollIndicator = true
                                                 textview.isUserInteractionEnabled = true
                                                 textview.isSelectable = true
+                                                textview.isEditable = false 
                                                 //textview.scrollRangeToVisible(NSMakeRange(0, 0))
                                             
                                                 // 2
