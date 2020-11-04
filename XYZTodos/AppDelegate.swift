@@ -65,6 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         global = loadGlobalFromManagedContext();
         todos = loadTodosFromManagedContext()
         
+        printTodos(todos: todos!)
+        
         // reconciliate
         self.reconciliateData()
 
@@ -237,6 +239,8 @@ func deleteTodoFromManagedContext(group: String,
     let todo = appDelegate.todos?.remove(at: index)
     
     managedContext()?.delete(todo!)
+    appDelegate.reconciliateTodoSequenceNr()
+    
     saveManageContext()
     
     printTodos(todos: appDelegate.todos!)
@@ -252,7 +256,6 @@ func moveTodoInManagedContext(fromIndex: Int,
     
     let removeTodo = appDelegate.todos?.remove(at: fromIndex)
     appDelegate.todos?.insert(removeTodo!, at: toIndex)
-    
     appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
@@ -287,6 +290,7 @@ func editTodoInManagedContext(oldGroup: String,
     todo.setValue(complete, forKey: XYZTodo.complete)
 
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
+    appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
 }
@@ -309,6 +313,7 @@ func addTodoToManagedContext(group: String,
     
     appDelegate.todos!.append(todo)
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
+    appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
 }
