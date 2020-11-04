@@ -15,6 +15,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var todos: [XYZTodo]?
     var global: XYZGlobal?
     
+    func reconciliateTodoSequenceNr() {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        var index = 0
+        var lastGroup = ""
+        for todo in appDelegate.todos! {
+            
+            let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
+            if lastGroup == "" || lastGroup != group {
+                
+                lastGroup = group
+                index = 0
+            }
+            
+            todo.setValue(index, forKey: XYZTodo.sequenceNr)
+            index += 1
+        }
+    }
+    
     func reconciliateData() {
         
         let globalDow = DayOfWeek(rawValue: global?.value(forKey: XYZGlobal.dow) as? String ?? "")
@@ -31,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         global!.setValue(todayDoW.rawValue, forKey: XYZGlobal.dow)
+        reconciliateTodoSequenceNr()
         
         saveManageContext()
     }
@@ -229,20 +253,7 @@ func moveTodoInManagedContext(fromIndex: Int,
     let removeTodo = appDelegate.todos?.remove(at: fromIndex)
     appDelegate.todos?.insert(removeTodo!, at: toIndex)
     
-    var index = 0
-    var lastGroup = ""
-    for todo in appDelegate.todos! {
-        
-        let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
-        if lastGroup == "" || lastGroup != group {
-            
-            lastGroup = group
-            index = 0
-        }
-        
-        todo.setValue(index, forKey: XYZTodo.sequenceNr)
-        index += 1
-    }
+    appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
 }
