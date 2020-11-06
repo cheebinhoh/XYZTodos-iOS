@@ -5,3 +5,24 @@
   Created by Chee Bin Hoh on 10/29/20.
   
 */
+
+"About" = "オン";
+"Chee Bin HOH" = "胡志斌";
+"was created by " = "著者 ";
+"The icons are from Noun Project by " = "これらのアイコンは Noun Project からのものであり、 ";
+"2020 Chee Bin HOH, All rights reserved" = "2020, 胡志斌，全著作権所有";
+"." = "。";
+"Monday" = "月曜";
+"Tuesday" = "火曜日";
+"Wednesday" = "水曜日";
+"Thursday" = "木曜日";
+"Friday" = "金曜日";
+"Saturday" = "土曜日";
+"Sunday" = "日曜日に";
+"Other" = "その他";
+"Done" = "実施する";
+"Delete" = "削除";
+"Edit todo" = "タスクの変更";
+"New todo" = "新しい仕事";
+"Day of week" = "曜日";
+"Back" = "戻る";

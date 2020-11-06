@@ -12,37 +12,37 @@
 "Lo3-Xv-nKE.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "Todos"; ObjectID = "NyI-8z-OjC"; */
-"NyI-8z-OjC.title" = "직무";
+"NyI-8z-OjC.title" = "仕事";
 
 /* Class = "UINavigationController"; title = "Todo navigator"; ObjectID = "QXH-OK-7Di"; */
 "QXH-OK-7Di.title" = "Todo navigator";
 
 /* Class = "UITabBarItem"; title = "More"; ObjectID = "WtT-uu-ZIB"; */
-"WtT-uu-ZIB.title" = "More";
+"WtT-uu-ZIB.title" = "もっと";
 
 /* Class = "UINavigationItem"; title = "About"; ObjectID = "YU7-sA-MZ4"; */
-"YU7-sA-MZ4.title" = "About";
+"YU7-sA-MZ4.title" = "オン";
 
 /* Class = "UINavigationController"; title = "More navigator"; ObjectID = "bXL-D5-Q5N"; */
 "bXL-D5-Q5N.title" = "More navigator";
 
 /* Class = "UITableViewController"; title = "Todo detail"; ObjectID = "f3A-cf-vy6"; */
-"f3A-cf-vy6.title" = "Todo detail";
+"f3A-cf-vy6.title" = "タスクの詳細";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "fZo-Xh-PxK"; */
 "fZo-Xh-PxK.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "New todo"; ObjectID = "m2Q-Xy-AUJ"; */
-"m2Q-Xy-AUJ.title" = "New todo";
+"m2Q-Xy-AUJ.title" = "新しい仕事";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "tuV-GN-bn2"; */
 "tuV-GN-bn2.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "More"; ObjectID = "wDw-iJ-N5j"; */
-"wDw-iJ-N5j.title" = "More";
+"wDw-iJ-N5j.title" = "もっと";
 
 /* Class = "UITabBarItem"; title = "Todos"; ObjectID = "xsJ-JC-8r9"; */
-"xsJ-JC-8r9.title" = "직무";
+"xsJ-JC-8r9.title" = "仕事";
 
 /* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "zKY-1g-0HE"; */
 "zKY-1g-0HE.title" = "Item";
