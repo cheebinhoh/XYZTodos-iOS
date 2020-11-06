@@ -5,3 +5,24 @@
   Created by Chee Bin Hoh on 10/29/20.
   
 */
+
+"About" = "À propos";
+"Chee Bin HOH" = "Chee Bin HOH";
+"was created by " = "a été créé par ";
+"The icons are from Noun Project by " = "Les icônes proviennent de Noun Project de ";
+"2020 Chee Bin HOH, All rights reserved" = "2020, 胡志斌，Tous les droits sont réservés";
+"." = ".";
+"Monday" = "Lundi";
+"Tuesday" = "Mardi";
+"Wednesday" = "Mercredi";
+"Thursday" = "Jeudi";
+"Friday" = "Vendredi";
+"Saturday" = "samedi";
+"Sunday" = "dimanche";
+"Other" = "Autre";
+"Done" = "Terminé";
+"Delete" = "Supprimer";
+"Edit todo" = "Modifier la tâche";
+"New todo" = "nouvelle tâche";
+"Day of week" = "Jour de la semaine";
+"Back" = "Retour";
