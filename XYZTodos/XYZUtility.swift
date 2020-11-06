@@ -79,6 +79,11 @@ enum DayOfWeek: String, CaseIterable {
         }
     }
     
+    static var lastWeekDayNr: Int {
+        
+        return DayOfWeek.allCasesString.count + 1
+    }
+    
     var weekDayNr: Int {
         
         return DayOfWeek.allCasesString.firstIndex(of: self.rawValue)! + 1

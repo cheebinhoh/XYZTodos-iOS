@@ -174,10 +174,10 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
         let s1 = todo1.value(forKey: XYZTodo.sequenceNr) as? Int ?? 0
         let s2 = todo2.value(forKey: XYZTodo.sequenceNr) as? Int ?? 0
         
-        let dow1 = DayOfWeek(rawValue: g1)
-        let dow2 = DayOfWeek(rawValue: g2)
+        let dow1Index = ( DayOfWeek(rawValue: g1)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
+        let dow2Index = ( DayOfWeek(rawValue: g2)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
            
-        return dow1!.weekDayNr <= dow2!.weekDayNr
+        return dow1Index <= dow2Index
                && s1 <= s2
     }
 }
