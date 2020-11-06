@@ -12,37 +12,37 @@
 "Lo3-Xv-nKE.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "Todos"; ObjectID = "NyI-8z-OjC"; */
-"NyI-8z-OjC.title" = "任务";
+"NyI-8z-OjC.title" = "직무";
 
 /* Class = "UINavigationController"; title = "Todo navigator"; ObjectID = "QXH-OK-7Di"; */
 "QXH-OK-7Di.title" = "Todo navigator";
 
 /* Class = "UITabBarItem"; title = "More"; ObjectID = "WtT-uu-ZIB"; */
-"WtT-uu-ZIB.title" = "其他";
+"WtT-uu-ZIB.title" = "다른";
 
 /* Class = "UINavigationItem"; title = "About"; ObjectID = "YU7-sA-MZ4"; */
-"YU7-sA-MZ4.title" = "关于";
+"YU7-sA-MZ4.title" = "의 위에";
 
 /* Class = "UINavigationController"; title = "More navigator"; ObjectID = "bXL-D5-Q5N"; */
 "bXL-D5-Q5N.title" = "More navigator";
 
 /* Class = "UITableViewController"; title = "Todo detail"; ObjectID = "f3A-cf-vy6"; */
-"f3A-cf-vy6.title" = "任务细节";
+"f3A-cf-vy6.title" = "작업 세부 정보";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "fZo-Xh-PxK"; */
 "fZo-Xh-PxK.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "New todo"; ObjectID = "m2Q-Xy-AUJ"; */
-"m2Q-Xy-AUJ.title" = "新任务";
+"m2Q-Xy-AUJ.title" = "새 작업";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "tuV-GN-bn2"; */
 "tuV-GN-bn2.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "More"; ObjectID = "wDw-iJ-N5j"; */
-"wDw-iJ-N5j.title" = "更多";
+"wDw-iJ-N5j.title" = "다른";
 
 /* Class = "UITabBarItem"; title = "Todos"; ObjectID = "xsJ-JC-8r9"; */
-"xsJ-JC-8r9.title" = "任务";
+"xsJ-JC-8r9.title" = "직무";
 
 /* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "zKY-1g-0HE"; */
 "zKY-1g-0HE.title" = "Item";

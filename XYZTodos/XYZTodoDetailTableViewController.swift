@@ -239,7 +239,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                                                                    [other],
                                                                    [other.localized()])
                         
-                        selectionTableViewController.setSelectedItem(dowLocalized!)
+                        selectionTableViewController.setSelectedItem(dow!.rawValue)
                         selectionTableViewController.delegate = self
                         
                         let nav = UINavigationController(rootViewController: selectionTableViewController)

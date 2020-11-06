@@ -44,7 +44,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
         
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(named: "BackButton"), for: .normal)
-        backButton.setTitle(" \("Back")", for: .normal)
+        backButton.setTitle(" \("Back".localized())", for: .normal)
         backButton.setTitleColor(backButton.tintColor, for: .normal) // You can change the TitleColor
         backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
         
