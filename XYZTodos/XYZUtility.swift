@@ -91,7 +91,7 @@ enum DayOfWeek: String, CaseIterable {
                     dow = DayOfWeek.Saturday
                     
                 default:
-                    fatalError("Exception: out of bound")
+                    fatalError("Exception: out of bound in DayOfWeek subscript")
             }
             
             return dow

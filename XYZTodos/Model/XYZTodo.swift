@@ -5,10 +5,8 @@
 //  Created by Chee Bin Hoh on 10/31/20.
 //
 
-import os.log
 import Foundation
 import CoreData
-import CloudKit
 
 @objc(XYZTodo)
 class XYZTodo : NSManagedObject {
@@ -16,7 +14,6 @@ class XYZTodo : NSManagedObject {
     // MARK: - static property
     
     static let type = "XYZTodo"
-
     static let group = "group"
     static let sequenceNr = "sequenceNr"
     static let detail = "detail"

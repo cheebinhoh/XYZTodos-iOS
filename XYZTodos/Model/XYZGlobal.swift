@@ -5,10 +5,8 @@
 //  Created by Chee Bin Hoh on 11/1/20.
 //
 
-import os.log
 import Foundation
 import CoreData
-import CloudKit
 
 @objc(XYZGlobal)
 class XYZGlobal : NSManagedObject {
@@ -16,7 +14,6 @@ class XYZGlobal : NSManagedObject {
     // MARK: - static property
     
     static let type = "XYZGlobal"
-
     static let dow = "dow"
 
     
