@@ -54,5 +54,3 @@ func createDownDisclosureIndicatorImage() -> UIImageView {
 }
 
 
-
-

@@ -168,7 +168,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
                                 
             default:
                 fatalError("Unsupport more table view cell \(cellId)")
-                break;
         }
 
         return cell!

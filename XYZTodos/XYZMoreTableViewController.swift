@@ -118,7 +118,6 @@ class XYZMoreTableViewController: UITableViewController,
                         
                     default:
                         fatalError("Exception: unsupport cell id \(cellId)")
-                        break;
                 }
                 
             case "parameter":
@@ -137,7 +136,6 @@ class XYZMoreTableViewController: UITableViewController,
                     
                     default:
                         fatalError("Exception: unsupport cell id \(cellId)")
-                        break;
                 }
         
             default:
