@@ -477,15 +477,16 @@ class XYZTodoTableViewController: UITableViewController {
             
             let delete = UIContextualAction(style: .destructive, title: "Delete".localized()) { _, _, handler in
                 
+                let row = indexPath.row - 1
                 var section = self.sectionCellList[indexPath.section]
                 var todoGroup = section.data as! TodoGroup
                 
-                todoGroup.todos.remove(at: indexPath.row - 1)
+                todoGroup.todos.remove(at: row)
                 todoGroup.collapse = todoGroup.todos.isEmpty
                 section.data = todoGroup
                 self.sectionCellList[indexPath.section] = section
                 
-                deleteTodoFromManagedContext(group: section.identifier, sequenceNr: indexPath.row - 1)
+                deleteTodoFromManagedContext(group: section.identifier, sequenceNr: row)
                 
                 tableView.reloadData()
                 
@@ -522,16 +523,17 @@ class XYZTodoTableViewController: UITableViewController {
                 todoGroup?.todos = newTodos
             } else {
                 
-                let complete = todoGroup?.todos[indexPath.row - 1].complete
+                let row = indexPath.row - 1
+                let complete = todoGroup?.todos[row].complete
                 
-                todoGroup?.todos[indexPath.row - 1].complete = !(complete ?? true)
+                todoGroup?.todos[row].complete = !(complete ?? true)
                 
                 editTodoInManagedContext(oldGroup: self.sectionCellList[indexPath.section].identifier,
-                                         oldSequenceNr: indexPath.row - 1,
+                                         oldSequenceNr: row,
                                          newGroup: self.sectionCellList[indexPath.section].identifier,
-                                         newSequenceNr: indexPath.row - 1,
-                                         detail: todoGroup!.todos[indexPath.row - 1].detail,
-                                         complete: todoGroup!.todos[indexPath.row - 1].complete)
+                                         newSequenceNr: row,
+                                         detail: todoGroup!.todos[row].detail,
+                                         complete: todoGroup!.todos[row].complete)
             }
             
             self.sectionCellList[indexPath.section].data = todoGroup
@@ -561,16 +563,16 @@ class XYZTodoTableViewController: UITableViewController {
                 
         if editingStyle == .delete {
             // Delete the row from the data source
-            
+            let row = indexPath.row - 1
             var section = sectionCellList[indexPath.section]
             var todoGroup = section.data as! TodoGroup
             
-            todoGroup.todos.remove(at: indexPath.row - 1)
+            todoGroup.todos.remove(at: row)
             todoGroup.collapse = todoGroup.todos.isEmpty
             section.data = todoGroup
             sectionCellList[indexPath.section] = section
             
-            deleteTodoFromManagedContext(group: section.identifier, sequenceNr: indexPath.row - 1)
+            deleteTodoFromManagedContext(group: section.identifier, sequenceNr: row)
             
             tableView.reloadData()
         } else if editingStyle == .insert {
@@ -642,41 +644,6 @@ class XYZTodoTableViewController: UITableViewController {
                 toSectionTodoGroup!.collapse = false
                 toSection.data = toSectionTodoGroup
                 sectionCellList[to.section] = toSection
-                
-                
-                /*
-                let newToGroupIndex = toSectionTodoGroup!.todos.count
-                editTodoInManagedContext(oldGroup: fromSection.identifier,
-                                         oldSequenceNr: fromRow,
-                                         newGroup: toSection.identifier,
-                                         newSequenceNr: newToGroupIndex,
-                                         detail: todo.detail,
-                                         complete: false)
-                
-                toSectionTodoGroup!.todos.insert(todo, at: toRow)
-                
-                fromSectionTodoGroup!.collapse = fromSectionTodoGroup!.todos.isEmpty
-                fromSection.data = fromSectionTodoGroup
-                sectionCellList[fromIndexPath.section] = fromSection
-                
-                toSectionTodoGroup!.collapse = false
-                toSection.data = toSectionTodoGroup
-                sectionCellList[to.section] = toSection
-                
-                var toIndexBase = 0
-                for section in sectionCellList {
-                    
-                    if section.identifier == toSection.identifier {
-                        
-                        break
-                    }
-                    
-                    toIndexBase = toIndexBase + ( section.data as? TodoGroup )!.todos.count
-                }
-                
-                moveTodoInManagedContext(fromIndex: toIndexBase + newToGroupIndex,
-                                         toIndex: toIndexBase + toRow)
-                */
             }//  if fromIndexPath.section == to.section ... else
         }
 
@@ -695,7 +662,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         var target = proposedDestinationIndexPath
             
-        target.row = max( 1, target.row )
+        target.row = max(1, target.row)
         
         return target
     }
@@ -728,9 +695,10 @@ class XYZTodoTableViewController: UITableViewController {
                     fatalError("Exception: error in indexPath")
                 }
                 
+                let row = indexPath.row - 1
                 let section = sectionCellList[indexPath.section]
                 let todoGroup = section.data as? TodoGroup
-                let todo = todoGroup!.todos[indexPath.row - 1]
+                let todo = todoGroup!.todos[row]
                 
                 todoDetalTableViewController.dow = todoGroup!.dow
                 todoDetalTableViewController.detail = todo.detail
