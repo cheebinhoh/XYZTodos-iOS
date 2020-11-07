@@ -7,8 +7,37 @@
 
 import UIKit
 
-class XYZMoreTableViewController: UITableViewController {
+class XYZMoreTableViewController: UITableViewController,
+                                  XYZSelectionDelegate {
+    
+    // MARK: - XYZSelectionDelegate
+    
+    func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
+        
+        let dow = DayOfWeek(rawValue: item!)!
+        
+        firstWeekDay = dow.weekDayNr
+        
+        guard let tabBarController = self.view.window?.rootViewController as? UITabBarController else {
+            
+            fatalError("Exception: UITabBarController is expected" )
+        }
+        
+        guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
+            
+            fatalError("Exception: UINavigationController is expected")
+        }
+        
+        guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
+            
+            fatalError("Exception: XYZTodoTableViewController is expected" )
+        }
+        
+        tableViewController.reloadData()
+        tableView.reloadData()
+    }
 
+    
     // MARK: - Property
     
     var sectionCellList = [TableViewSectionCell]()
@@ -23,6 +52,12 @@ class XYZMoreTableViewController: UITableViewController {
                                                 cellList: ["about"],
                                                 data: nil)
         sectionCellList.append(aboutSection)
+        
+        let paraSection = TableViewSectionCell(identifier: "parameter",
+                                               title: nil,
+                                               cellList: ["firstWeekDay"],
+                                               data: nil)
+        sectionCellList.append(paraSection)
     }
     
     override func viewDidLoad() {
@@ -85,6 +120,25 @@ class XYZMoreTableViewController: UITableViewController {
                         fatalError("Exception: unsupport cell id \(cellId)")
                         break;
                 }
+                
+            case "parameter":
+                switch cellId {
+                    
+                    case "firstWeekDay":
+                        guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreSelectionTableViewCell", for: indexPath) as? XYZSelectionTableViewCell else {
+                            
+                            fatalError("Exception: error on creating moreSelectionTableViewCell")
+                        }
+                        
+                        newcell.label.text = "\("First day of the week".localized())"
+                        newcell.setSelection(firstWeekDayLocalized)
+                    
+                        cell = newcell
+                    
+                    default:
+                        fatalError("Exception: unsupport cell id \(cellId)")
+                        break;
+                }
         
             default:
                 fatalError("Exception: unsupport section id \(sectionId)")
@@ -114,6 +168,35 @@ class XYZMoreTableViewController: UITableViewController {
                 switch cellId {
                     case "about":
                         showAbout()
+                        
+                    default:
+                        fatalError("Exception: unsupport cell id \(cellId)")
+                }
+                
+            case "parameter":
+                switch cellId {
+                    case "firstWeekDay":
+                        let dowsLocalized = DayOfWeek.allCasesStringLocalized
+                        let dows = DayOfWeek.allCasesString
+                        
+                        guard let selectionTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "selectionTableViewController") as? XYZSelectionTableViewController else {
+                            
+                            fatalError("Exception: error on instantiating SelectionNavigationController")
+                        }
+                        
+                        selectionTableViewController.selectionIdentifier = "dow"
+                        selectionTableViewController.setSelections("Day of week".localized(),
+                                                                   false,
+                                                                   dows,
+                                                                   dowsLocalized)
+                        
+                        selectionTableViewController.setSelectedItem(firstWeekDayLocalized)
+                        selectionTableViewController.delegate = self
+                        
+                        let nav = UINavigationController(rootViewController: selectionTableViewController)
+                        nav.modalPresentationStyle = .popover
+                        
+                        self.present(nav, animated: true, completion: nil)
                         
                     default:
                         fatalError("Exception: unsupport cell id \(cellId)")

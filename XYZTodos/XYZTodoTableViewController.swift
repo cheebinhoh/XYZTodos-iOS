@@ -233,7 +233,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                     data: nil)
             
             if hitStartOfTheWeek
-                || dayOfWeek.weekDayNr == Locale.current.calendar.firstWeekday {
+                || dayOfWeek.weekDayNr == firstWeekDay {
                 
                 hitStartOfTheWeek = true
                 sectionCellList.append(groupSection)

@@ -29,6 +29,25 @@ var todayDowLocalized: String {
     return dateFormat.string(from: today)
 }
 
+var firstWeekDayLocalized: String {
+    
+    return DayOfWeek[firstWeekDay].rawValue.localized()
+}
+
+var firstWeekDay: Int {
+    
+    get {
+        
+        let defaults = UserDefaults.standard;
+        return defaults.value(forKey: "firstWeekDay") as? Int ?? Locale.current.calendar.firstWeekday
+    }
+    
+    set {
+        
+        let defaults = UserDefaults.standard;
+        defaults.setValue(newValue, forKey: "firstWeekDay")
+    }
+}
 
 // MARK: - Type
 

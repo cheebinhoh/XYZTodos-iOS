@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let globalDow = DayOfWeek(rawValue: global?.value(forKey: XYZGlobal.dow) as? String ?? "")
         let refreshTodos = nil == globalDow
                             || ( globalDow != todayDoW
-                                    && todayDoW.weekDayNr == Locale.current.calendar.firstWeekday ) // New Monday :(
+                                    && todayDoW.weekDayNr == firstWeekDay ) // New Monday :(
 
         if refreshTodos {
             

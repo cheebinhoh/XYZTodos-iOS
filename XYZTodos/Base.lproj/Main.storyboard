@@ -41,6 +41,43 @@
                                     <outlet property="title" destination="Ehs-B3-DD5" id="wcX-u9-EV3"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="moreSelectionTableViewCell" rowHeight="50" id="Rb9-RU-1Xn" customClass="XYZSelectionTableViewCell" customModule="XYZTodos" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="105.5" width="414" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rb9-RU-1Xn" id="vay-iv-dhd">
+                                    <rect key="frame" x="0.0" y="0.0" width="383" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="slT-cz-otn">
+                                            <rect key="frame" x="90" y="14.5" width="41" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcA-Xn-hcp">
+                                            <rect key="frame" x="20" y="15" width="50" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="Ky1-1e-m9X"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="hcA-Xn-hcp" firstAttribute="top" secondItem="vay-iv-dhd" secondAttribute="topMargin" constant="4" id="BZv-VG-i3l"/>
+                                        <constraint firstItem="hcA-Xn-hcp" firstAttribute="centerY" secondItem="vay-iv-dhd" secondAttribute="centerY" id="KlJ-Xm-oqt"/>
+                                        <constraint firstItem="slT-cz-otn" firstAttribute="leading" secondItem="hcA-Xn-hcp" secondAttribute="trailing" constant="20" id="dW9-44-gVI"/>
+                                        <constraint firstItem="hcA-Xn-hcp" firstAttribute="leading" secondItem="vay-iv-dhd" secondAttribute="leadingMargin" id="daT-Al-2K9"/>
+                                        <constraint firstItem="hcA-Xn-hcp" firstAttribute="baseline" secondItem="slT-cz-otn" secondAttribute="baseline" id="gSS-Hy-pfm"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="slT-cz-otn" secondAttribute="trailing" constant="20" symbolic="YES" id="haM-Rc-Rmt"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="label" destination="hcA-Xn-hcp" id="6mI-3b-Kw9"/>
+                                    <outlet property="selection" destination="slT-cz-otn" id="h0q-GO-oyX"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="3Sj-VC-GLO" id="eyv-LU-UCq"/>
@@ -51,7 +88,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0N-Oy-QbK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="310" y="-400"/>
+            <point key="canvasLocation" x="308.69565217391306" y="-400.44642857142856"/>
         </scene>
         <!--About-->
         <scene sceneID="Xu1-iN-8XZ">
