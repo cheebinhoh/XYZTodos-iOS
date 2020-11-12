@@ -73,7 +73,23 @@ class XYZTodoTableViewController: UITableViewController {
     
     
     // MARK: - Function
-
+    
+    func deleteRow(indexPath: IndexPath) {
+        
+        let row = indexPath.row - 1
+        var section = self.sectionCellList[indexPath.section]
+        var todoGroup = section.data as! TodoGroup
+        
+        todoGroup.todos.remove(at: row)
+        todoGroup.collapse = todoGroup.todos.isEmpty
+        section.data = todoGroup
+        self.sectionCellList[indexPath.section] = section
+        
+        deleteTodoFromManagedContext(group: section.identifier, sequenceNr: row)
+        
+        tableView.reloadData()
+    }
+    
     func editTodo(dow: DayOfWeek?,
                   detail: String,
                   existing indexPath: IndexPath) {
@@ -477,18 +493,7 @@ class XYZTodoTableViewController: UITableViewController {
             
             let delete = UIContextualAction(style: .destructive, title: "Delete".localized()) { _, _, handler in
                 
-                let row = indexPath.row - 1
-                var section = self.sectionCellList[indexPath.section]
-                var todoGroup = section.data as! TodoGroup
-                
-                todoGroup.todos.remove(at: row)
-                todoGroup.collapse = todoGroup.todos.isEmpty
-                section.data = todoGroup
-                self.sectionCellList[indexPath.section] = section
-                
-                deleteTodoFromManagedContext(group: section.identifier, sequenceNr: row)
-                
-                tableView.reloadData()
+                self.deleteRow(indexPath: indexPath)
                 
                 handler(true)
             }
@@ -563,18 +568,7 @@ class XYZTodoTableViewController: UITableViewController {
                 
         if editingStyle == .delete {
             // Delete the row from the data source
-            let row = indexPath.row - 1
-            var section = sectionCellList[indexPath.section]
-            var todoGroup = section.data as! TodoGroup
-            
-            todoGroup.todos.remove(at: row)
-            todoGroup.collapse = todoGroup.todos.isEmpty
-            section.data = todoGroup
-            sectionCellList[indexPath.section] = section
-            
-            deleteTodoFromManagedContext(group: section.identifier, sequenceNr: row)
-            
-            tableView.reloadData()
+            deleteRow(indexPath: indexPath)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
             
@@ -720,8 +714,10 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         let section = sectionCellList[indexPath.section]
-        let todoGroup = section.data as? TodoGroup
+        var todoGroup = section.data as? TodoGroup
         let detail = todoGroup!.todos[indexPath.row - 1].detail
+        let row = indexPath.row - 1
+        let complete = todoGroup?.todos[row].complete
         
         return UIContextMenuConfiguration( identifier: nil,
                                            previewProvider: {
@@ -756,8 +752,38 @@ class XYZTodoTableViewController: UITableViewController {
                                                 return viewController
                                            },
                                            actionProvider: { _ in
+                                                
+                                                let deleteAction = UIAction(title: "Delete".localized(),
+                                                                            image: nil,
+                                                                            identifier: nil,
+                                                                            discoverabilityTitle: nil,
+                                                                            attributes: UIMenuElement.Attributes.destructive,
+                                                                            state: .off) {_ in
+                                                    
+                                                    self.deleteRow(indexPath: indexPath)
+                                                }
+                                                
+                                                let completeAction = UIAction(title: "Done".localized(),
+                                                                              image: nil,
+                                                                              identifier: nil,
+                                                                              discoverabilityTitle: nil,
+                                                                              attributes: UIMenuElement.Attributes.init(),
+                                                                              state: complete! ? .on : .off) {_ in
+                                                    
+                                                    todoGroup?.todos[row].complete = !(complete!)
+
+                                                    editTodoInManagedContext(oldGroup: self.sectionCellList[indexPath.section].identifier,
+                                                                             oldSequenceNr: row,
+                                                                             newGroup: self.sectionCellList[indexPath.section].identifier,
+                                                                             newSequenceNr: row,
+                                                                             detail: todoGroup!.todos[row].detail,
+                                                                             complete: todoGroup!.todos[row].complete)
+                                                    
+                                                    self.sectionCellList[indexPath.section].data = todoGroup
+                                                    tableView.reloadData()
+                                                }
                                             
-                                                let children: [UIMenuElement] = []
+                                                let children = [completeAction, deleteAction]
                                             
                                                 return UIMenu(title: "", children: children)
                                            })
