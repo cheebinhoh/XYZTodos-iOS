@@ -123,7 +123,7 @@ enum DayOfWeek: String, CaseIterable {
             return dow.rawValue.localized()
         }
     }
-}
+} // enum DayOfWeek
 
 extension String {
     
