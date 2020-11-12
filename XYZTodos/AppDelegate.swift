@@ -38,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func reconciliateData() {
+    @discardableResult
+    func reconciliateData() -> Bool {
         
         let globalDow = DayOfWeek(rawValue: global?.value(forKey: XYZGlobal.dow) as? String ?? "")
         let refreshTodos = nil == globalDow
@@ -57,6 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         reconciliateTodoSequenceNr()
         
         saveManageContext()
+        
+        return refreshTodos
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

@@ -49,9 +49,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        appDelegate.reconciliateData()
-        tableViewController.reloadData()
-        tableViewController.expandTodos(dows: [])
+        if appDelegate.reconciliateData() {
+            
+            tableViewController.reloadData()
+            tableViewController.expandTodos(dows: [todayDoW])
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
