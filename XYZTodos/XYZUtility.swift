@@ -61,6 +61,11 @@ enum DayOfWeek: String, CaseIterable {
     case Friday
     case Saturday
     
+    var weekDayNr: Int {
+        
+        return DayOfWeek.allCasesString.firstIndex(of: self.rawValue)! + 1
+    }
+    
     static subscript(index: Int) -> DayOfWeek {
         
         get {
@@ -101,11 +106,6 @@ enum DayOfWeek: String, CaseIterable {
     static var lastWeekDayNr: Int {
         
         return DayOfWeek.allCasesString.count + 1
-    }
-    
-    var weekDayNr: Int {
-        
-        return DayOfWeek.allCasesString.firstIndex(of: self.rawValue)! + 1
     }
     
     static var allCasesString: [String] {
