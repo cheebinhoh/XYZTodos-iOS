@@ -83,10 +83,7 @@ class AppDelegate: UIResponder,
         center.requestAuthorization(options: options) {
           (granted, error) in
             
-            if !granted {
-            
-                print("--- something went wrong")
-            }
+            enableNotification = granted
         }
         
         center.delegate = self
@@ -446,8 +443,8 @@ func registerDeregisterNotification() {
             dateComponents.calendar = Calendar.current
             
             dateComponents.weekday = dow.weekDayNr
-            dateComponents.hour = 00
-            dateComponents.minute = 00
+            dateComponents.hour = 0
+            dateComponents.minute = 0
             
             let trigger = UNCalendarNotificationTrigger(
                 dateMatching: dateComponents, repeats: true)
