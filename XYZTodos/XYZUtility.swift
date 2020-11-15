@@ -49,6 +49,21 @@ var firstWeekDay: Int {
     }
 }
 
+var enableNotification: Bool {
+    
+    get {
+        
+        let defaults = UserDefaults.standard;
+        return defaults.value(forKey: "notification") as? Bool ?? false
+    }
+    
+    set {
+        
+        let defaults = UserDefaults.standard;
+        defaults.setValue(newValue, forKey: "notification")
+    }
+}
+
 // MARK: - Type
 
 enum DayOfWeek: String, CaseIterable {

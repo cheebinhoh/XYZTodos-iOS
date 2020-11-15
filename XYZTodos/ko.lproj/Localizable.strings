@@ -27,3 +27,11 @@
 "Day of week" = "요일";
 "Back" = "돌아가다";
 "First day of the week" = "요일";
+"First day of the week" = "Primer día de la semana";
+"You have todos on Monday" = "월요일에 할 일이 있습니다.";
+"You have todos on Tuesday" = "화요일에 할 일이 있습니다.";
+"You have todos on Wednesday" = "수요일에 할 일이 있습니다.";
+"You have todos on Thursday" = "목요일에 할 일이 있습니다.";
+"You have todos on Friday" = "금요일에 할 일이 있습니다.";
+"You have todos on Saturday" = "토요일에 할 일이 있습니다.";
+"You have todos on Sunday" = "일요일에 할 일이 있습니다.";

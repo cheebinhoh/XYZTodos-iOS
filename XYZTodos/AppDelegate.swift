@@ -8,9 +8,14 @@
 import UIKit
 import CoreData
 import CloudKit
+import NotificationCenter
+import UserNotifications
+import UserNotificationsUI
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder,
+                   UIApplicationDelegate,
+                   UNUserNotificationCenterDelegate {
 
     var todos: [XYZTodo]?
     var global: XYZGlobal?
@@ -68,11 +73,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         global = loadGlobalFromManagedContext();
         todos = loadTodosFromManagedContext()
         
-        printTodos(todos: todos!)
-        
         // reconciliate
-        self.reconciliateData()
-
+        reconciliateData()
+        
+        // notification
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .sound];
+        
+        center.requestAuthorization(options: options) {
+          (granted, error) in
+            
+            if !granted {
+            
+                print("--- something went wrong")
+            }
+        }
+        
+        center.delegate = self
+        registerDeregisterNotification()
+        
         return true
     }
 
@@ -143,6 +162,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+          didReceive response: UNNotificationResponse,
+          withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let scene = UIApplication.shared.connectedScenes.first
+        
+        guard let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) else {
+    
+            fatalError("Exception sceneDelegate is expected")
+        }
+        
+        guard let tabBarController = sd.window?.rootViewController as? UITabBarController else {
+            
+            fatalError("Exception: UITabBarController is expected" )
+        }
+        
+        guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
+            
+            fatalError("Exception: UINavigationController is expected")
+        }
+        
+        guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
+            
+            fatalError("Exception: XYZTodoTableViewController is expected" )
+        }
+        
+        tableViewController.reloadData()
+        tableViewController.expandTodos(dows: [todayDoW])
+        
+        completionHandler()
+    }
 }
 
 func managedContext() -> NSManagedObjectContext? {
@@ -245,8 +295,7 @@ func deleteTodoFromManagedContext(group: String,
     appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
-    
-    printTodos(todos: appDelegate.todos!)
+    registerDeregisterNotification()
 }
 
 func moveTodoInManagedContext(fromIndex: Int,
@@ -262,6 +311,7 @@ func moveTodoInManagedContext(fromIndex: Int,
     appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
+    registerDeregisterNotification()
 }
 
 func editTodoInManagedContext(oldGroup: String,
@@ -296,6 +346,7 @@ func editTodoInManagedContext(oldGroup: String,
     appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
+    registerDeregisterNotification()
 }
 
 func addTodoToManagedContext(group: String,
@@ -319,6 +370,7 @@ func addTodoToManagedContext(group: String,
     appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
+    registerDeregisterNotification()
 }
 
 func getTodosFromManagedContext() -> [XYZTodo] {
@@ -352,4 +404,64 @@ func printGlobal(global: XYZGlobal) {
     
     let dow = global.value(forKey: XYZGlobal.dow) as? String ?? ""
     print("dow = ", dow)
+}
+
+func registerDeregisterNotification() {
+    
+    print("-------- registerDeregisterNotification")
+    
+    // deregister
+    let center = UNUserNotificationCenter.current()
+    
+    center.removeAllPendingNotificationRequests()
+    
+    if enableNotification {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        //var dows: Set<DayOfWeek> = []
+        
+        let dows = appDelegate.todos!.reduce(Set<DayOfWeek>()) { (dows, todo) -> Set<DayOfWeek> in
+        
+            let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
+            var output = dows
+            
+            if let dow = DayOfWeek(rawValue: group) {
+
+                output.insert(dow)
+            }
+            
+            return output
+        }
+        
+        for dow in dows {
+            
+            let content = UNMutableNotificationContent()
+            content.title = "You have todos on \(dow.rawValue)".localized()
+            
+            var dateComponents = DateComponents()
+            dateComponents.calendar = Calendar.current
+            
+            dateComponents.weekday = dow.weekDayNr
+            dateComponents.hour = 00
+            dateComponents.minute = 00
+            
+            let trigger = UNCalendarNotificationTrigger(
+                dateMatching: dateComponents, repeats: true)
+            
+            let request = UNNotificationRequest(identifier: dow.rawValue,
+                        content: content, trigger: trigger)
+            
+            center.add(request) { (error) in
+                
+                if let error = error {
+                    
+                    print("-------- registerDeregisterNotification: error = \(error)")
+                }
+            }
+        }
+    }
 }

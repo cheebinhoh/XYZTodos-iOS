@@ -55,7 +55,7 @@ class XYZMoreTableViewController: UITableViewController,
         
         let paraSection = TableViewSectionCell(identifier: "parameter",
                                                title: nil,
-                                               cellList: ["firstWeekDay"],
+                                               cellList: ["notification", "firstWeekDay"],
                                                data: nil)
         sectionCellList.append(paraSection)
     }
@@ -122,7 +122,20 @@ class XYZMoreTableViewController: UITableViewController,
                 
             case "parameter":
                 switch cellId {
+                    case "notification":
+                        guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreTableViewCell", for: indexPath) as? XYZMoreTableViewCell else {
+                            
+                            fatalError("Exception: error on creating moreSelectionTableViewCell")
+                        }
+                        
+                        newcell.accessoryType = enableNotification ?
+                            UITableViewCell.AccessoryType.checkmark :
+                            UITableViewCell.AccessoryType.none
+                        
+                        newcell.title.text = "Notification".localized()
                     
+                        cell = newcell
+
                     case "firstWeekDay":
                         guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreSelectionTableViewCell", for: indexPath) as? XYZSelectionTableViewCell else {
                             
@@ -173,6 +186,12 @@ class XYZMoreTableViewController: UITableViewController,
                 
             case "parameter":
                 switch cellId {
+                    case "notification":
+                        enableNotification = !enableNotification
+                        registerDeregisterNotification()
+                        tableView.reloadRows(at: [indexPath], with: .none)
+                        
+                        
                     case "firstWeekDay":
                         let dowsLocalized = DayOfWeek.allCasesStringLocalized
                         let dows = DayOfWeek.allCasesString

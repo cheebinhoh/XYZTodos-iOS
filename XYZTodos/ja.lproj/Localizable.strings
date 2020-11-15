@@ -27,3 +27,10 @@
 "Day of week" = "曜日";
 "Back" = "戻る";
 "First day of the week" = "週の最初の日";
+"You have todos on Monday" = "月曜日にタスクがあります";
+"You have todos on Tuesday" = "火曜日にタスクがあります";
+"You have todos on Wednesday" = "水曜日にタスクがあります";
+"You have todos on Thursday" = "木曜日にタスクがあります";
+"You have todos on Friday" = "金曜日にタスクがあります";
+"You have todos on Saturday" = "土曜日にタスクがあります";
+"You have todos on Sunday" = "日曜日にタスクがあります";
