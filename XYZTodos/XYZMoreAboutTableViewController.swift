@@ -175,9 +175,9 @@ class XYZMoreAboutTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return section == 0 ? 35 : 17.5
+        return section == 0 ? 5 : 17.5
     }
-
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         return sectionCellList[section].title

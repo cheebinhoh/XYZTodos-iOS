@@ -26,7 +26,6 @@ class XYZSelectionTableViewController: UITableViewController {
     var caseInsensitive = false
     var selectionColors = [UIColor]()
     var readonly = false
-    var imageNames: [String]?
     var displayStrings = [String]()
 
     
@@ -117,11 +116,6 @@ class XYZSelectionTableViewController: UITableViewController {
         selectionColors = colors
     }
     
-    func setSelectionIcons(imageNames: [String]) {
-        
-        self.imageNames = imageNames
-    }
-    
     func setSelections(_ sectionIdentifier: String,
                        _ indexing: Bool,
                        _ selection: [String],
@@ -195,27 +189,6 @@ class XYZSelectionTableViewController: UITableViewController {
         if !selectionColors.isEmpty {
             
             cell.color = selectionColors[indexPath.row]
-        }
-        
-        if let _ = imageNames {
-            
-            let iconName = imageNames![indexPath.row]
-            
-            if iconName != "" {
-                
-                cell.icon.image = UIImage(named: imageNames![indexPath.row])
-                cell.icon.image = cell.icon.image?.withRenderingMode(.alwaysTemplate)
-                
-                if #available(iOS 13.0, *) {
-                    
-                    cell.icon.image?.withTintColor(UIColor.systemBlue)
-                } else {
-                    // Fallback on earlier versions
-                }
-            } else {
-                
-                cell.icon.image = UIImage(named: "bigemptyspace")
-            }
         }
         
         if tableSectionList[indexPath.section].cellList[indexPath.row] == self.selectedItem

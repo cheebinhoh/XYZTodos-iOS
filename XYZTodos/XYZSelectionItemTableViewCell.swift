@@ -10,8 +10,6 @@ import UIKit
 class XYZSelectionItemTableViewCell: UITableViewCell {
 
     @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var colorView: UIView!
-    @IBOutlet weak var icon: UIImageView!
     
     var color = UIColor.clear
     
@@ -25,7 +23,6 @@ class XYZSelectionItemTableViewCell: UITableViewCell {
         
         super.setSelected(selected, animated: animated)
 
-        colorView.backgroundColor = color
         // Configure the view for the selected state
     }
 
