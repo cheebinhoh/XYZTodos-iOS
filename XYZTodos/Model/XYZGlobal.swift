@@ -40,5 +40,4 @@ class XYZGlobal : NSManagedObject {
 
         super.init(entity: entity, insertInto: context)
     }
-    
 }

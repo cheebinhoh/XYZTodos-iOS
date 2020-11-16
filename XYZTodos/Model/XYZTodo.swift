@@ -52,5 +52,4 @@ class XYZTodo : NSManagedObject {
 
         super.init(entity: entity, insertInto: context)
     }
-    
 }
