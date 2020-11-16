@@ -24,7 +24,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
     
     // MARK: - XYZSelectionDelegate
     
-    func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
+    func selectedItem(_ item: String?,
+                      sender: XYZSelectionTableViewController) {
   
         dow = DayOfWeek(rawValue: item!)
         
@@ -137,13 +138,15 @@ class XYZTodoDetailTableViewController: UITableViewController,
         return sectionCellList.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
         return sectionCellList[section].cellList.count
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
         
         var height: CGFloat = 5.0
         
@@ -155,12 +158,14 @@ class XYZTodoDetailTableViewController: UITableViewController,
         return height
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            heightForFooterInSection section: Int) -> CGFloat {
         
         return 2.0
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         var cell: UITableViewCell?
         
@@ -209,7 +214,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
         return cell!
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
     
         let sectionId = sectionCellList[indexPath.section].identifier
         let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
@@ -294,7 +300,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue,
+                          sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
@@ -305,5 +312,4 @@ class XYZTodoDetailTableViewController: UITableViewController,
             return
         }
     }
-
 }

@@ -26,7 +26,8 @@ class XYZSelectionTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool,
+                              animated: Bool) {
         
         super.setSelected(selected, animated: animated)
         
@@ -47,5 +48,4 @@ class XYZSelectionTableViewCell: UITableViewCell {
     
         self.selection.textColor = color
     }
-
 }

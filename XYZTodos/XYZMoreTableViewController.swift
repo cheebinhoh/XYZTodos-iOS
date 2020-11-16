@@ -88,13 +88,15 @@ class XYZMoreTableViewController: UITableViewController,
         return sectionCellList.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
         return sectionCellList[section].cellList.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell?
         
@@ -168,7 +170,8 @@ class XYZMoreTableViewController: UITableViewController,
         self.present(moreAboutNavigator, animated: false, completion: nil)
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
         
         let sectionId = sectionCellList[indexPath.section].identifier
         let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
@@ -226,12 +229,14 @@ class XYZMoreTableViewController: UITableViewController,
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
         
         return section == 0 ? 35 : 17.5
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView,
+                            titleForHeaderInSection section: Int) -> String? {
         
         return sectionCellList[section].title
     }
@@ -280,5 +285,4 @@ class XYZMoreTableViewController: UITableViewController,
         // Pass the selected object to the new view controller.
     }
     */
-    
 }

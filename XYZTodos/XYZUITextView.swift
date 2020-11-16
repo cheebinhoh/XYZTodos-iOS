@@ -30,5 +30,4 @@ extension UITextField {
         
         self.resignFirstResponder()
     }
-    
 }

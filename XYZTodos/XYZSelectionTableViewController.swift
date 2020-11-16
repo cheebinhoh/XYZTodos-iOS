@@ -154,12 +154,14 @@ class XYZSelectionTableViewController: UITableViewController {
         return tableSectionList.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
                 
         return tableSectionList[section].cellList.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "selectionItemCell", for: indexPath) as? XYZSelectionItemTableViewCell else {
             
@@ -204,22 +206,26 @@ class XYZSelectionTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView,
+                            titleForHeaderInSection section: Int) -> String? {
         
         return tableSectionList[section].title?.localized()
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            heightForFooterInSection section: Int) -> CGFloat {
 
         return 0
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
         
         return section == 0 ? 35 : 17.5
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
 
         for (sectionIndex, section) in tableSectionList.enumerated() {
             
@@ -246,7 +252,9 @@ class XYZSelectionTableViewController: UITableViewController {
         return sectionTitles.isEmpty ? nil : sectionTitles
     }
     
-    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+    override func tableView(_ tableView: UITableView,
+                            sectionForSectionIndexTitle title: String,
+                            at index: Int) -> Int {
         
         guard let index = sectionTitles.firstIndex(of: title) else {
             
@@ -256,7 +264,8 @@ class XYZSelectionTableViewController: UITableViewController {
         return index
     }
     
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    override func tableView(_ tableView: UITableView,
+                            willSelectRowAt indexPath: IndexPath) -> IndexPath? {
 
         return readonly ? nil : indexPath
     }
