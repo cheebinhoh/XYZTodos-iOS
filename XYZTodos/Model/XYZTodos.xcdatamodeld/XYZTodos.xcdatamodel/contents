@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="20A5395g" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="XYZGlobal" representedClassName="XYZGlobal" syncable="YES">
         <attribute name="dow" optional="YES" attributeType="String"/>
     </entity>
@@ -10,7 +10,7 @@
         <attribute name="sequenceNr" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="XYZTodo" positionX="-2743.858459472657" positionY="-1594.702331542969" width="128" height="103"/>
-        <element name="XYZGlobal" positionX="-2745" positionY="-1557" width="128" height="44"/>
+        <element name="XYZGlobal" positionX="-3187.986083984375" positionY="-1657.514343261719" width="128" height="44"/>
+        <element name="XYZTodo" positionX="-3183.913085937501" positionY="-1557.401580810547" width="128" height="103"/>
     </elements>
 </model>
