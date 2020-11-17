@@ -10,7 +10,6 @@ import CoreData
 import CloudKit
 import NotificationCenter
 import UserNotifications
-import UserNotificationsUI
 
 @main
 class AppDelegate: UIResponder,
@@ -49,7 +48,7 @@ class AppDelegate: UIResponder,
         let globalDow = DayOfWeek(rawValue: global?.value(forKey: XYZGlobal.dow) as? String ?? "")
         let refreshTodos = nil == globalDow
                             || ( globalDow != todayDoW
-                                    && todayDoW.weekDayNr == firstWeekDay ) // New Monday :(
+                                 && todayDoW.weekDayNr == firstWeekDay )
 
         if refreshTodos {
             
@@ -79,10 +78,9 @@ class AppDelegate: UIResponder,
         
         // notification
         let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound];
+        let options: UNAuthorizationOptions = [.alert, .sound, .announcement, .badge];
         
-        center.requestAuthorization(options: options) {
-          (granted, error) in
+        center.requestAuthorization(options: options) { (granted, error) in
             
             enableNotification = granted
         }
@@ -169,7 +167,7 @@ class AppDelegate: UIResponder,
         
         let scene = UIApplication.shared.connectedScenes.first
         
-        guard let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) else {
+        guard let sd = (scene?.delegate as? SceneDelegate) else {
     
             fatalError("Exception sceneDelegate is expected")
         }
@@ -416,53 +414,53 @@ func registerDeregisterNotification() {
     
     center.removeAllPendingNotificationRequests()
     
-    if enableNotification {
+    guard enableNotification else {
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            
-            fatalError("Exception: AppDelegate is expected")
-        }
+        return
+    }
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
         
-        //var dows: Set<DayOfWeek> = []
+        fatalError("Exception: AppDelegate is expected")
+    }
+    
+    //var dows: Set<DayOfWeek> = []
+    
+    let dows = appDelegate.todos!.reduce(Set<DayOfWeek>()) { (dows, todo) -> Set<DayOfWeek> in
+    
+        let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
+        var output = dows
         
-        let dows = appDelegate.todos!.reduce(Set<DayOfWeek>()) { (dows, todo) -> Set<DayOfWeek> in
-        
-            let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
-            var output = dows
-            
-            if let dow = DayOfWeek(rawValue: group) {
+        if let dow = DayOfWeek(rawValue: group) {
 
-                output.insert(dow)
-            }
-            
-            return output
+            output.insert(dow)
         }
         
-        for dow in dows {
+        return output
+    }
+    
+    for dow in dows {
+        
+        let content = UNMutableNotificationContent()
+        content.title = "You have todos on \(dow.rawValue)".localized()
+        
+        var dateComponents = DateComponents()
+        dateComponents.calendar = Calendar.current
+        
+        dateComponents.weekday = dow.weekDayNr
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        let request = UNNotificationRequest(identifier: dow.rawValue, content: content, trigger: trigger)
+        
+        center.add(request) { (error) in
             
-            let content = UNMutableNotificationContent()
-            content.title = "You have todos on \(dow.rawValue)".localized()
-            
-            var dateComponents = DateComponents()
-            dateComponents.calendar = Calendar.current
-            
-            dateComponents.weekday = dow.weekDayNr
-            dateComponents.hour = 0
-            dateComponents.minute = 0
-            
-            let trigger = UNCalendarNotificationTrigger(
-                dateMatching: dateComponents, repeats: true)
-            
-            let request = UNNotificationRequest(identifier: dow.rawValue,
-                        content: content, trigger: trigger)
-            
-            center.add(request) { (error) in
+            if let error = error {
                 
-                if let error = error {
-                    
-                    print("-------- registerDeregisterNotification: error = \(error)")
-                }
+                print("-------- registerDeregisterNotification: error = \(error)")
             }
         }
     }
-}
+} // func registerDeregisterNotification()
