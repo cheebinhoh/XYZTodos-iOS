@@ -34,3 +34,5 @@
 "You have todos on Friday" = "你星期五有任务";
 "You have todos on Saturday" = "你星期六有任务";
 "You have todos on Sunday" = "你星期日有任务";
+"Cancel" = "取消";
+"Undo last change" = "撤消上次更改";
