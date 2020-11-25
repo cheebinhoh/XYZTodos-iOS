@@ -30,14 +30,14 @@ class AppDelegate: UIResponder,
         var lastGroup = ""
         for todo in appDelegate.todos! {
             
-            let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
+            let group = todo.group 
             if lastGroup == "" || lastGroup != group {
                 
                 lastGroup = group
                 index = 0
             }
             
-            todo.setValue(index, forKey: XYZTodo.sequenceNr)
+            todo.sequenceNr = index
             index += 1
         }
     }
@@ -45,7 +45,7 @@ class AppDelegate: UIResponder,
     @discardableResult
     func reconciliateData() -> Bool {
         
-        let globalDow = DayOfWeek(rawValue: global?.value(forKey: XYZGlobal.dow) as? String ?? "")
+        let globalDow = DayOfWeek(rawValue: global?.dow ?? "" )
         let refreshTodos = nil == globalDow
                             || ( globalDow != todayDoW
                                  && todayDoW.weekDayNr == firstWeekDay )
@@ -54,11 +54,11 @@ class AppDelegate: UIResponder,
             
             for todo in todos! {
    
-                todo.setValue(false, forKey: XYZTodo.complete)
+                todo.complete = false
             }
         }
         
-        global!.setValue(todayDoW.rawValue, forKey: XYZGlobal.dow)
+        global!.dow = todayDoW.rawValue
         reconciliateTodoSequenceNr()
         
         saveManageContext()
@@ -221,10 +221,10 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
     
     return todos.sorted { (todo1, todo2) -> Bool in
     
-        let g1 = todo1.value(forKey: XYZTodo.group) as? String ?? ""
-        let g2 = todo2.value(forKey: XYZTodo.group) as? String ?? ""
-        let s1 = todo1.value(forKey: XYZTodo.sequenceNr) as? Int ?? 0
-        let s2 = todo2.value(forKey: XYZTodo.sequenceNr) as? Int ?? 0
+        let g1 = todo1.group
+        let g2 = todo2.group
+        let s1 = todo1.sequenceNr
+        let s2 = todo2.sequenceNr
         
         let dow1Index = ( DayOfWeek(rawValue: g1)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
         let dow2Index = ( DayOfWeek(rawValue: g2)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
@@ -279,8 +279,8 @@ func deleteTodoFromManagedContext(group: String,
     
     guard let index = appDelegate.todos?.firstIndex(where: {
     
-        let gr = $0.value(forKey: XYZTodo.group) as? String ?? ""
-        let seqNr = $0.value(forKey: XYZTodo.sequenceNr) as? Int ?? -1
+        let gr = $0.group
+        let seqNr = $0.sequenceNr
         
         return group == gr && seqNr == sequenceNr
     }) else {
@@ -327,8 +327,8 @@ func editTodoInManagedContext(oldGroup: String,
     
     guard let todo = appDelegate.todos?.first(where: {
     
-        let gr = $0.value(forKey: XYZTodo.group) as? String ?? ""
-        let seqNr = $0.value(forKey: XYZTodo.sequenceNr) as? Int ?? -1
+        let gr = $0.group
+        let seqNr = $0.sequenceNr
         
         return oldGroup == gr && seqNr == oldSequenceNr
     }) else {
@@ -336,10 +336,10 @@ func editTodoInManagedContext(oldGroup: String,
         fatalError("Exception: todo is not found for \(oldGroup), \(oldSequenceNr)")
     }
     
-    todo.setValue(newGroup, forKey: XYZTodo.group)
-    todo.setValue(newSequenceNr, forKey: XYZTodo.sequenceNr)
-    todo.setValue(detail, forKey: XYZTodo.detail)
-    todo.setValue(complete, forKey: XYZTodo.complete)
+    todo.group = newGroup
+    todo.sequenceNr = newSequenceNr
+    todo.detail = detail
+    todo.complete = complete
 
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
     appDelegate.reconciliateTodoSequenceNr()
@@ -388,10 +388,10 @@ func printTodos(todos: [XYZTodo]) {
     
     for todo in todos {
         
-        let group = todo.value(forKey: XYZTodo.group) as? String ?? "_unknown_"
-        let sequenceNr = todo.value(forKey: XYZTodo.sequenceNr) as? Int ?? -1
-        let detail = todo.value(forKey: XYZTodo.detail) as? String ?? ""
-        let complete = todo.value(forKey: XYZTodo.complete) as? Bool ?? false
+        let group = todo.group
+        let sequenceNr = todo.sequenceNr
+        let detail = todo.detail
+        let complete = todo.complete
         
         print("group = \(group), sequenceNr = \(sequenceNr), detail = \(detail), complete = \(complete)")
     }
@@ -401,7 +401,7 @@ func printGlobal(global: XYZGlobal) {
     
     print("---- print global")
     
-    let dow = global.value(forKey: XYZGlobal.dow) as? String ?? ""
+    let dow = global.dow
     print("dow = ", dow)
 }
 
@@ -428,7 +428,7 @@ func registerDeregisterNotification() {
     
     let dows = appDelegate.todos!.reduce(Set<DayOfWeek>()) { (dows, todo) -> Set<DayOfWeek> in
     
-        let group = todo.value(forKey: XYZTodo.group) as? String ?? ""
+        let group = todo.group
         var output = dows
         
         if let dow = DayOfWeek(rawValue: group) {

@@ -19,7 +19,18 @@ class XYZGlobal : NSManagedObject {
     
     // MARK: - property
     
-    var dow = ""
+    var dow: String {
+        
+        get {
+           
+            return self.value(forKey: XYZGlobal.dow) as? String ?? ""
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZGlobal.dow)
+        }
+    }
     
     
     // MARK: - function
@@ -31,7 +42,7 @@ class XYZGlobal : NSManagedObject {
         
         super.init(entity: entity, insertInto: context!)
         
-        self.setValue(dow, forKey: XYZGlobal.dow)
+        self.dow = dow
     }
     
     override init(entity: NSEntityDescription,

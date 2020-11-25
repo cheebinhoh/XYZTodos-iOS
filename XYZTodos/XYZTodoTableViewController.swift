@@ -234,12 +234,12 @@ class XYZTodoTableViewController: UITableViewController {
             
             for todoInStored in todosInStored {
                 
-                let groupInStored = todoInStored.value(forKey: XYZTodo.group) as? String ?? other
+                let groupInStored = todoInStored.group 
                 
                 if dow == groupInStored {
                     
-                    let detail = todoInStored.value(forKey: XYZTodo.detail) as? String ?? ""
-                    let complete = todoInStored.value(forKey: XYZTodo.complete) as? Bool ?? false
+                    let detail = todoInStored.detail
+                    let complete = todoInStored.complete
                     
                     let todo = Todo(detail: detail, complete: complete)
                     group.todos.append(todo)

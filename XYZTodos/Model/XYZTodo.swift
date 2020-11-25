@@ -22,11 +22,57 @@ class XYZTodo : NSManagedObject {
     
     // MARK: - property
     
-    var group = ""
-    var sequenceNr = 0
-    var detail = ""
-    var complete = false
+    var group: String {
+        
+        get {
+            
+            return self.value(forKey: XYZTodo.group) as? String ?? ""
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZTodo.group)
+        }
+    }
     
+    var sequenceNr: Int {
+        
+        get {
+            
+            return self.value(forKey: XYZTodo.sequenceNr) as? Int ?? 0
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZTodo.sequenceNr)
+        }
+    }
+    
+    var detail: String {
+        
+        get {
+            
+            return self.value(forKey: XYZTodo.detail) as? String ?? ""
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZTodo.detail)
+        }
+    }
+    
+    var complete: Bool {
+        
+        get {
+            
+            return self.value(forKey: XYZTodo.complete) as? Bool ?? false
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZTodo.complete)
+        }
+    }
     
     // MARK: - function
     
@@ -39,11 +85,11 @@ class XYZTodo : NSManagedObject {
         let entity = NSEntityDescription.entity(forEntityName: XYZTodo.type, in: context!)!
         
         super.init(entity: entity, insertInto: context!)
-        
-        self.setValue(group, forKey: XYZTodo.group)
-        self.setValue(sequenceNr, forKey: XYZTodo.sequenceNr)
-        self.setValue(detail, forKey: XYZTodo.detail)
-        self.setValue(complete, forKey: XYZTodo.complete)
+    
+        self.group = group ?? ""
+        self.sequenceNr = sequenceNr
+        self.detail = detail
+        self.complete = complete
     }
     
     override init(entity: NSEntityDescription,
