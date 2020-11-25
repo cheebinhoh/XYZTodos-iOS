@@ -60,6 +60,28 @@ class XYZTodoTableViewController: UITableViewController {
         }
     }
     
+    override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        // code you want to implement
+        
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        // code here
+        
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let deleteOption = UIAlertAction(title: "Undo last change".localized(), style: .default, handler: { (action) in
+            
+            self.undoManager?.undo()
+            self.undoManager?.removeAllActions()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler:nil)
+        
+        optionMenu.addAction(deleteOption)
+        optionMenu.addAction(cancelAction)
+        
+        present(optionMenu, animated: true, completion: nil)
+    }
     
     //MARK: IBAction
     
@@ -85,6 +107,15 @@ class XYZTodoTableViewController: UITableViewController {
         let row = indexPath.row - 1
         var section = self.sectionCellList[indexPath.section]
         var todoGroup = section.data as! TodoGroup
+        
+        let detail = todoGroup.todos[row].detail
+        let complete = todoGroup.todos[row].complete
+        let dow = todoGroup.dow
+        
+        undoManager?.registerUndo(withTarget: self, handler: { (target) in
+            
+            self.addTodo(dow: dow, detail: detail, complete: complete)
+        })
         
         todoGroup.todos.remove(at: row)
         todoGroup.collapse = todoGroup.todos.isEmpty
@@ -153,7 +184,8 @@ class XYZTodoTableViewController: UITableViewController {
     }
     
     func addTodo(dow: DayOfWeek?,
-                 detail: String) {
+                 detail: String,
+                 complete: Bool = false) {
         
         let sectionId = dow?.rawValue ?? other
         
@@ -167,7 +199,7 @@ class XYZTodoTableViewController: UITableViewController {
             var section = sectionCellList[dowSectionIndex]
             var todoGroup = section.data as? TodoGroup
             
-            let todo = Todo(detail: detail, complete: false)
+            let todo = Todo(detail: detail, complete: complete)
             todoGroup?.todos.append(todo)
             todoGroup?.collapse = false
             
