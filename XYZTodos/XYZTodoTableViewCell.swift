@@ -15,7 +15,6 @@ class XYZTodoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
 
-    
     // MARK: - Function
     
     override func awakeFromNib() {

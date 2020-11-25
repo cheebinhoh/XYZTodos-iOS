@@ -114,6 +114,7 @@ class XYZMoreTableViewController: UITableViewController,
                             fatalError("Exception: error on creating moreTableViewCell")
                         }
                         
+                        newcell.disableSwitch()
                         newcell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
                         newcell.title.text = "About".localized()
                         cell = newcell
@@ -130,9 +131,17 @@ class XYZMoreTableViewController: UITableViewController,
                             fatalError("Exception: error on creating moreSelectionTableViewCell")
                         }
                         
-                        newcell.accessoryType = enableNotification ?
-                            UITableViewCell.AccessoryType.checkmark :
-                            UITableViewCell.AccessoryType.none
+                        newcell.enableSwitch(value: enableNotification) { (value) in
+                        
+                            enableNotification = value
+                            registerDeregisterNotification()
+                            self.tableView.reloadRows(at: [indexPath], with: .none)
+                        }
+                        
+                        //newcell.enableSwitch(value: enableNotification, action: <#T##(Bool) -> Void#>)
+                        //newcell.accessoryType = enableNotification ?
+                        ///    UITableViewCell.AccessoryType.checkmark :
+                        //    UITableViewCell.AccessoryType.none
                         
                         newcell.title.text = "Notification".localized()
                     
@@ -190,11 +199,8 @@ class XYZMoreTableViewController: UITableViewController,
             case "parameter":
                 switch cellId {
                     case "notification":
-                        enableNotification = !enableNotification
-                        registerDeregisterNotification()
-                        tableView.reloadRows(at: [indexPath], with: .none)
-                        
-                        
+                        break
+
                     case "firstWeekDay":
                         let dowsLocalized = DayOfWeek.allCasesStringLocalized
                         let dows = DayOfWeek.allCasesString
@@ -240,6 +246,28 @@ class XYZMoreTableViewController: UITableViewController,
         
         return sectionCellList[section].title
     }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+
+        let sectionId = sectionCellList[indexPath.section].identifier
+        let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
+        
+        switch sectionId {
+                
+            case "parameter":
+                switch cellId {
+                    case "notification":
+                        return nil
+                        
+                    default:
+                        return indexPath
+                }
+        
+            default:
+                return indexPath
+        }
+    }
+    
     
     /*
     // Override to support conditional editing of the table view.

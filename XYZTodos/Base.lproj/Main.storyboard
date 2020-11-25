@@ -24,20 +24,26 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ehs-B3-DD5">
-                                            <rect key="frame" x="20" y="15" width="374" height="20"/>
+                                            <rect key="frame" x="20" y="15" width="41.5" height="20"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PeA-Sl-KcJ">
+                                            <rect key="frame" x="331.5" y="11" width="51" height="31"/>
+                                        </switch>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="PeA-Sl-KcJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ehs-B3-DD5" secondAttribute="trailing" constant="8" symbolic="YES" id="1of-GA-68H"/>
                                         <constraint firstItem="Ehs-B3-DD5" firstAttribute="top" secondItem="fu2-Ne-8U0" secondAttribute="topMargin" constant="4" id="EfJ-Xq-FPZ"/>
-                                        <constraint firstItem="Ehs-B3-DD5" firstAttribute="trailing" secondItem="fu2-Ne-8U0" secondAttribute="trailingMargin" id="QX1-Sq-U0m"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="PeA-Sl-KcJ" secondAttribute="trailing" constant="13.5" id="Vgl-Zy-FbP"/>
                                         <constraint firstItem="Ehs-B3-DD5" firstAttribute="leading" secondItem="fu2-Ne-8U0" secondAttribute="leadingMargin" id="euS-2f-p87"/>
                                         <constraint firstItem="Ehs-B3-DD5" firstAttribute="centerY" secondItem="fu2-Ne-8U0" secondAttribute="centerY" id="r4i-VF-jqc"/>
+                                        <constraint firstItem="PeA-Sl-KcJ" firstAttribute="top" secondItem="fu2-Ne-8U0" secondAttribute="topMargin" id="whg-e7-CkL"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="onOff" destination="PeA-Sl-KcJ" id="8rx-6B-t0C"/>
                                     <outlet property="title" destination="Ehs-B3-DD5" id="wcX-u9-EV3"/>
                                 </connections>
                             </tableViewCell>
