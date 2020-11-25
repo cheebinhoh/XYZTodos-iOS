@@ -50,6 +50,12 @@ class XYZTodoTableViewController: UITableViewController {
                     return !todoGroup.collapse
                 }
             
+            if !hasNoCollapse {
+           
+                self.tableView.setEditing(false, animated: true)
+                self.setEditing(false, animated: true)
+            }
+            
             self.navigationItem.leftBarButtonItem?.isEnabled = hasNoCollapse
         }
     }
