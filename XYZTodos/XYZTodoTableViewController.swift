@@ -67,6 +67,11 @@ class XYZTodoTableViewController: UITableViewController {
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         // code here
+         
+        guard let canUndo = undoManager?.canUndo, canUndo else {
+        
+            return
+        }
         
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteOption = UIAlertAction(title: "Undo last change".localized(), style: .default, handler: { (action) in
