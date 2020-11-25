@@ -36,8 +36,7 @@ class XYZTodo : NSManagedObject {
          complete: Bool,
          context: NSManagedObjectContext?) {
 
-        let entity = NSEntityDescription.entity(forEntityName: XYZTodo.type,
-                                                in: context!)!
+        let entity = NSEntityDescription.entity(forEntityName: XYZTodo.type, in: context!)!
         
         super.init(entity: entity, insertInto: context!)
         

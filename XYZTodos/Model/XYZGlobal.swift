@@ -27,8 +27,7 @@ class XYZGlobal : NSManagedObject {
     init(dow: String,
          context: NSManagedObjectContext?) {
 
-        let entity = NSEntityDescription.entity(forEntityName: XYZGlobal.type,
-                                                in: context!)!
+        let entity = NSEntityDescription.entity(forEntityName: XYZGlobal.type, in: context!)!
         
         super.init(entity: entity, insertInto: context!)
         
