@@ -131,7 +131,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
                 
                 \u{A9} \("2020 Chee Bin HOH, All rights reserved".localized())
 
-
                 """
                 
                 let attributedCopyrightText = createAttributeText(text: copyRightText,
