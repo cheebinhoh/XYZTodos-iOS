@@ -552,7 +552,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         var commands = [UIContextualAction]()
         
-        let complete = UIContextualAction(style: .destructive, title: "Done".localized()) { _, _, handler in
+        let complete = UIContextualAction(style: .normal, title: "Done".localized()) { _, _, handler in
 
             var todoGroup = self.sectionCellList[indexPath.section].data as? TodoGroup
             let allTodos = indexPath.row <= 0
@@ -817,7 +817,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                     
                                                     todoGroup?.todos[row].complete = !(complete!)
 
-                                                    editTodoInManagedContext(oldGroup: self.sectionCellList[indexPath.section].identifier,
+                                                    editTodoInManagedContext(oldGroup:  self.sectionCellList[indexPath.section].identifier,
                                                                              oldSequenceNr: row,
                                                                              newGroup: self.sectionCellList[indexPath.section].identifier,
                                                                              newSequenceNr: row,
