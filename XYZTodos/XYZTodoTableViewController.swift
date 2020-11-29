@@ -798,8 +798,9 @@ class XYZTodoTableViewController: UITableViewController {
                                            },
                                            actionProvider: { _ in
                                                 
+                                                let deleteImage = UIImage(systemName: "delete.left")
                                                 let deleteAction = UIAction(title: "Delete".localized(),
-                                                                            image: nil,
+                                                                            image: deleteImage,
                                                                             identifier: nil,
                                                                             discoverabilityTitle: nil,
                                                                             attributes: UIMenuElement.Attributes.destructive,
