@@ -70,7 +70,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var editmode = false
     var indexPath: IndexPath?
     
-    
     // MARK: - Function
     
     func loadModelData() {
@@ -104,6 +103,16 @@ class XYZTodoDetailTableViewController: UITableViewController,
                                                  data: nil)
         
         sectionCellList.append(detailSection)
+        
+        if editmode {
+            
+            let deleteSection = TableViewSectionCell(identifier: "Delete",
+                                                     title: nil,
+                                                     cellList: ["delete"],
+                                                     data: nil)
+            
+            sectionCellList.append(deleteSection)
+        }
     }
     
     override func viewDidLoad() {
@@ -148,12 +157,14 @@ class XYZTodoDetailTableViewController: UITableViewController,
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
         
+        //return section == 0 ? 35.0 : 5.0
         var height: CGFloat = 5.0
-        
-        if section == 0 {
+    
+        if section == 0
+            || section == sectionCellList.count - 1 {
             
             height = 35.0
-        } 
+        }
         
         return height
     }
@@ -184,7 +195,24 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         
                         newcell.setSelection( dowLocalized ?? "" )
                         newcell.selectionStyle = .none
+                        newcell.accessoryType = .disclosureIndicator
+                        cell = newcell
+                        
+                    default:
+                        fatalError("Exception: unsupported cell id \(cellId)")
+                }
                 
+            case "Delete":
+                switch cellId {
+                    case "delete":
+                        guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoDetailSelectionTableViewCell", for: indexPath) as? XYZSelectionTableViewCell else {
+                            
+                            fatalError("Exception: error on creating todoTableViewCell")
+                        }
+                        
+                        newcell.setSelection( "Delete Todo".localized(), textColor: UIColor.systemRed )
+                        newcell.selectionStyle = .none
+                        newcell.accessoryType = .none
                         cell = newcell
                         
                     default:
@@ -256,6 +284,22 @@ class XYZTodoDetailTableViewController: UITableViewController,
                     default:
                         fatalError("Exception: unsupported cell id \(cellId)")
                 } // switch cellId 
+            
+            case "Delete":
+                switch cellId {
+                    case "delete" :
+                        navigationController?.popViewController(animated: true)
+                        guard let todoTableViewController = navigationController?.viewControllers.last as? XYZTodoTableViewController else {
+                            
+                            fatalError("Exception: XYZTodoTableViewController is expected")
+                        }
+                        
+                        todoTableViewController.deleteRow(indexPath: self.indexPath!)
+                        break
+                        
+                    default:
+                        fatalError("Exception: unsupported cell id \(cellId)")
+                }
         
             default:
                 fatalError("Exception: unsupported section id \(sectionId)")

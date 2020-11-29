@@ -743,7 +743,7 @@ class XYZTodoTableViewController: UITableViewController {
                 todoDetalTableViewController.detail = todo.detail
                 todoDetalTableViewController.editmode = true
                 todoDetalTableViewController.indexPath = indexPath
-                
+
             default:
                 break
         }
