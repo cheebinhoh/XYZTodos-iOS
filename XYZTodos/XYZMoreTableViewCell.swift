@@ -25,7 +25,8 @@ class XYZMoreTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func enableSwitch(value: Bool, action: @escaping (Bool) -> Void) {
+    func enableSwitch(value: Bool,
+                      action: @escaping (Bool) -> Void) {
         
         onOff.isOn = value
         onOff.isHidden = false

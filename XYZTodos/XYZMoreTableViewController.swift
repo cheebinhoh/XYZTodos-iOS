@@ -138,11 +138,6 @@ class XYZMoreTableViewController: UITableViewController,
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         }
                         
-                        //newcell.enableSwitch(value: enableNotification, action: <#T##(Bool) -> Void#>)
-                        //newcell.accessoryType = enableNotification ?
-                        ///    UITableViewCell.AccessoryType.checkmark :
-                        //    UITableViewCell.AccessoryType.none
-                        
                         newcell.title.text = "Notification".localized()
                     
                         cell = newcell
@@ -247,7 +242,8 @@ class XYZMoreTableViewController: UITableViewController,
         return sectionCellList[section].title
     }
     
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    override func tableView(_ tableView: UITableView,
+                            willSelectRowAt indexPath: IndexPath) -> IndexPath? {
 
         let sectionId = sectionCellList[indexPath.section].identifier
         let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
