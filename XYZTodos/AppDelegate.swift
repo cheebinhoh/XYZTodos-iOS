@@ -406,9 +406,7 @@ func printGlobal(global: XYZGlobal) {
 }
 
 func registerDeregisterNotification() {
-    
-    print("-------- registerDeregisterNotification")
-    
+
     // deregister
     let center = UNUserNotificationCenter.current()
     
@@ -423,8 +421,6 @@ func registerDeregisterNotification() {
         
         fatalError("Exception: AppDelegate is expected")
     }
-    
-    //var dows: Set<DayOfWeek> = []
     
     let dows = appDelegate.todos!.reduce(Set<DayOfWeek>()) { (dows, todo) -> Set<DayOfWeek> in
     
