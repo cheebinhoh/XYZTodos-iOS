@@ -173,9 +173,9 @@
 				65F06B54254B32EC00DB3E16 /* XYZUtility.swift */,
 				65A1E2162548DE7B00C92101 /* Assets.xcassets */,
 				65A1E21B2548DE7B00C92101 /* Info.plist */,
+				65F06B76254B45C500DB3E16 /* Localizable.strings */,
 				65A1E2182548DE7B00C92101 /* LaunchScreen.storyboard */,
 				65A1E2102548DE7900C92101 /* Main.storyboard */,
-				65F06B76254B45C500DB3E16 /* Localizable.strings */,
 			);
 			path = XYZTodos;
 			sourceTree = "<group>";
