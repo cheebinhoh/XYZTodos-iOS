@@ -88,8 +88,6 @@ class AppDelegate: UIResponder,
         center.delegate = self
         registerDeregisterNotification()
         
-        printTodos(todos: todos!)
-        
         return true
     }
 
