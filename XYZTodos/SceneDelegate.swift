@@ -18,6 +18,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        if let _ = connectionOptions.shortcutItem {
+                // Save it off for later when we become active.
+            
+            executeAddTodo()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -75,6 +81,36 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+    }
+    
+    func windowScene(_ windowScene: UIWindowScene,
+                     performActionFor shortcutItem: UIApplicationShortcutItem,
+                     completionHandler: @escaping (Bool) -> Void) {
+        
+        executeAddTodo()
+    }
+    
+    func executeAddTodo() {
+        
+        guard let tabBarController = self.window?.rootViewController as? UITabBarController else {
+            
+            fatalError("Exception: UITabBarController is expected" )
+        }
+        
+        guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
+            
+            fatalError("Exception: UINavigationController is expected")
+        }
+        
+        guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
+            
+            fatalError("Exception: XYZTodoTableViewController is expected" )
+        }
+        
+        DispatchQueue.main.async {
+         
+            tableViewController.performSegue(withIdentifier: "NewTodoDetail", sender: self)
+        }
     }
 }
 

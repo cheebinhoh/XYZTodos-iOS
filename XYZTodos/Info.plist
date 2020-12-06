@@ -39,6 +39,17 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeAdd</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>New_Todo_ShortcutMenu</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>NewTodo</string>
+		</dict>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
