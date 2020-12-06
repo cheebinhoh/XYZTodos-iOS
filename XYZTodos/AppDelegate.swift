@@ -88,6 +88,8 @@ class AppDelegate: UIResponder,
         center.delegate = self
         registerDeregisterNotification()
         
+        printTodos(todos: todos!)
+        
         return true
     }
 
@@ -220,7 +222,7 @@ func saveManageContext() {
 func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
     
     return todos.sorted { (todo1, todo2) -> Bool in
-    
+
         let g1 = todo1.group
         let g2 = todo2.group
         let s1 = todo1.sequenceNr
@@ -229,8 +231,9 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
         let dow1Index = ( DayOfWeek(rawValue: g1)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
         let dow2Index = ( DayOfWeek(rawValue: g2)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
            
-        return dow1Index <= dow2Index
-               && s1 <= s2
+        return dow1Index < dow2Index
+               || ( dow1Index == dow2Index
+                    && s1 < s2 )
     }
 }
 
