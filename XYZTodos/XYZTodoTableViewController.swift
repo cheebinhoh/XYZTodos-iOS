@@ -664,6 +664,9 @@ class XYZTodoTableViewController: UITableViewController {
                 // we add the todo to the last item of new section
                 // we then move the todo within that section to the intended position
                 
+                // we manipulate in a copy of sectioncelllist so that the didset only triggered once.
+                var copiedSectionCellList = sectionCellList;
+                
                 deleteTodoFromManagedContext(group: fromSection.identifier,
                                              sequenceNr: fromRow )
                 
@@ -676,11 +679,15 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 fromSectionTodoGroup!.collapse = fromSectionTodoGroup!.todos.isEmpty
                 fromSection.data = fromSectionTodoGroup
-                sectionCellList[fromIndexPath.section] = fromSection
+                //sectionCellList[fromIndexPath.section] = fromSection
+                copiedSectionCellList[fromIndexPath.section] = fromSection
                 
                 toSectionTodoGroup!.collapse = false
                 toSection.data = toSectionTodoGroup
-                sectionCellList[to.section] = toSection
+                //sectionCellList[to.section] = toSection
+                copiedSectionCellList[to.section] = toSection
+                
+                sectionCellList = copiedSectionCellList
             }//  if fromIndexPath.section == to.section ... else
         }
 

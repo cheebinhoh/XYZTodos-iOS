@@ -88,6 +88,7 @@ class AppDelegate: UIResponder,
         center.delegate = self
         registerDeregisterNotification()
         
+        //printTodos(todos: todos!)
         return true
     }
 
@@ -371,6 +372,8 @@ func addTodoToManagedContext(group: String,
     
     saveManageContext()
     registerDeregisterNotification()
+    
+    //printTodos(todos: appDelegate.todos!)
 }
 
 func getTodosFromManagedContext() -> [XYZTodo] {
