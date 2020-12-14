@@ -42,7 +42,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
             
             dowLocalized = dow.rawValue.localized()
         } else {
-            
+
             dowLocalized = other
         }
         

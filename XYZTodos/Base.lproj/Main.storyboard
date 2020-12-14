@@ -309,7 +309,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="400" verticalCompressionResistancePriority="400" placeholderIntrinsicWidth="394" placeholderIntrinsicHeight="300" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jfz-Pd-Ngc">
-                                            <rect key="frame" x="10" y="0.0" width="394" height="300.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="389" height="300.5"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" allowsDirectInteraction="YES"/>
                                             </accessibility>
@@ -323,7 +323,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Jfz-Pd-Ngc" secondAttribute="trailing" constant="10" id="ER0-oe-JWn"/>
-                                        <constraint firstItem="Jfz-Pd-Ngc" firstAttribute="leading" secondItem="GcJ-zW-BaV" secondAttribute="leading" constant="10" id="GyY-FS-i5u"/>
+                                        <constraint firstItem="Jfz-Pd-Ngc" firstAttribute="leading" secondItem="GcJ-zW-BaV" secondAttribute="leadingMargin" constant="-5" id="GyY-FS-i5u"/>
                                         <constraint firstItem="Jfz-Pd-Ngc" firstAttribute="top" secondItem="GcJ-zW-BaV" secondAttribute="top" id="apN-sQ-GKy"/>
                                         <constraint firstAttribute="bottom" secondItem="Jfz-Pd-Ngc" secondAttribute="bottom" id="zcz-cf-VcQ"/>
                                     </constraints>
