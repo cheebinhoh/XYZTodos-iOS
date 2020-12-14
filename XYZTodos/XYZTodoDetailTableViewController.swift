@@ -306,6 +306,9 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         
                         self.present(nav, animated: true, completion: nil)
                         
+                    case "time":
+                        break
+                        
                     default:
                         fatalError("Exception: unsupported cell id \(cellId)")
                 } // switch cellId 
