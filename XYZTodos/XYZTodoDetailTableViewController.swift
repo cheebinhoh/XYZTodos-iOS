@@ -21,6 +21,17 @@ class XYZTodoDetailTableViewController: UITableViewController,
     
     
     // MARK: - XYZTextViewTableViewCellDelegate
+    func textViewDidBeginEditing(sender: XYZTextViewTableViewCell) {
+    
+        editTextView = true
+        textViewCell = sender
+    }
+
+    func textViewDidEndEditing(sender: XYZTextViewTableViewCell) {
+    
+        editTextView =  false
+        textViewCell = nil
+    }
     
     func textViewDidChange(_ text: String, sender: XYZTextViewTableViewCell ) {
         
@@ -81,6 +92,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
     // communicate between detail view with list view
     var editmode = false
     var indexPath: IndexPath?
+    var editTextView = false
+    var textViewCell: XYZTextViewTableViewCell?
     
     // MARK: - Function
     func populateEditData(dow: DayOfWeek!,
@@ -292,6 +305,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
     
         let sectionId = sectionCellList[indexPath.section].identifier
         let cellId = sectionCellList[indexPath.section].cellList[indexPath.row]
+        
+        textViewCell?.textview.resignFirstResponder()
         
         switch sectionId {
         

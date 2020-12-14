@@ -11,6 +11,8 @@ import UIKit
 protocol XYZTextViewTableViewCellDelegate : class {
 
     func textViewDidChange(_ text: String, sender: XYZTextViewTableViewCell)
+    func textViewDidBeginEditing(sender: XYZTextViewTableViewCell)
+    func textViewDidEndEditing(sender: XYZTextViewTableViewCell)
 }
 
 class XYZTextViewTableViewCell: UITableViewCell,
@@ -66,6 +68,12 @@ class XYZTextViewTableViewCell: UITableViewCell,
     func textViewDidEndEditing(_ textView: UITextView) {
         
         delegate?.textViewDidChange(textview.text, sender: self)
+        delegate?.textViewDidEndEditing(sender: self)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        
+        delegate?.textViewDidBeginEditing(sender: self)
     }
     
     override func setSelected(_ selected: Bool,
