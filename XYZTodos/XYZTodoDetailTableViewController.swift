@@ -46,6 +46,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
             dowLocalized = other
         }
         
+        loadSectionCellData()
         tableView.reloadData()
     }
     
@@ -82,7 +83,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var indexPath: IndexPath?
     
     // MARK: - Function
-    func populateEditData(dow: DayOfWeek,
+    func populateEditData(dow: DayOfWeek!,
                           detail: String,
                           timeOn: Bool,
                           time: Date,
@@ -116,9 +117,16 @@ class XYZTodoDetailTableViewController: UITableViewController,
 
         sectionCellList = []
         
+        var timeList = ["dow"]
+        
+        if dow != nil {
+        
+            timeList.append("picktime")
+        }
+        
         let timeSection = TableViewSectionCell(identifier: "Time",
                                                 title: nil,
-                                                cellList: ["dow", "picktime"],
+                                                cellList: timeList,
                                                 data: nil)
         
         sectionCellList.append(timeSection)

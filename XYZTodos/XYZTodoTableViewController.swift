@@ -781,7 +781,7 @@ class XYZTodoTableViewController: UITableViewController {
                 let todoGroup = section.data as? TodoGroup
                 let todo = todoGroup!.todos[row]
                 
-                todoDetalTableViewController.populateEditData(dow: todoGroup!.dow!,
+                todoDetalTableViewController.populateEditData(dow: todoGroup!.dow,
                                                               detail: todo.detail,
                                                               timeOn: todo.timeOn,
                                                               time: todo.time,
