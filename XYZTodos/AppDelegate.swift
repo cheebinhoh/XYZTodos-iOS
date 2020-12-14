@@ -320,6 +320,8 @@ func editTodoInManagedContext(oldGroup: String,
                               newGroup: String,
                               newSequenceNr: Int,
                               detail: String,
+                              timeOn: Bool,
+                              time: Date,
                               complete: Bool) {
     
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -341,6 +343,8 @@ func editTodoInManagedContext(oldGroup: String,
     todo.group = newGroup
     todo.sequenceNr = newSequenceNr
     todo.detail = detail
+    todo.timeOn = timeOn
+    todo.time = time
     todo.complete = complete
 
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
@@ -399,9 +403,11 @@ func printTodos(todos: [XYZTodo]) {
         let group = todo.group
         let sequenceNr = todo.sequenceNr
         let detail = todo.detail
+        let timeOn = todo.timeOn
+        let time = todo.time
         let complete = todo.complete
         
-        print("group = \(group), sequenceNr = \(sequenceNr), detail = \(detail), complete = \(complete)")
+        print("group = \(group), sequenceNr = \(sequenceNr), detail = \(detail), timeOn = \(timeOn), time = \(time), complete = \(complete)")
     }
 }
 

@@ -16,9 +16,9 @@ class XYZTodoTableViewController: UITableViewController {
     struct Todo {
         
         var detail = ""
-        var complete = false
         var timeOn = false
         var time = Date()
+        var complete = false
     }
     
     struct TodoGroup {
@@ -98,7 +98,11 @@ class XYZTodoTableViewController: UITableViewController {
             
             if sourceViewController.editmode {
                 
-                editTodo(dow: sourceViewController.dow, detail: sourceViewController.detail!, existing: sourceViewController.indexPath!)
+                editTodo(dow: sourceViewController.dow,
+                         detail: sourceViewController.detail!,
+                         timeOn: sourceViewController.timeOn!,
+                         time: sourceViewController.time!,
+                         existing: sourceViewController.indexPath!)
             } else {
                 
                 addTodo(dow: sourceViewController.dow,
@@ -145,11 +149,13 @@ class XYZTodoTableViewController: UITableViewController {
     
     func editTodo(dow: DayOfWeek?,
                   detail: String,
+                  timeOn: Bool,
+                  time: Date,
                   existing indexPath: IndexPath) {
         
         let sectionId = dow?.rawValue ?? other
         var originalSection = sectionCellList[indexPath.section]
-        let todo = Todo(detail: detail, complete: false)
+        let todo = Todo(detail: detail, timeOn: timeOn, time: time, complete: false)
         
         if sectionId == originalSection.identifier {
             
@@ -166,6 +172,8 @@ class XYZTodoTableViewController: UITableViewController {
                                      newGroup: sectionId,
                                      newSequenceNr: originalRow,
                                      detail: detail,
+                                     timeOn: timeOn,
+                                     time: time,
                                      complete: false)
         } else {
             
@@ -193,6 +201,8 @@ class XYZTodoTableViewController: UITableViewController {
                                      newGroup: sectionId,
                                      newSequenceNr: targetTodoGroup.todos.count - 1,
                                      detail: detail,
+                                     timeOn: timeOn,
+                                     time: time,
                                      complete: false)
         } // if sectionId == originalSection.identifier
         
@@ -217,7 +227,7 @@ class XYZTodoTableViewController: UITableViewController {
             var section = sectionCellList[dowSectionIndex]
             var todoGroup = section.data as? TodoGroup
             
-            let todo = Todo(detail: detail, complete: complete)
+            let todo = Todo(detail: detail, timeOn: timeOn, time: time, complete: complete)
             todoGroup?.todos.append(todo)
             todoGroup?.collapse = false
             
@@ -255,8 +265,14 @@ class XYZTodoTableViewController: UITableViewController {
                     
                     let detail = todoInStored.detail
                     let complete = todoInStored.complete
+                    let timeOn = todoInStored.timeOn
+                    let time = todoInStored.time
                     
-                    let todo = Todo(detail: detail, complete: complete)
+                    let todo = Todo(detail: detail,
+                                    timeOn: timeOn,
+                                    time: time,
+                                    complete: complete)
+                    
                     group.todos.append(todo)
                 }
             }
@@ -596,6 +612,8 @@ class XYZTodoTableViewController: UITableViewController {
                                          newGroup: self.sectionCellList[indexPath.section].identifier,
                                          newSequenceNr: row,
                                          detail: todoGroup!.todos[row].detail,
+                                         timeOn: todoGroup!.todos[row].timeOn,
+                                         time: todoGroup!.todos[row].time,
                                          complete: todoGroup!.todos[row].complete)
             }
             
@@ -763,10 +781,11 @@ class XYZTodoTableViewController: UITableViewController {
                 let todoGroup = section.data as? TodoGroup
                 let todo = todoGroup!.todos[row]
                 
-                todoDetalTableViewController.dow = todoGroup!.dow
-                todoDetalTableViewController.detail = todo.detail
-                todoDetalTableViewController.editmode = true
-                todoDetalTableViewController.indexPath = indexPath
+                todoDetalTableViewController.populateEditData(dow: todoGroup!.dow!,
+                                                              detail: todo.detail,
+                                                              timeOn: todo.timeOn,
+                                                              time: todo.time,
+                                                              indexPath: indexPath)
 
             default:
                 break
@@ -847,6 +866,8 @@ class XYZTodoTableViewController: UITableViewController {
                                                                              newGroup: self.sectionCellList[indexPath.section].identifier,
                                                                              newSequenceNr: row,
                                                                              detail: todoGroup!.todos[row].detail,
+                                                                             timeOn: todoGroup!.todos[row].timeOn,
+                                                                             time: todoGroup!.todos[row].time,
                                                                              complete: todoGroup!.todos[row].complete)
                                                     
                                                     self.sectionCellList[indexPath.section].data = todoGroup

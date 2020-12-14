@@ -73,6 +73,19 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var indexPath: IndexPath?
     
     // MARK: - Function
+    func populateEditData(dow: DayOfWeek,
+                          detail: String,
+                          timeOn: Bool,
+                          time: Date,
+                          indexPath: IndexPath) {
+        
+        self.dow = dow
+        self.detail = detail
+        self.timeOn = timeOn
+        self.time = time
+        self.editmode = true
+        self.indexPath = indexPath
+    }
     
     func loadModelData() {
         
@@ -83,6 +96,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
             dowLocalized = todayDowLocalized
             dow = todayDoW
+            timeOn = false
             
             detail = ""
         }
