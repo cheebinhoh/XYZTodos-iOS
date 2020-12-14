@@ -448,14 +448,86 @@ func registerDeregisterNotification() {
         
         return output
     }
-    
-    for dow in dows {
+
+    var lastDoWMidNightNotificationInstalled = false
+    var lastDoW: DayOfWeek?
+    for todo in appDelegate.todos! {
         
+        let todoDow = DayOfWeek(rawValue: todo.group)
+        
+        if todoDow == nil
+            || ( !dows.contains(todoDow!) ) {
+            
+            continue
+        }
+        
+        if lastDoW != nil && lastDoW! != todoDow {
+            
+            lastDoWMidNightNotificationInstalled = false
+        }
+        
+        var timeComponent: DateComponents!
+        
+        if todo.timeOn {
+        
+            timeComponent = Calendar.current.dateComponents([.hour, .minute],
+                                                             from: todo.time)
+            
+        } else {
+        
+            if lastDoWMidNightNotificationInstalled {
+                
+                continue
+            }
+            
+            lastDoWMidNightNotificationInstalled = true
+        }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "You have todos on \(todoDow!.rawValue)".localized()
+        
+        var dateComponents = DateComponents()
+        dateComponents.calendar = Calendar.current
+        dateComponents.weekday = todoDow!.weekDayNr
+        dateComponents.hour = timeComponent?.hour ?? 0
+        dateComponents.minute = timeComponent?.minute ?? 0
+        
+        
+        print("---- \(dateComponents)")
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        let request = UNNotificationRequest(identifier:"\(todoDow!.rawValue)_\(String(describing: dateComponents.hour))_\(String(describing: dateComponents.minute))", content: content, trigger: trigger)
+        
+        center.add(request) { (error) in
+            
+            if let error = error {
+                
+                print("-------- registerDeregisterNotification: error = \(error)")
+            }
+        }
+        
+        lastDoW = todoDow
+    }
+    
+    /*
+    for dow in dows {
+    
         let content = UNMutableNotificationContent()
         content.title = "You have todos on \(dow.rawValue)".localized()
         
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
+        
+        /*
+        let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: Date())
+        let now = Calendar.current.date(from: nowComponents)
+        let afterHour = Calendar.current.date(byAdding: .minute, value: 2, to: now!)
+        
+        let nowComponents2 = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: afterHour!)
+        
+        print("===> \(nowComponents2)")
+        */
         
         dateComponents.weekday = dow.weekDayNr
         dateComponents.hour = 0
@@ -473,4 +545,5 @@ func registerDeregisterNotification() {
             }
         }
     }
+     */
 } // func registerDeregisterNotification()
