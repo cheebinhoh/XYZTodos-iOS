@@ -161,7 +161,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
         var height: CGFloat = 5.0
     
         if section == 0
-            || section == sectionCellList.count - 1 {
+            || ( editmode
+                 && section == sectionCellList.count - 1 ) {
             
             height = 35.0
         }
