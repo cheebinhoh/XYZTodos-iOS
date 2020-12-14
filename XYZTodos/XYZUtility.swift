@@ -150,4 +150,12 @@ extension String {
 
 extension Date {
     
+    static func nextHour(hour: Int = 1) -> Date {
+        
+        let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour], from: Date())
+        let now = Calendar.current.date(from: nowComponents)
+        let afterHour = Calendar.current.date(byAdding: .hour, value: hour, to: now!)
+        
+        return afterHour!
+    }
 }

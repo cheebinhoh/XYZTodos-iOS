@@ -79,7 +79,7 @@ class XYZTodo : NSManagedObject {
         
         get {
             
-            return self.value(forKey: XYZTodo.time) as? Date ?? Date()
+            return self.value(forKey: XYZTodo.time) as? Date ?? Date.nextHour()
         }
         
         set {

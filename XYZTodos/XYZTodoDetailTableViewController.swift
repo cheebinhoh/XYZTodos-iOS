@@ -9,7 +9,16 @@ import UIKit
 
 class XYZTodoDetailTableViewController: UITableViewController,
                                         XYZSelectionDelegate,
-                                        XYZTextViewTableViewCellDelegate {
+                                        XYZTextViewTableViewCellDelegate,
+                                        XYZTodoDetailTimeTableViewCellDelegate {
+    
+    // MARK: - XYZTodoDetailTimeTableViewCellDelegate
+    func timeChanged(select: Bool, time: Date, sender: XYZTodoDetailTimeTableViewCell) {
+      
+        self.timeOn = select
+        self.time = time
+    }
+    
     
     // MARK: - XYZTextViewTableViewCellDelegate
     
@@ -97,7 +106,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
             dowLocalized = todayDowLocalized
             dow = todayDoW
             timeOn = false
-            
+            time = Date.nextHour()
+
             detail = ""
         }
     }
@@ -221,6 +231,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
                             fatalError("Exception: error on creating todoDetailTimeTableViewCell")
                         }
                         
+                        newcell.setValues(select: timeOn!, time: time!)
+                        newcell.delegate = self
                         cell = newcell
                     
                     default:
@@ -306,7 +318,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         
                         self.present(nav, animated: true, completion: nil)
                         
-                    case "time":
+                    case "picktime":
                         break
                         
                     default:
