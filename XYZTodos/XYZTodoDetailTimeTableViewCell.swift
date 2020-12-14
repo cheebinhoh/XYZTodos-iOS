@@ -30,6 +30,10 @@ class XYZTodoDetailTimeTableViewCell: UITableViewCell {
     @IBAction func selectChanged(_ sender: Any) {
     
         timePicker.isEnabled = select.isOn
+
+        delegate?.timeChanged(select: select.isOn,
+                              time: timePicker.date,
+                              sender: self)
     }
     
     func setValues(select: Bool, time: Date) {
