@@ -353,11 +353,15 @@ func editTodoInManagedContext(oldGroup: String,
 func addTodoToManagedContext(group: String,
                              sequenceNr: Int,
                              detail: String,
+                             timeOn: Bool,
+                             time: Date,
                              complete: Bool) {
     
     let todo = XYZTodo(group: group,
                        sequenceNr: sequenceNr,
                        detail: detail,
+                       timeOn: timeOn,
+                       time: time,
                        complete: complete,
                        context: managedContext())
     

@@ -65,6 +65,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var dowLocalized: String?
     var dow: DayOfWeek?
     var detail: String?
+    var timeOn: Bool?
+    var time: Date?
     
     // communicate between detail view with list view
     var editmode = false
@@ -92,7 +94,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         let timeSection = TableViewSectionCell(identifier: "Time",
                                                 title: nil,
-                                                cellList: ["dow"],
+                                                cellList: ["dow", "picktime"],
                                                 data: nil)
         
         sectionCellList.append(timeSection)
@@ -199,6 +201,14 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         newcell.accessoryType = .disclosureIndicator
                         cell = newcell
                         
+                    case "picktime":
+                        guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoDetailTimeTableViewCell", for: indexPath) as? XYZTodoDetailTimeTableViewCell else {
+                            
+                            fatalError("Exception: error on creating todoDetailTimeTableViewCell")
+                        }
+                        
+                        cell = newcell
+                    
                     default:
                         fatalError("Exception: unsupported cell id \(cellId)")
                 }

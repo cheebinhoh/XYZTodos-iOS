@@ -18,7 +18,8 @@ class XYZTodo : NSManagedObject {
     static let sequenceNr = "sequenceNr"
     static let detail = "detail"
     static let complete = "complete"
-
+    static let time = "time"
+    static let timeOn = "timeOn"
     
     // MARK: - property
     
@@ -74,11 +75,39 @@ class XYZTodo : NSManagedObject {
         }
     }
     
+    var time: Date {
+        
+        get {
+            
+            return self.value(forKey: XYZTodo.time) as? Date ?? Date()
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZTodo.time)
+        }
+    }
+    
+    var timeOn: Bool {
+        
+        get {
+            
+            return self.value(forKey: XYZTodo.timeOn) as? Bool ?? false
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZTodo.timeOn)
+        }
+    }
+    
     // MARK: - function
     
     init(group: String?,
          sequenceNr: Int,
          detail: String,
+         timeOn: Bool,
+         time: Date,
          complete: Bool,
          context: NSManagedObjectContext?) {
 
@@ -89,6 +118,8 @@ class XYZTodo : NSManagedObject {
         self.group = group ?? ""
         self.sequenceNr = sequenceNr
         self.detail = detail
+        self.timeOn = timeOn
+        self.time = time
         self.complete = complete
     }
     

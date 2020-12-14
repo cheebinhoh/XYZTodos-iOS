@@ -17,6 +17,8 @@ class XYZTodoTableViewController: UITableViewController {
         
         var detail = ""
         var complete = false
+        var timeOn = false
+        var time = Date()
     }
     
     struct TodoGroup {
@@ -99,7 +101,10 @@ class XYZTodoTableViewController: UITableViewController {
                 editTodo(dow: sourceViewController.dow, detail: sourceViewController.detail!, existing: sourceViewController.indexPath!)
             } else {
                 
-                addTodo(dow: sourceViewController.dow, detail: sourceViewController.detail!)
+                addTodo(dow: sourceViewController.dow,
+                        detail: sourceViewController.detail!,
+                        timeOn: sourceViewController.timeOn!,
+                        time: sourceViewController.time!)
             }
         }
     }
@@ -116,10 +121,16 @@ class XYZTodoTableViewController: UITableViewController {
         let detail = todoGroup.todos[row].detail
         let complete = todoGroup.todos[row].complete
         let dow = todoGroup.dow
+        let timeOn = todoGroup.todos[row].timeOn
+        let time = todoGroup.todos[row].time
         
         undoManager?.registerUndo(withTarget: self, handler: { (target) in
             
-            self.addTodo(dow: dow, detail: detail, complete: complete)
+            self.addTodo(dow: dow,
+                         detail: detail,
+                         timeOn: timeOn,
+                         time: time,
+                         complete: complete)
         })
         
         todoGroup.todos.remove(at: row)
@@ -190,6 +201,8 @@ class XYZTodoTableViewController: UITableViewController {
     
     func addTodo(dow: DayOfWeek?,
                  detail: String,
+                 timeOn: Bool,
+                 time: Date,
                  complete: Bool = false) {
         
         let sectionId = dow?.rawValue ?? other
@@ -214,6 +227,8 @@ class XYZTodoTableViewController: UITableViewController {
             addTodoToManagedContext(group: sectionId,
                                     sequenceNr: todoGroup!.todos.count - 1,
                                     detail: detail,
+                                    timeOn: timeOn,
+                                    time: time,
                                     complete: false)
             
             tableView.reloadData()
@@ -673,6 +688,8 @@ class XYZTodoTableViewController: UITableViewController {
                 addTodoToManagedContext(group: toSection.identifier,
                                         sequenceNr: toRow,
                                         detail: todo.detail,
+                                        timeOn: todo.timeOn,
+                                        time: todo.time,
                                         complete: false)
                 
                 toSectionTodoGroup!.todos.insert(todo, at: toRow)

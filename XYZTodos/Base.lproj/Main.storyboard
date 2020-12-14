@@ -242,7 +242,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0AY-ex-tXC">
-                                            <rect key="frame" x="14" y="15" width="355" height="20"/>
+                                            <rect key="frame" x="20" y="15" width="343" height="20"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -251,7 +251,7 @@
                                     <constraints>
                                         <constraint firstItem="0AY-ex-tXC" firstAttribute="centerY" secondItem="wuZ-2I-eZs" secondAttribute="centerY" id="Rrx-6w-V4a"/>
                                         <constraint firstItem="0AY-ex-tXC" firstAttribute="top" secondItem="wuZ-2I-eZs" secondAttribute="topMargin" constant="4" id="VZP-bf-Mz3"/>
-                                        <constraint firstItem="0AY-ex-tXC" firstAttribute="leading" secondItem="wuZ-2I-eZs" secondAttribute="leadingMargin" constant="-6" id="cJy-Vl-3q4"/>
+                                        <constraint firstItem="0AY-ex-tXC" firstAttribute="leading" secondItem="wuZ-2I-eZs" secondAttribute="leadingMargin" id="cJy-Vl-3q4"/>
                                         <constraint firstItem="0AY-ex-tXC" firstAttribute="centerX" secondItem="wuZ-2I-eZs" secondAttribute="centerX" id="cz6-Al-3VF"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -267,13 +267,39 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailTimeTableViewCell" rowHeight="50" id="sfT-Bk-8Zh">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailTimeTableViewCell" rowHeight="50" id="sfT-Bk-8Zh" customClass="XYZTodoDetailTimeTableViewCell" customModule="XYZTodos" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="155.5" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sfT-Bk-8Zh" id="qZ4-yX-oRf">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Avd-qr-RkO">
+                                            <rect key="frame" x="345" y="11" width="51" height="31"/>
+                                            <connections>
+                                                <action selector="selectChanged:" destination="sfT-Bk-8Zh" eventType="valueChanged" id="JQy-fV-LVw"/>
+                                            </connections>
+                                        </switch>
+                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="xH9-qu-x8I">
+                                            <rect key="frame" x="5" y="4" width="329" height="42"/>
+                                            <connections>
+                                                <action selector="timePickerChanged:" destination="sfT-Bk-8Zh" eventType="valueChanged" id="eHw-Aq-F02"/>
+                                            </connections>
+                                        </datePicker>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Avd-qr-RkO" firstAttribute="trailing" secondItem="qZ4-yX-oRf" secondAttribute="trailingMargin" id="8UP-bT-BCv"/>
+                                        <constraint firstItem="xH9-qu-x8I" firstAttribute="top" secondItem="qZ4-yX-oRf" secondAttribute="top" constant="4" id="V37-jF-J7a"/>
+                                        <constraint firstAttribute="trailing" secondItem="xH9-qu-x8I" secondAttribute="trailing" constant="80" id="f0N-dr-JAQ"/>
+                                        <constraint firstAttribute="bottom" secondItem="xH9-qu-x8I" secondAttribute="bottom" constant="4" id="kFx-Aa-vp8"/>
+                                        <constraint firstItem="xH9-qu-x8I" firstAttribute="leading" secondItem="qZ4-yX-oRf" secondAttribute="leading" constant="5" id="log-DU-khZ"/>
+                                        <constraint firstItem="Avd-qr-RkO" firstAttribute="top" secondItem="qZ4-yX-oRf" secondAttribute="topMargin" id="yyB-95-01h"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="select" destination="Avd-qr-RkO" id="uHn-Vm-DOk"/>
+                                    <outlet property="timePicker" destination="xH9-qu-x8I" id="5MQ-4G-FPv"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoDetailTextViewTableViewCell" id="sF5-5R-28K" customClass="XYZTextViewTableViewCell" customModule="XYZTodos" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="205.5" width="414" height="300.5"/>

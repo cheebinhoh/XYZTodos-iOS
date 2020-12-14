@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		652301FC257C5D8F0007D894 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 652301FE257C5D8F0007D894 /* InfoPlist.strings */; };
+		6523022A2587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652302292587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift */; };
 		653B9F91254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */; };
 		653B9F96254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */; };
 		653B9FA3254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9FA2254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift */; };
@@ -61,6 +62,7 @@
 		65230201257C5D960007D894 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65230202257C5D980007D894 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		65230206257C5F1B0007D894 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		652302292587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodoDetailTimeTableViewCell.swift; sourceTree = "<group>"; };
 		653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreTableViewCell.swift; sourceTree = "<group>"; };
 		653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreAboutTableViewController.swift; sourceTree = "<group>"; };
 		653B9FA2254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreAboutTableViewCell.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				65F06BAE254CC24A00DB3E16 /* XYZTodoDetailTableViewController.swift */,
 				65A1E2682549FCA200C92101 /* XYZMoreTableViewController.swift */,
 				653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */,
+				652302292587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift */,
 				653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */,
 				653B9FA2254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift */,
 				65F06BDE254CE72600DB3E16 /* XYZSelectionTableViewCell.swift */,
@@ -356,6 +359,7 @@
 				653B9F96254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift in Sources */,
 				65F06B8A254B5EB200DB3E16 /* XYZTodoTableViewCell.swift in Sources */,
 				65F06BB7254CD45500DB3E16 /* XYZTextViewTableViewCell.swift in Sources */,
+				6523022A2587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift in Sources */,
 				65A1E20F2548DE7900C92101 /* ViewController.swift in Sources */,
 				65F06B55254B32EC00DB3E16 /* XYZUtility.swift in Sources */,
 				65F06B82254B5E8B00DB3E16 /* XYZTodoTableViewController.swift in Sources */,
