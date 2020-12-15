@@ -471,15 +471,13 @@ func registerDeregisterNotification() {
         
         let content = UNMutableNotificationContent()
         content.title = "You have todos on \(todoDow!.rawValue)".localized()
+        content.body = todo.detail
         
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
         dateComponents.weekday = todoDow!.weekDayNr
         dateComponents.hour = timeComponent?.hour ?? 0
         dateComponents.minute = timeComponent?.minute ?? 0
-        
-        
-        print("---- \(dateComponents)")
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
