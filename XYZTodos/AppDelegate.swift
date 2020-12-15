@@ -470,14 +470,30 @@ func registerDeregisterNotification() {
         }
         
         let content = UNMutableNotificationContent()
-        content.title = "You have todos on \(todoDow!.rawValue)".localized()
-        content.body = todo.detail
-        
+
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
         dateComponents.weekday = todoDow!.weekDayNr
         dateComponents.hour = timeComponent?.hour ?? 0
         dateComponents.minute = timeComponent?.minute ?? 0
+        
+        if let timeComponent = timeComponent {
+        
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "HH:mm"
+            
+            content.title = "You have todo on \(todoDow!.rawValue)".localized() + " \(dateFormatter.string(from: todo.time))"
+            content.body = todo.detail
+            
+            dateComponents.hour = timeComponent.hour
+            dateComponents.minute = timeComponent.minute
+        } else {
+            
+            content.title = "You have todos on \(todoDow!.rawValue)".localized()
+            
+            dateComponents.hour = 0
+            dateComponents.minute = 0
+        }
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
