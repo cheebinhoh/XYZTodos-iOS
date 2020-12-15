@@ -480,7 +480,7 @@ func registerDeregisterNotification() {
         if let timeComponent = timeComponent {
         
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "HH:mm"
+            dateFormatter.dateFormat = "hh:mm a"
             
             content.title = "You have todo on \(todoDow!.rawValue)".localized() + " \(dateFormatter.string(from: todo.time))"
             content.body = todo.detail
