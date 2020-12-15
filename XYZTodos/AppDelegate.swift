@@ -435,19 +435,6 @@ func registerDeregisterNotification() {
         
         fatalError("Exception: AppDelegate is expected")
     }
-    
-    let dows = appDelegate.todos!.reduce(Set<DayOfWeek>()) { (dows, todo) -> Set<DayOfWeek> in
-    
-        let group = todo.group
-        var output = dows
-        
-        if let dow = DayOfWeek(rawValue: group) {
-
-            output.insert(dow)
-        }
-        
-        return output
-    }
 
     var lastDoWMidNightNotificationInstalled = false
     var lastDoW: DayOfWeek?
@@ -455,8 +442,7 @@ func registerDeregisterNotification() {
         
         let todoDow = DayOfWeek(rawValue: todo.group)
         
-        if todoDow == nil
-            || ( !dows.contains(todoDow!) ) {
+        if todoDow == nil {
             
             continue
         }
@@ -509,41 +495,4 @@ func registerDeregisterNotification() {
         
         lastDoW = todoDow
     }
-    
-    /*
-    for dow in dows {
-    
-        let content = UNMutableNotificationContent()
-        content.title = "You have todos on \(dow.rawValue)".localized()
-        
-        var dateComponents = DateComponents()
-        dateComponents.calendar = Calendar.current
-        
-        /*
-        let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: Date())
-        let now = Calendar.current.date(from: nowComponents)
-        let afterHour = Calendar.current.date(byAdding: .minute, value: 2, to: now!)
-        
-        let nowComponents2 = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: afterHour!)
-        
-        print("===> \(nowComponents2)")
-        */
-        
-        dateComponents.weekday = dow.weekDayNr
-        dateComponents.hour = 0
-        dateComponents.minute = 0
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        
-        let request = UNNotificationRequest(identifier: dow.rawValue, content: content, trigger: trigger)
-        
-        center.add(request) { (error) in
-            
-            if let error = error {
-                
-                print("-------- registerDeregisterNotification: error = \(error)")
-            }
-        }
-    }
-     */
 } // func registerDeregisterNotification()

@@ -30,16 +30,17 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PeA-Sl-KcJ">
-                                            <rect key="frame" x="331.5" y="11" width="51" height="31"/>
+                                            <rect key="frame" x="331.5" y="10" width="51" height="30"/>
                                         </switch>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="PeA-Sl-KcJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ehs-B3-DD5" secondAttribute="trailing" constant="8" symbolic="YES" id="1of-GA-68H"/>
+                                        <constraint firstAttribute="bottom" secondItem="PeA-Sl-KcJ" secondAttribute="bottom" constant="10" id="51k-a5-YD4"/>
                                         <constraint firstItem="Ehs-B3-DD5" firstAttribute="top" secondItem="fu2-Ne-8U0" secondAttribute="topMargin" constant="4" id="EfJ-Xq-FPZ"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="PeA-Sl-KcJ" secondAttribute="trailing" constant="13.5" id="Vgl-Zy-FbP"/>
                                         <constraint firstItem="Ehs-B3-DD5" firstAttribute="leading" secondItem="fu2-Ne-8U0" secondAttribute="leadingMargin" id="euS-2f-p87"/>
                                         <constraint firstItem="Ehs-B3-DD5" firstAttribute="centerY" secondItem="fu2-Ne-8U0" secondAttribute="centerY" id="r4i-VF-jqc"/>
-                                        <constraint firstItem="PeA-Sl-KcJ" firstAttribute="top" secondItem="fu2-Ne-8U0" secondAttribute="topMargin" id="whg-e7-CkL"/>
+                                        <constraint firstItem="PeA-Sl-KcJ" firstAttribute="top" secondItem="fu2-Ne-8U0" secondAttribute="top" constant="10" id="yXb-gM-zUt"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -274,26 +275,27 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Avd-qr-RkO">
-                                            <rect key="frame" x="345" y="11" width="51" height="31"/>
-                                            <connections>
-                                                <action selector="selectChanged:" destination="sfT-Bk-8Zh" eventType="valueChanged" id="JQy-fV-LVw"/>
-                                            </connections>
-                                        </switch>
                                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="xH9-qu-x8I">
                                             <rect key="frame" x="5" y="4" width="329" height="42"/>
                                             <connections>
                                                 <action selector="timePickerChanged:" destination="sfT-Bk-8Zh" eventType="valueChanged" id="eHw-Aq-F02"/>
                                             </connections>
                                         </datePicker>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Avd-qr-RkO">
+                                            <rect key="frame" x="345" y="10" width="51" height="30"/>
+                                            <connections>
+                                                <action selector="selectChanged:" destination="sfT-Bk-8Zh" eventType="valueChanged" id="JQy-fV-LVw"/>
+                                            </connections>
+                                        </switch>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="Avd-qr-RkO" secondAttribute="bottom" constant="10" id="2iH-QN-Rtz"/>
                                         <constraint firstItem="Avd-qr-RkO" firstAttribute="trailing" secondItem="qZ4-yX-oRf" secondAttribute="trailingMargin" id="8UP-bT-BCv"/>
                                         <constraint firstItem="xH9-qu-x8I" firstAttribute="top" secondItem="qZ4-yX-oRf" secondAttribute="top" constant="4" id="V37-jF-J7a"/>
                                         <constraint firstAttribute="trailing" secondItem="xH9-qu-x8I" secondAttribute="trailing" constant="80" id="f0N-dr-JAQ"/>
+                                        <constraint firstItem="Avd-qr-RkO" firstAttribute="top" secondItem="qZ4-yX-oRf" secondAttribute="top" constant="10" id="jof-f5-HyM"/>
                                         <constraint firstAttribute="bottom" secondItem="xH9-qu-x8I" secondAttribute="bottom" constant="4" id="kFx-Aa-vp8"/>
                                         <constraint firstItem="xH9-qu-x8I" firstAttribute="leading" secondItem="qZ4-yX-oRf" secondAttribute="leading" constant="5" id="log-DU-khZ"/>
-                                        <constraint firstItem="Avd-qr-RkO" firstAttribute="top" secondItem="qZ4-yX-oRf" secondAttribute="topMargin" id="yyB-95-01h"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
