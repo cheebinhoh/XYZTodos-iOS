@@ -62,6 +62,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             tableViewController.reloadData()
             tableViewController.expandTodos(dows: [todayDoW])
         }
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

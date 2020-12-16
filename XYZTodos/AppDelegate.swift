@@ -88,6 +88,7 @@ class AppDelegate: UIResponder,
         center.delegate = self
         registerDeregisterNotification()
         
+        UIApplication.shared.applicationIconBadgeNumber = 0
         //printTodos(todos: todos!)
         return true
     }
@@ -192,6 +193,8 @@ class AppDelegate: UIResponder,
         tableViewController.expandTodos(dows: [todayDoW])
         
         completionHandler()
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 }
 
@@ -471,6 +474,8 @@ func registerDeregisterNotification() {
         
         let content = UNMutableNotificationContent()
 
+        content.badge = 1
+        
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
         dateComponents.weekday = todoDow!.weekDayNr
