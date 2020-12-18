@@ -99,9 +99,11 @@ class XYZMoreAboutTableViewController: UITableViewController {
                     fatalError("Exception: error on creating moreAboutTableViewCell")
                 }
                 
+                let appBundleName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? ""
+            
                 let appName = """
                 
-                \(Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "")
+                \(appBundleName.localized())
                 """
                 
                 let textVersion
