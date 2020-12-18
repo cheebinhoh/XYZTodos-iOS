@@ -82,7 +82,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        appDelegate.saveContext()
+        registerDeregisterNotification()
     }
     
     func windowScene(_ windowScene: UIWindowScene,

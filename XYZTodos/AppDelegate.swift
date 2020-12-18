@@ -195,6 +195,31 @@ class AppDelegate: UIResponder,
         completionHandler()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        switch response.actionIdentifier {
+            case "DONE_ACTION":
+                let reqIndex = Int(response.notification.request.identifier)
+                var index = 0
+                var todoFound: XYZTodo?
+                
+                for todo in todos! {
+                    if index == reqIndex {
+                    
+                        todoFound = todo
+                        break
+                    }
+                    
+                    index = index + 1
+                }
+                
+                if let todoFound = todoFound {
+                    
+                    todoFound.complete = true
+                }
+                
+            default:
+                break
+        }
     }
 }
 
@@ -434,11 +459,27 @@ func registerDeregisterNotification() {
         return
     }
     
+    let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
+                                          title: "Done".localized(),
+                                          options: UNNotificationActionOptions(rawValue: 0))
+
+    // Define the notification type
+    let meetingInviteCategory =
+          UNNotificationCategory(identifier: "TODO_ACTION",
+          actions: [doneAction],
+          intentIdentifiers: [],
+          hiddenPreviewsBodyPlaceholder: "",
+          options: .customDismissAction)
+
+    let notificationCenter = UNUserNotificationCenter.current()
+    notificationCenter.setNotificationCategories([meetingInviteCategory])
+    
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
         
         fatalError("Exception: AppDelegate is expected")
     }
 
+    var index = 0
     var lastDoWMidNightNotificationInstalled = false
     var lastDoW: DayOfWeek?
     for todo in appDelegate.todos! {
@@ -475,6 +516,7 @@ func registerDeregisterNotification() {
         let content = UNMutableNotificationContent()
 
         content.badge = 1
+        content.categoryIdentifier = "TODO_ACTION"
         
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
@@ -502,7 +544,7 @@ func registerDeregisterNotification() {
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
-        let request = UNNotificationRequest(identifier:"\(todoDow!.rawValue)_\(String(describing: dateComponents.hour))_\(String(describing: dateComponents.minute))", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier:"\(index)", content: content, trigger: trigger)
         
         center.add(request) { (error) in
             
@@ -513,5 +555,6 @@ func registerDeregisterNotification() {
         }
         
         lastDoW = todoDow
+        index = index + 1
     }
 } // func registerDeregisterNotification()
