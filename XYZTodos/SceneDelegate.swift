@@ -57,10 +57,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        if appDelegate.reconciliateData() {
+        if appDelegate.reconciliateData()
+            || appDelegate.needRefreshTodo {
             
             tableViewController.reloadData()
             tableViewController.expandTodos(dows: [todayDoW])
+            
+            appDelegate.needRefreshTodo = false
         }
         
         UIApplication.shared.applicationIconBadgeNumber = 0

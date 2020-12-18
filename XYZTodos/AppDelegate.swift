@@ -18,6 +18,7 @@ class AppDelegate: UIResponder,
 
     var todos: [XYZTodo]?
     var global: XYZGlobal?
+    var needRefreshTodo = false
     
     func reconciliateTodoSequenceNr() {
         
@@ -215,6 +216,8 @@ class AppDelegate: UIResponder,
                 if let todoFound = todoFound {
                     
                     todoFound.complete = true
+                    
+                    needRefreshTodo = true
                 }
                 
             default:
