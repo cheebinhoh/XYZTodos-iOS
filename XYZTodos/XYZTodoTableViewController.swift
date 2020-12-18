@@ -805,39 +805,32 @@ class XYZTodoTableViewController: UITableViewController {
         var todoGroup = section.data as? TodoGroup
         let detail = todoGroup!.todos[indexPath.row - 1].detail
         let row = indexPath.row - 1
+        let time = todoGroup?.todos[row].time
+        let timeOn = todoGroup?.todos[row].timeOn
         let complete = todoGroup?.todos[row].complete
         
         return UIContextMenuConfiguration( identifier: nil,
                                            previewProvider: {
-                                            
-                                                let viewController = UIViewController()
-                                                
-                                                // 1
-                                                let textview = UITextView()
-                                                textview.text = detail
-                                                textview.font = UIFont.systemFont(ofSize: 16)
-                                                textview.isScrollEnabled = true
-                                                textview.sizeToFit()
-                                                textview.translatesAutoresizingMaskIntoConstraints = true
-                                                textview.textContainer.maximumNumberOfLines = 0
-                                                textview.showsVerticalScrollIndicator = true
-                                                textview.isUserInteractionEnabled = true
-                                                textview.isSelectable = true
-                                                textview.isEditable = false 
-                                                //textview.scrollRangeToVisible(NSMakeRange(0, 0))
-                                            
-                                                // 2
-                                                textview.frame = CGRect(x: 0,
-                                                                        y: 0,
-                                                                        width: 420,
-                                                                        height: max( 400,
-                                                                                     textview.contentSize.height) )
-        
-                                                // 3
+                                        
                                                 //viewController.preferredContentSize = textview.frame.size
-                                                viewController.view = textview
+                                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                                guard let vc = storyboard.instantiateViewController(withIdentifier: "TodoPreview") as? XYZTodoPreviewViewController else {
+                                                    
+                                                    fatalError("Exception: XYZTodoPreviewViewController is expected")
+                                                }
                                             
-                                                return viewController
+                                                let dateFormatter = DateFormatter();
+                                            
+                                                dateFormatter.dateStyle = .none
+                                                dateFormatter.timeStyle = .short
+                                            
+                                                vc.loadView()
+                                                vc.time?.text = " " + ( time != nil ? dateFormatter.string(from: time!) : "-" )
+                                                vc.time.isHidden = !timeOn!
+                                                
+                                                vc.detail?.text = detail
+                                            
+                                                return vc
                                            },
                                            actionProvider: { _ in
                                                 
