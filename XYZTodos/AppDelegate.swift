@@ -200,23 +200,20 @@ class AppDelegate: UIResponder,
         switch response.actionIdentifier {
             case "DONE_ACTION":
                 let reqIndex = Int(response.notification.request.identifier)
-                var index = 0
                 var todoFound: XYZTodo?
                 
-                for todo in todos! {
+                for (index, todo) in todos!.enumerated() {
+                    
                     if index == reqIndex {
                     
                         todoFound = todo
                         break
                     }
-                    
-                    index = index + 1
                 }
                 
                 if let todoFound = todoFound {
                     
                     todoFound.complete = true
-                    
                     needRefreshTodo = true
                 }
                 
