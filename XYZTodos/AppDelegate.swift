@@ -537,7 +537,7 @@ func registerDeregisterNotification() {
             dateComponents.minute = timeComponent.minute
         } else {
             
-            content.title = "You have todos on \(todoDow!.rawValue)".localized()
+            content.title = "You have todo on \(todoDow!.rawValue)".localized()
             
             dateComponents.hour = 0
             dateComponents.minute = 0
