@@ -342,6 +342,11 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         self.present(nav, animated: true, completion: nil)
                         
                     case "picktime":
+                        if !(timeOn ?? false) {
+                            
+                            tableView.deselectRow(at: indexPath, animated: false)
+                        }
+                        
                         break
                         
                     default:
