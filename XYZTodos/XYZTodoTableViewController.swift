@@ -590,29 +590,21 @@ class XYZTodoTableViewController: UITableViewController {
                         handler(true)
                     })
                     
-                    for dow in DayOfWeek.allCasesStartWithSelectedDayOfWeek {
+                    for (index, section) in self.sectionCellList.enumerated() {
                         
-                        let dowLocalized = dow.rawValue.localized()
-                        var sectionIndex = 0
-                        var sectionFound: TableViewSectionCell?
-                        
-                        for (index, section) in self.sectionCellList.enumerated() {
-                            
-                            if section.identifier == dow.rawValue {
-                                
-                                sectionIndex = index
-                                sectionFound = section
-                            }
-                        }
-                        
+                        let dowLocalized = section.identifier.localized()
+    
                         let moveToDoW = UIAlertAction(title: dowLocalized, style: .default) { (_) in
                             
-                            let todoGroup = sectionFound?.data as? TodoGroup
+                            let todoGroup = section.data as? TodoGroup
                             
-                            let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: sectionIndex)
+                            let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: index)
                             
-                            self.tableView(self.tableView, moveRowAt: indexPath,
-                                           to: toIndexPath)
+                            if toIndexPath.section != indexPath.section {
+                                
+                                self.tableView(self.tableView, moveRowAt: indexPath,
+                                               to: toIndexPath)
+                            }
                         }
                         
                         moveToMenu.addAction(moveToDoW)
