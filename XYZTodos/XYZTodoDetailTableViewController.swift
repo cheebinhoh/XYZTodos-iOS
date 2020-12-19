@@ -314,8 +314,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
                 switch cellId {
                 
                     case "dow":
-                        let dowsLocalized = DayOfWeek.allCasesStringLocalized
-                        let dows = DayOfWeek.allCasesString
+                        let dowsLocalized = DayOfWeek.allCasesStringLocalizedStartWithSelectedDayOfWeek
+                        let dows = DayOfWeek.allCasesStringStartWithSelectedDayOfWeek
                         
                         guard let selectionTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "selectionTableViewController") as? XYZSelectionTableViewController else {
                             

@@ -138,6 +138,45 @@ enum DayOfWeek: String, CaseIterable {
             return dow.rawValue.localized()
         }
     }
+    
+    static var allCasesStringStartWithSelectedDayOfWeek: [String] {
+        
+        return DayOfWeek.allCasesStartWithSelectedDayOfWeek.map { (dow) -> String in
+        
+            return dow.rawValue
+        }
+    }
+    
+    static var allCasesStringLocalizedStartWithSelectedDayOfWeek: [String] {
+        
+        return DayOfWeek.allCasesStartWithSelectedDayOfWeek.map { (dow) -> String in
+        
+            return dow.rawValue.localized()
+        }
+    }
+    
+    static var allCasesStartWithSelectedDayOfWeek: [DayOfWeek] {
+        
+        var hitStartOfTheWeek = false
+        var daysOfWeek = [DayOfWeek]()
+        var nextIndex = 0
+        for dayOfWeek in DayOfWeek.allCases {
+
+            if hitStartOfTheWeek
+                || dayOfWeek.weekDayNr == firstWeekDay {
+                
+                hitStartOfTheWeek = true
+                
+                daysOfWeek.insert(dayOfWeek, at: nextIndex)
+                nextIndex = nextIndex + 1
+            } else {
+                
+                daysOfWeek.append(dayOfWeek)
+            }
+        }
+        
+        return daysOfWeek
+    }
 } // enum DayOfWeek
 
 extension String {

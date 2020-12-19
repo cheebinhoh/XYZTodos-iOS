@@ -76,7 +76,7 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteOption = UIAlertAction(title: "Undo last change".localized(), style: .default, handler: { (action) in
+        let undoLastChange = UIAlertAction(title: "Undo last change".localized(), style: .default, handler: { (action) in
             
             self.undoManager?.undo()
             self.undoManager?.removeAllActions()
@@ -84,7 +84,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler:nil)
         
-        optionMenu.addAction(deleteOption)
+        optionMenu.addAction(undoLastChange)
         optionMenu.addAction(cancelAction)
         
         present(optionMenu, animated: true, completion: nil)
@@ -573,6 +573,66 @@ class XYZTodoTableViewController: UITableViewController {
             }
             
             commands.append(delete)
+           
+            let more = UIContextualAction(style: .normal, title: "More".localized()) { _, _, handler in
+                
+                let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
+                    
+                    handler(true)
+                })
+                
+                let moveToAction = UIAlertAction(title: "Move to".localized(), style: .default, handler: { (action) in
+
+                    let moveToMenu = UIAlertController(title: "Move to".localized(), message: nil, preferredStyle: .actionSheet)
+                    let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
+                        
+                        handler(true)
+                    })
+                    
+                    for dow in DayOfWeek.allCasesStartWithSelectedDayOfWeek {
+                        
+                        let dowLocalized = dow.rawValue.localized()
+                        var sectionIndex = 0
+                        var sectionFound: TableViewSectionCell?
+                        
+                        for (index, section) in self.sectionCellList.enumerated() {
+                            
+                            if section.identifier == dow.rawValue {
+                                
+                                sectionIndex = index
+                                sectionFound = section
+                            }
+                        }
+                        
+                        let moveToDoW = UIAlertAction(title: dowLocalized, style: .default) { (_) in
+                            
+                            let todoGroup = sectionFound?.data as? TodoGroup
+                            
+                            let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: sectionIndex)
+                            
+                            self.tableView(self.tableView, moveRowAt: indexPath,
+                                           to: toIndexPath)
+                        }
+                        
+                        moveToMenu.addAction(moveToDoW)
+                    }
+                    
+                    moveToMenu.addAction(cancelMoveToAction)
+                    self.present(moveToMenu, animated: true, completion: nil)
+                    
+                    handler(true)
+                })
+                
+                optionMenu.addAction(moveToAction)
+                optionMenu.addAction(cancelAction)
+                
+                self.present(optionMenu, animated: true, completion: nil)
+     
+                handler(true)
+            }
+
+            commands.append(more)
         }
         
         return UISwipeActionsConfiguration(actions: commands)
@@ -825,9 +885,15 @@ class XYZTodoTableViewController: UITableViewController {
                                                 dateFormatter.timeStyle = .short
                                             
                                                 vc.loadView()
-                                                vc.time?.text = " " + ( time != nil ? dateFormatter.string(from: time!) : "-" )
-                                                vc.time.isHidden = !timeOn!
-                                                
+                                                if let time = time, let timeOn = timeOn, timeOn {
+                                                   
+                                                    vc.time?.text = " " + dateFormatter.string(from: time)
+                                                } else {
+                                                    
+                                                    vc.time.text = " -"
+                                                    vc.time.isHidden = true
+                                                }
+
                                                 vc.detail?.text = detail
                                             
                                                 return vc
