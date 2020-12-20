@@ -934,7 +934,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                                             image: nil,
                                                                             identifier: nil,
                                                                             discoverabilityTitle: nil,
-                                                                            attributes: UIMenuElement.Attributes.init(), state: complete! ? .on : .off) {_ in
+                                                                            attributes: UIMenuElement.Attributes.init(), state: .off) {_ in
                                                     
                                                     self.uiAlertActionToMoveTodo(from: indexPath)
                                                 }
