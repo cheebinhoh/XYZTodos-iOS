@@ -308,12 +308,9 @@ class XYZTodoTableViewController: UITableViewController {
     func loadSectionCellData() {
 
         sectionCellList = []
-        
-        var hitStartOfTheWeek = false
-        var trailingSectinoCellList = [TableViewSectionCell]()
-        
-        for dayOfWeek in DayOfWeek.allCases {
-        
+
+        for dayOfWeek in DayOfWeek.allCasesStartWithSelectedDayOfWeek {
+            
             let dow = dayOfWeek.rawValue
             let dowlocalized = dow.localized()
             
@@ -321,19 +318,8 @@ class XYZTodoTableViewController: UITableViewController {
                                                     title: nil,
                                                     cellList: [dowlocalized],
                                                     data: nil)
-            
-            if hitStartOfTheWeek
-                || dayOfWeek.weekDayNr == firstWeekDay {
-                
-                hitStartOfTheWeek = true
-                sectionCellList.append(groupSection)
-            } else {
-                
-                trailingSectinoCellList.append(groupSection)
-            }
+            sectionCellList.append(groupSection)
         }
-        
-        sectionCellList.append(contentsOf: trailingSectinoCellList)
         
         let groupSection = TableViewSectionCell(identifier: other,
                                                 title: nil,
@@ -599,7 +585,6 @@ class XYZTodoTableViewController: UITableViewController {
             let delete = UIContextualAction(style: .destructive, title: "Delete".localized()) { _, _, handler in
                 
                 self.deleteRow(indexPath: indexPath)
-                
                 handler(true)
             }
             
@@ -668,7 +653,6 @@ class XYZTodoTableViewController: UITableViewController {
             let moveToAction = UIAlertAction(title: "Move to".localized(), style: .default, handler: { (action) in
 
                 self.uiAlertActionToMoveTodo(from: indexPath)
-                
                 handler(true)
             })
             
@@ -771,17 +755,16 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 fromSectionTodoGroup!.collapse = fromSectionTodoGroup!.todos.isEmpty
                 fromSection.data = fromSectionTodoGroup
-                //sectionCellList[fromIndexPath.section] = fromSection
                 copiedSectionCellList[fromIndexPath.section] = fromSection
                 
                 toSectionTodoGroup!.collapse = false
                 toSection.data = toSectionTodoGroup
-                //sectionCellList[to.section] = toSection
                 copiedSectionCellList[to.section] = toSection
                 
                 sectionCellList = copiedSectionCellList
             }//  if fromIndexPath.section == to.section ... else
-        }
+        } // if let _ = fromSectionTodoGroup,
+             // let _ = toSectionTodoGroup
 
         tableView.reloadData()
     }
