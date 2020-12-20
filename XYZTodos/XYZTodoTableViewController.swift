@@ -878,13 +878,10 @@ class XYZTodoTableViewController: UITableViewController {
                                             
                                                 let dateFormatter = DateFormatter();
                                             
-                                                dateFormatter.dateStyle = .none
-                                                dateFormatter.timeStyle = .short
-                                            
                                                 vc.loadView()
                                                 if let time = time, let timeOn = timeOn, timeOn {
                                                    
-                                                    vc.time?.text = " " + dateFormatter.string(from: time)
+                                                    vc.time?.text = " " + dateFormatter.stringWithShortTime(from: time)
                                                 } else {
                                                     
                                                     vc.time.text = " -"

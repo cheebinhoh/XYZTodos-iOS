@@ -179,6 +179,17 @@ enum DayOfWeek: String, CaseIterable {
     }
 } // enum DayOfWeek
 
+extension DateFormatter {
+    
+    func stringWithShortTime(from date:Date) -> String {
+        
+        self.dateStyle = .none
+        self.timeStyle = .short
+    
+        return self.string(from: date)
+    }
+}
+
 extension String {
     
     func localized() -> String {
