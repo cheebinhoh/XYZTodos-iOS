@@ -235,6 +235,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
             case "Time":
                 switch cellId {
+                
                     case "dow":
                         guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoDetailSelectionTableViewCell", for: indexPath) as? XYZSelectionTableViewCell else {
                             
@@ -262,6 +263,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                 
             case "Delete":
                 switch cellId {
+                
                     case "delete":
                         guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoDetailSelectionTableViewCell", for: indexPath) as? XYZSelectionTableViewCell else {
                             
@@ -279,6 +281,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                 
             case "Detail":
                 switch cellId {
+                
                     case "text":
                         guard let newcell = tableView.dequeueReusableCell(withIdentifier: "todoDetailTextViewTableViewCell", for: indexPath) as? XYZTextViewTableViewCell else {
                             
@@ -355,6 +358,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
             
             case "Delete":
                 switch cellId {
+                
                     case "delete" :
                         navigationController?.popViewController(animated: true)
                         guard let todoTableViewController = navigationController?.viewControllers.last as? XYZTodoTableViewController else {

@@ -125,6 +125,7 @@ class XYZMoreTableViewController: UITableViewController,
                 
             case "parameter":
                 switch cellId {
+                
                     case "notification":
                         guard let newcell = tableView.dequeueReusableCell(withIdentifier: "moreTableViewCell", for: indexPath) as? XYZMoreTableViewCell else {
                             
@@ -184,6 +185,7 @@ class XYZMoreTableViewController: UITableViewController,
         
             case "about":
                 switch cellId {
+                
                     case "about":
                         showAbout()
                         
@@ -193,6 +195,7 @@ class XYZMoreTableViewController: UITableViewController,
                 
             case "parameter":
                 switch cellId {
+                
                     case "notification":
                         break
 
@@ -252,6 +255,7 @@ class XYZMoreTableViewController: UITableViewController,
                 
             case "parameter":
                 switch cellId {
+                
                     case "notification":
                         return nil
                         
