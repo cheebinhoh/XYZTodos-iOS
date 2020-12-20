@@ -557,6 +557,37 @@ class XYZTodoTableViewController: UITableViewController {
 
         return cell!
     }
+    
+    func uiAlertActionToMoveTodo(from indexPath:IndexPath) {
+        
+        let moveToMenu = UIAlertController(title: "Move to".localized(), message: nil, preferredStyle: .actionSheet)
+        let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
+            
+        })
+        
+        for (index, section) in self.sectionCellList.enumerated() {
+            
+            let dowLocalized = section.identifier.localized()
+
+            let moveToDoW = UIAlertAction(title: dowLocalized, style: .default) { (_) in
+                
+                let todoGroup = section.data as? TodoGroup
+                
+                let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: index)
+                
+                if toIndexPath.section != indexPath.section {
+                    
+                    self.tableView(self.tableView, moveRowAt: indexPath,
+                                   to: toIndexPath)
+                }
+            }
+            
+            moveToMenu.addAction(moveToDoW)
+        }
+        
+        moveToMenu.addAction(cancelMoveToAction)
+        self.present(moveToMenu, animated: true, completion: nil)
+    }
 
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -584,34 +615,7 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 let moveToAction = UIAlertAction(title: "Move to".localized(), style: .default, handler: { (action) in
 
-                    let moveToMenu = UIAlertController(title: "Move to".localized(), message: nil, preferredStyle: .actionSheet)
-                    let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
-                        
-                        handler(true)
-                    })
-                    
-                    for (index, section) in self.sectionCellList.enumerated() {
-                        
-                        let dowLocalized = section.identifier.localized()
-    
-                        let moveToDoW = UIAlertAction(title: dowLocalized, style: .default) { (_) in
-                            
-                            let todoGroup = section.data as? TodoGroup
-                            
-                            let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: index)
-                            
-                            if toIndexPath.section != indexPath.section {
-                                
-                                self.tableView(self.tableView, moveRowAt: indexPath,
-                                               to: toIndexPath)
-                            }
-                        }
-                        
-                        moveToMenu.addAction(moveToDoW)
-                    }
-                    
-                    moveToMenu.addAction(cancelMoveToAction)
-                    self.present(moveToMenu, animated: true, completion: nil)
+                    self.uiAlertActionToMoveTodo(from: indexPath)
                     
                     handler(true)
                 })
@@ -925,7 +929,16 @@ class XYZTodoTableViewController: UITableViewController {
                                                     tableView.reloadData()
                                                 }
                                             
-                                                let children = [completeAction, deleteAction]
+                                                let moveToAction = UIAction(title: "Move to".localized(),
+                                                                            image: nil,
+                                                                            identifier: nil,
+                                                                            discoverabilityTitle: nil,
+                                                                            attributes: UIMenuElement.Attributes.init(), state: complete! ? .on : .off) {_ in
+                                                    
+                                                    self.uiAlertActionToMoveTodo(from: indexPath)
+                                                }
+                                            
+                                                let children = [completeAction, moveToAction, deleteAction]
                                             
                                                 return UIMenu(title: "", children: children)
                                            })
