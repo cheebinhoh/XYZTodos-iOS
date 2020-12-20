@@ -604,31 +604,6 @@ class XYZTodoTableViewController: UITableViewController {
             }
             
             commands.append(delete)
-           
-            let more = UIContextualAction(style: .normal, title: "More".localized()) { _, _, handler in
-                
-                let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
-                    
-                    handler(true)
-                })
-                
-                let moveToAction = UIAlertAction(title: "Move to".localized(), style: .default, handler: { (action) in
-
-                    self.uiAlertActionToMoveTodo(from: indexPath)
-                    
-                    handler(true)
-                })
-                
-                optionMenu.addAction(moveToAction)
-                optionMenu.addAction(cancelAction)
-                
-                self.present(optionMenu, animated: true, completion: nil)
-     
-                handler(true)
-            }
-
-            commands.append(more)
         }
         
         return UISwipeActionsConfiguration(actions: commands)
@@ -682,6 +657,32 @@ class XYZTodoTableViewController: UITableViewController {
         complete.backgroundColor = UIColor.systemBlue
         commands.append(complete)
 
+        let more = UIContextualAction(style: .normal, title: "More".localized()) { _, _, handler in
+            
+            let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
+                
+                handler(true)
+            })
+            
+            let moveToAction = UIAlertAction(title: "Move to".localized(), style: .default, handler: { (action) in
+
+                self.uiAlertActionToMoveTodo(from: indexPath)
+                
+                handler(true)
+            })
+            
+            optionMenu.addAction(moveToAction)
+            optionMenu.addAction(cancelAction)
+            
+            self.present(optionMenu, animated: true, completion: nil)
+ 
+            handler(true)
+        }
+
+        more.image = UIImage(named: "More")
+        commands.append(more)
+        
         return UISwipeActionsConfiguration(actions: commands)
     }
     
