@@ -479,27 +479,19 @@ class XYZTodoTableViewController: UITableViewController {
                         
                         let hastodos = !todoGroup.todos.isEmpty
                         let collapse = todoGroup.collapse
-                        let complete = todoGroup.complete
-                        
+
                         if hastodos {
-                            
-                            if complete {
+      
+                            if collapse {
                                 
-                                newcell.accessoryType = .checkmark
+                                newcell.accessoryType = .disclosureIndicator
                                 newcell.accessoryView = nil
                             } else {
                                 
-                                if collapse {
-                                    
-                                    newcell.accessoryType = .disclosureIndicator
-                                    newcell.accessoryView = nil
-                                } else {
-                                    
-                                    newcell.accessoryType = .none
-                                    newcell.accessoryView = nil // createDownDisclosureIndicatorImage
-                                }
+                                newcell.accessoryType = .none
+                                newcell.accessoryView = nil // createDownDisclosureIndicatorImage
                             }
-                        } else {
+                    } else {
                             
                             newcell.accessoryType = .none
                             newcell.accessoryView = nil
