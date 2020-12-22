@@ -496,7 +496,7 @@ class XYZTodoTableViewController: UITableViewController {
                                 } else {
                                     
                                     newcell.accessoryType = .none
-                                    newcell.accessoryView = createDownDisclosureIndicatorImage()
+                                    newcell.accessoryView = nil // createDownDisclosureIndicatorImage
                                 }
                             }
                         } else {
