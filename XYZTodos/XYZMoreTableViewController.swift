@@ -14,9 +14,9 @@ class XYZMoreTableViewController: UITableViewController,
     
     func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
         
-        let dow = DayOfWeek(rawValue: item!)!
+        let dow = DayOfWeek(rawValue: item!)
         
-        firstWeekDay = dow.weekDayNr
+        firstWeekDay = dow?.weekDayNr ?? Locale.current.calendar.firstWeekday
 
         let tableViewController = getTodoTableViewController() 
         tableViewController.reloadData()
@@ -199,6 +199,11 @@ class XYZMoreTableViewController: UITableViewController,
                                                                    false,
                                                                    dows,
                                                                    dowsLocalized)
+                        
+                        selectionTableViewController.setSelections("",
+                                                                   false,
+                                                                   ["System setting"],
+                                                                   ["System setting".localized()])
                         
                         selectionTableViewController.setSelectedItem(firstWeekDayLocalized)
                         selectionTableViewController.delegate = self

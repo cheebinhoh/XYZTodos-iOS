@@ -335,7 +335,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                                                                    dows,
                                                                    dowsLocalized)
                         
-                        selectionTableViewController.setSelections(other,
+                        selectionTableViewController.setSelections("",
                                                                    false,
                                                                    [other],
                                                                    [otherLocalized])
