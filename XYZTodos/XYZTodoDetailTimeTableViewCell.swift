@@ -17,6 +17,7 @@ protocol XYZTodoDetailTimeTableViewCellDelegate : class {
 class XYZTodoDetailTimeTableViewCell: UITableViewCell {
 
     weak var delegate: XYZTodoDetailTimeTableViewCellDelegate?
+    
     @IBOutlet weak var select: UISwitch!
     @IBOutlet weak var timePicker: UIDatePicker!
     
@@ -45,6 +46,7 @@ class XYZTodoDetailTimeTableViewCell: UITableViewCell {
     }
     
     override func awakeFromNib() {
+        
         super.awakeFromNib()
     
         select.isOn = false
