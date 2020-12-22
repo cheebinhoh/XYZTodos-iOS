@@ -100,28 +100,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         executeAddTodo()
     }
-    
-    func executeAddTodo() {
-        
-        guard let tabBarController = self.window?.rootViewController as? UITabBarController else {
-            
-            fatalError("Exception: UITabBarController is expected" )
-        }
-        
-        guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
-            
-            fatalError("Exception: UINavigationController is expected")
-        }
-        
-        guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
-            
-            fatalError("Exception: XYZTodoTableViewController is expected" )
-        }
-        
-        DispatchQueue.main.async {
-         
-            tableViewController.performSegue(withIdentifier: "NewTodoDetail", sender: self)
-        }
-    }
 }
 

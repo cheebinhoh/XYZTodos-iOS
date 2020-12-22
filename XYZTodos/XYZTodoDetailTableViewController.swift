@@ -91,6 +91,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
     
     // communicate between detail view with list view
     var editmode = false
+    var dupmode = false
     var indexPath: IndexPath?
     var editTextView = false
     var textViewCell: XYZTextViewTableViewCell?
@@ -115,13 +116,16 @@ class XYZTodoDetailTableViewController: UITableViewController,
         if editmode {
                
             dowLocalized = dow?.rawValue.localized() ?? other.localized()
+        } else if dupmode {
+            
+            timeOn = time != nil
         } else {
         
             dowLocalized = todayDowLocalized
             dow = todayDoW
+    
             timeOn = false
             time = Date.nextHour()
-
             detail = ""
         }
     }

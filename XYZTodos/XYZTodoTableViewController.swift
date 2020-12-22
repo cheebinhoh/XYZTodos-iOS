@@ -37,6 +37,9 @@ class XYZTodoTableViewController: UITableViewController {
     
     
     // MARK: - Property
+    var dupDow: DayOfWeek?
+    var dupDetail: String?
+    var dupTime: Date?
     
     var sectionCellList = [TableViewSectionCell]() {
         
@@ -551,20 +554,20 @@ class XYZTodoTableViewController: UITableViewController {
             
         })
         
+        let todoGroup = self.sectionCellList[indexPath.section].data as? TodoGroup
+        let todo = todoGroup?.todos[indexPath.row - 1]
+        
         for (index, section) in self.sectionCellList.enumerated() {
             
             let dowLocalized = section.identifier.localized()
 
             let moveToDoW = UIAlertAction(title: dowLocalized, style: .default) { (_) in
                 
-                let todoGroup = section.data as? TodoGroup
+                self.dupDetail = todo?.detail
+                self.dupTime = todo?.time
+                self.dupDow = DayOfWeek(rawValue: self.sectionCellList[index].identifier )
                 
-                let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: index)
-                
-                if toIndexPath.section != indexPath.section {
-                    
-                    executeAddTodo()
-                }
+                executeAddTodo()
             }
             
             moveToMenu.addAction(moveToDoW)
@@ -689,6 +692,7 @@ class XYZTodoTableViewController: UITableViewController {
             
             let dupToAction = UIAlertAction(title: "Duplicate to".localized(), style: .default, handler: { (action) in
 
+                self.uiAlertActionToDupTodo(from: indexPath)
                 handler(true)
             })
             
@@ -832,7 +836,6 @@ class XYZTodoTableViewController: UITableViewController {
                           sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        
         super.prepare(for: segue, sender: sender)
         
         switch segue.identifier {
@@ -863,7 +866,36 @@ class XYZTodoTableViewController: UITableViewController {
                                                               timeOn: todo.timeOn,
                                                               time: todo.time,
                                                               indexPath: indexPath)
+            case "NewTodoDetail":
+                guard let navController = segue.destination as? UINavigationController else {
+                    
+                    fatalError("Exception: error in casting destination as UINavigationController")
+                }
+                
+                guard let todoDetalTableViewController = navController.viewControllers.first as? XYZTodoDetailTableViewController else {
+                    
+                    fatalError("Exception: error in casting destination as XYZTodoDetailTableViewController")
+                }
+                
+                
+                if let _ = dupDow {
+                    
+                    todoDetalTableViewController.dowLocalized = dupDow?.rawValue.localized()
+                    todoDetalTableViewController.dupmode = true
+                    todoDetalTableViewController.dow = dupDow
+                    todoDetalTableViewController.detail = dupDetail
+                    todoDetalTableViewController.time = dupTime
 
+                    dupDow = nil
+                    dupTime = nil
+                    dupDetail = nil
+                } else {
+                    
+                    todoDetalTableViewController.dupmode = false
+                }
+                
+                break
+                
             default:
                 break
         }
@@ -956,7 +988,16 @@ class XYZTodoTableViewController: UITableViewController {
                                                     self.uiAlertActionToMoveTodo(from: indexPath)
                                                 }
                                             
-                                                let children = [completeAction, moveToAction, deleteAction]
+                                                let dupToAction = UIAction(title: "Duplicate to".localized(),
+                                                                            image: nil,
+                                                                            identifier: nil,
+                                                                            discoverabilityTitle: nil,
+                                                                            attributes: UIMenuElement.Attributes.init(), state: .off) {_ in
+                                                    
+                                                    self.uiAlertActionToDupTodo(from: indexPath)
+                                                }
+                                            
+                                                let children = [completeAction, moveToAction, dupToAction, deleteAction]
                                             
                                                 return UIMenu(title: "", children: children)
                                            })

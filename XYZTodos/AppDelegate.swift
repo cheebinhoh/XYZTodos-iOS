@@ -557,3 +557,33 @@ func registerDeregisterNotification() {
         index = index + 1
     }
 } // func registerDeregisterNotification()
+
+func executeAddTodo() {
+    
+    let scene = UIApplication.shared.connectedScenes.first
+    
+    guard let sd = (scene?.delegate as? SceneDelegate) else {
+
+        fatalError("Exception sceneDelegate is expected")
+    }
+    
+    guard let tabBarController = sd.window?.rootViewController as? UITabBarController else {
+        
+        fatalError("Exception: UITabBarController is expected" )
+    }
+    
+    guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
+        
+        fatalError("Exception: UINavigationController is expected")
+    }
+    
+    guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
+        
+        fatalError("Exception: XYZTodoTableViewController is expected" )
+    }
+    
+    DispatchQueue.main.async {
+     
+        tableViewController.performSegue(withIdentifier: "NewTodoDetail", sender: sd)
+    }
+}
