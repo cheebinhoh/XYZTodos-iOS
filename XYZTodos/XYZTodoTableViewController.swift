@@ -568,7 +568,6 @@ class XYZTodoTableViewController: UITableViewController {
         moveToMenu.addAction(cancelMoveToAction)
         self.present(moveToMenu, animated: true, completion: nil)
     }
-
     
     func uiAlertActionToMoveTodo(from indexPath:IndexPath) {
         
@@ -858,6 +857,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                               timeOn: todo.timeOn,
                                                               time: todo.time,
                                                               indexPath: indexPath)
+                
             case "NewTodoDetail":
                 guard let navController = segue.destination as? UINavigationController else {
                     
@@ -868,7 +868,6 @@ class XYZTodoTableViewController: UITableViewController {
                     
                     fatalError("Exception: error in casting destination as XYZTodoDetailTableViewController")
                 }
-                
                 
                 if let _ = dupDow {
                     
@@ -935,7 +934,8 @@ class XYZTodoTableViewController: UITableViewController {
                                                 vc.detail?.text = detail
                                             
                                                 return vc
-                                           },
+                                           }, // previewProvider
+                                           
                                            actionProvider: { _ in
                                                 
                                                 let deleteImage = UIImage(systemName: "delete.left")
@@ -992,6 +992,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                 let children = [completeAction, moveToAction, dupToAction, deleteAction]
                                             
                                                 return UIMenu(title: "", children: children)
-                                           })
+                                           } // actionProvider
+            )
     }
 }
