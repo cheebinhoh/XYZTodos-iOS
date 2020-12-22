@@ -168,28 +168,7 @@ class AppDelegate: UIResponder,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        let scene = UIApplication.shared.connectedScenes.first
-        
-        guard let sd = (scene?.delegate as? SceneDelegate) else {
-    
-            fatalError("Exception sceneDelegate is expected")
-        }
-        
-        guard let tabBarController = sd.window?.rootViewController as? UITabBarController else {
-            
-            fatalError("Exception: UITabBarController is expected" )
-        }
-        
-        guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
-            
-            fatalError("Exception: UINavigationController is expected")
-        }
-        
-        guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
-            
-            fatalError("Exception: XYZTodoTableViewController is expected" )
-        }
-        
+        let tableViewController = getTodoTableViewController()
         tableViewController.reloadData()
         tableViewController.expandTodos(dows: [todayDoW])
         
@@ -408,8 +387,6 @@ func addTodoToManagedContext(group: String,
     
     saveManageContext()
     registerDeregisterNotification()
-    
-    //printTodos(todos: appDelegate.todos!)
 }
 
 func getTodosFromManagedContext() -> [XYZTodo] {
@@ -561,6 +538,16 @@ func registerDeregisterNotification() {
 func executeAddTodo() {
     
     let scene = UIApplication.shared.connectedScenes.first
+    let tableViewController = getTodoTableViewController(scene: scene)
+    
+    DispatchQueue.main.async {
+     
+        tableViewController.performSegue(withIdentifier: "NewTodoDetail",
+                                         sender: scene)
+    }
+}
+
+func getTodoTableViewController(scene: UIScene? = UIApplication.shared.connectedScenes.first) -> XYZTodoTableViewController {
     
     guard let sd = (scene?.delegate as? SceneDelegate) else {
 
@@ -582,8 +569,5 @@ func executeAddTodo() {
         fatalError("Exception: XYZTodoTableViewController is expected" )
     }
     
-    DispatchQueue.main.async {
-     
-        tableViewController.performSegue(withIdentifier: "NewTodoDetail", sender: sd)
-    }
+    return tableViewController
 }

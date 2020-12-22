@@ -36,22 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-        
-        guard let tabBarController = self.window?.rootViewController as? UITabBarController else {
-            
-            fatalError("Exception: UITabBarController is expected" )
-        }
-        
-        guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
-            
-            fatalError("Exception: UINavigationController is expected")
-        }
-        
-        guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
-            
-            fatalError("Exception: XYZTodoTableViewController is expected" )
-        }
-        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             
             fatalError("Exception: AppDelegate is expected")
@@ -60,6 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if appDelegate.reconciliateData()
             || appDelegate.needRefreshTodo {
             
+            let tableViewController = getTodoTableViewController(scene: scene)
             tableViewController.reloadData()
             tableViewController.expandTodos(dows: [todayDoW])
             

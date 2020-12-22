@@ -17,22 +17,8 @@ class XYZMoreTableViewController: UITableViewController,
         let dow = DayOfWeek(rawValue: item!)!
         
         firstWeekDay = dow.weekDayNr
-        
-        guard let tabBarController = self.view.window?.rootViewController as? UITabBarController else {
-            
-            fatalError("Exception: UITabBarController is expected" )
-        }
-        
-        guard let navController = tabBarController.viewControllers?.first as? UINavigationController else {
-            
-            fatalError("Exception: UINavigationController is expected")
-        }
-        
-        guard let tableViewController = navController.viewControllers.first as? XYZTodoTableViewController else {
-            
-            fatalError("Exception: XYZTodoTableViewController is expected" )
-        }
-        
+
+        let tableViewController = getTodoTableViewController() 
         tableViewController.reloadData()
         tableView.reloadData()
     }
