@@ -115,7 +115,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         if editmode {
                
-            dowLocalized = dow?.rawValue.localized() ?? other.localized()
+            dowLocalized = dow?.rawValue.localized() ?? otherLocalized
         } else if dupmode {
             
             timeOn = time != nil
@@ -338,7 +338,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         selectionTableViewController.setSelections(other,
                                                                    false,
                                                                    [other],
-                                                                   [other.localized()])
+                                                                   [otherLocalized])
                         
                         selectionTableViewController.setSelectedItem(dow?.rawValue ?? other)
                         selectionTableViewController.delegate = self

@@ -11,6 +11,9 @@ import Foundation
 // MARK: - Global Property
 
 let other = "Other"
+
+let otherLocalized = other.localized()
+
 var todayDoW: DayOfWeek {
     
     let today = Date()

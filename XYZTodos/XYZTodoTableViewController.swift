@@ -326,7 +326,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         let groupSection = TableViewSectionCell(identifier: other,
                                                 title: nil,
-                                                cellList: [other.localized()],
+                                                cellList: [otherLocalized],
                                                 data: nil)
         
         sectionCellList.append(groupSection)
