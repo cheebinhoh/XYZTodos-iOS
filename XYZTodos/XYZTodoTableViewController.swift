@@ -544,6 +544,37 @@ class XYZTodoTableViewController: UITableViewController {
         return cell!
     }
     
+    func uiAlertActionToDupTodo(from indexPath:IndexPath) {
+        
+        let moveToMenu = UIAlertController(title: "Duplicate to".localized(), message: nil, preferredStyle: .actionSheet)
+        let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
+            
+        })
+        
+        for (index, section) in self.sectionCellList.enumerated() {
+            
+            let dowLocalized = section.identifier.localized()
+
+            let moveToDoW = UIAlertAction(title: dowLocalized, style: .default) { (_) in
+                
+                let todoGroup = section.data as? TodoGroup
+                
+                let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: index)
+                
+                if toIndexPath.section != indexPath.section {
+                    
+                    executeAddTodo()
+                }
+            }
+            
+            moveToMenu.addAction(moveToDoW)
+        }
+        
+        moveToMenu.addAction(cancelMoveToAction)
+        self.present(moveToMenu, animated: true, completion: nil)
+    }
+
+    
     func uiAlertActionToMoveTodo(from indexPath:IndexPath) {
         
         let moveToMenu = UIAlertController(title: "Move to".localized(), message: nil, preferredStyle: .actionSheet)
@@ -656,7 +687,13 @@ class XYZTodoTableViewController: UITableViewController {
                 handler(true)
             })
             
+            let dupToAction = UIAlertAction(title: "Duplicate to".localized(), style: .default, handler: { (action) in
+
+                handler(true)
+            })
+            
             optionMenu.addAction(moveToAction)
+            optionMenu.addAction(dupToAction)
             optionMenu.addAction(cancelAction)
             
             self.present(optionMenu, animated: true, completion: nil)
