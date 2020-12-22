@@ -483,6 +483,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="orM-1g-G4W"/>
                     </stackView>
+                    <value key="contentSizeForViewInPopover" type="size" width="500" height="600"/>
                     <connections>
                         <outlet property="detail" destination="ZDK-Qw-K8U" id="TRx-fh-SLt"/>
                         <outlet property="time" destination="nxc-wr-Zz3" id="Eh7-Tr-SKW"/>

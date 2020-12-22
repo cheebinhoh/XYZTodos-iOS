@@ -921,8 +921,8 @@ class XYZTodoTableViewController: UITableViewController {
                                                 }
                                             
                                                 let dateFormatter = DateFormatter();
-                                            
                                                 vc.loadView()
+
                                                 if let time = time, let timeOn = timeOn, timeOn {
                                                    
                                                     vc.time?.text = " " + dateFormatter.stringWithShortTime(from: time)
