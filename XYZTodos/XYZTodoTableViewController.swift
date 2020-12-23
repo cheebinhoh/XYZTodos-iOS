@@ -40,6 +40,7 @@ class XYZTodoTableViewController: UITableViewController {
     var dupDow: DayOfWeek?
     var dupDetail: String?
     var dupTime: Date?
+    var indexPathToBeRemovedAfterDup: IndexPath?
     
     var sectionCellList = [TableViewSectionCell]() {
         
@@ -112,8 +113,16 @@ class XYZTodoTableViewController: UITableViewController {
                         detail: sourceViewController.detail!,
                         timeOn: sourceViewController.timeOn!,
                         time: sourceViewController.time!)
+                
+                if let indexPathToBeRemovedAfterDup = indexPathToBeRemovedAfterDup {
+                    
+                    deleteRow(indexPath: indexPathToBeRemovedAfterDup)
+                    undoManager?.removeAllActions()
+                }
             }
         }
+        
+        indexPathToBeRemovedAfterDup = nil
     }
     
     
@@ -576,6 +585,9 @@ class XYZTodoTableViewController: UITableViewController {
             
         })
         
+        let todoGroup = self.sectionCellList[indexPath.section].data as? TodoGroup
+        let todo = todoGroup?.todos[indexPath.row - 1]
+        
         for (index, section) in self.sectionCellList.enumerated() {
             
             let dowLocalized = section.identifier.localized()
@@ -588,8 +600,12 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 if toIndexPath.section != indexPath.section {
                     
-                    self.tableView(self.tableView, moveRowAt: indexPath,
-                                   to: toIndexPath)
+                    self.dupDetail = todo?.detail
+                    self.dupTime = todo?.time
+                    self.dupDow = DayOfWeek(rawValue: self.sectionCellList[index].identifier )
+                    self.indexPathToBeRemovedAfterDup = indexPath
+                    
+                    executeAddTodo()
                 }
             }
             
@@ -857,6 +873,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                               timeOn: todo.timeOn,
                                                               time: todo.time,
                                                               indexPath: indexPath)
+                self.indexPathToBeRemovedAfterDup = nil
                 
             case "NewTodoDetail":
                 guard let navController = segue.destination as? UINavigationController else {
@@ -876,13 +893,14 @@ class XYZTodoTableViewController: UITableViewController {
                     todoDetalTableViewController.dow = dupDow
                     todoDetalTableViewController.detail = dupDetail
                     todoDetalTableViewController.time = dupTime
-
+                    
                     dupDow = nil
                     dupTime = nil
                     dupDetail = nil
                 } else {
                     
                     todoDetalTableViewController.dupmode = false
+                    indexPathToBeRemovedAfterDup = nil
                 }
                 
                 break
