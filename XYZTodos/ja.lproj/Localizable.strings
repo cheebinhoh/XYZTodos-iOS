@@ -41,5 +41,6 @@
 "XYZTodos" = "XYZ タスク";
 "More" = "もっと";
 "Move to" = "へ引っ越す";
-"Duplicate to" = "に複製";
+"Copy to" = "にコピー";
 "System setting" = "システム設定";
+"Copy todo" = "コピータスク";

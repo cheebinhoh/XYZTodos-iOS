@@ -41,5 +41,6 @@
 "XYZTodos" = "XYZ Tarea";
 "More" = "Más";
 "Move to" = "Mover a";
-"Duplicate to" = "Duplicar a";
+"Copy to" = "Copiar a";
 "System setting" = "Configuración del sistema";
+"Copy todo" = "Tarea de copia";

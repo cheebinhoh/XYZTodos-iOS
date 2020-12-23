@@ -541,7 +541,7 @@ class XYZTodoTableViewController: UITableViewController {
     
     func uiAlertActionToDupTodo(from indexPath:IndexPath) {
         
-        let moveToMenu = UIAlertController(title: "Duplicate to".localized(), message: nil, preferredStyle: .actionSheet)
+        let moveToMenu = UIAlertController(title: "Copy to".localized(), message: nil, preferredStyle: .actionSheet)
         let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
             
         })
@@ -681,7 +681,7 @@ class XYZTodoTableViewController: UITableViewController {
                 handler(true)
             })
             
-            let dupToAction = UIAlertAction(title: "Duplicate to".localized(), style: .default, handler: { (action) in
+            let dupToAction = UIAlertAction(title: "Copy to".localized(), style: .default, handler: { (action) in
 
                 self.uiAlertActionToDupTodo(from: indexPath)
                 handler(true)
@@ -980,7 +980,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                     self.uiAlertActionToMoveTodo(from: indexPath)
                                                 }
                                             
-                                                let dupToAction = UIAction(title: "Duplicate to".localized(),
+                                                let dupToAction = UIAction(title: "Copy to".localized(),
                                                                             image: nil,
                                                                             identifier: nil,
                                                                             discoverabilityTitle: nil,

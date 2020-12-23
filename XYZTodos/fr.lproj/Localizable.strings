@@ -41,5 +41,6 @@
 "XYZTodos" = "XYZ Tâches";
 "More" = "Plus";
 "Move to" = "Déménager à";
-"Duplicate to" = "Dupliquer vers";
+"Copy to" = "Copier";
 "System setting" = "Paramètres système";
+"Copy todo" = "Tâche de copie";

@@ -42,5 +42,6 @@
 "XYZTodos" = "XYZ 직무";
 "More" = "더";
 "Move to" = "이동";
-"Duplicate to" = "복제하다";
+"Copy to" = "에게 복사";
 "System setting" = "시스템 설정";
+"Copy todo" = "복사 작업";

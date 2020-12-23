@@ -174,6 +174,9 @@ class XYZTodoDetailTableViewController: UITableViewController,
         if editmode {
             
             navigationItem.title = "Edit todo".localized()
+        } else if dupmode {
+            
+            navigationItem.title = "Copy todo".localized()
         } else {
             
             navigationItem.title = "New todo".localized()
