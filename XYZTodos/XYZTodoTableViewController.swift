@@ -875,7 +875,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                               timeOn: todo.timeOn,
                                                               time: todo.time,
                                                               indexPath: indexPath)
-                self.indexPathToBeRemovedAfterDup = nil
+                indexPathToBeRemovedAfterDup = nil
                 
             case "NewTodoDetail":
                 guard let navController = segue.destination as? UINavigationController else {
