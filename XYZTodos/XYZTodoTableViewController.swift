@@ -37,7 +37,7 @@ class XYZTodoTableViewController: UITableViewController {
     
     
     // MARK: - Property
-    var dupDow: DayOfWeek?
+    var dupGroup: String?
     var dupDetail: String?
     var dupTime: Date?
     var indexPathToBeRemovedAfterDup: IndexPath?
@@ -566,7 +566,7 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 self.dupDetail = todo?.detail
                 self.dupTime = todo?.time
-                self.dupDow = DayOfWeek(rawValue: self.sectionCellList[index].identifier )
+                self.dupGroup = self.sectionCellList[index].identifier
                 
                 executeAddTodo()
             }
@@ -602,7 +602,7 @@ class XYZTodoTableViewController: UITableViewController {
                     
                     self.dupDetail = todo?.detail
                     self.dupTime = todo?.time
-                    self.dupDow = DayOfWeek(rawValue: self.sectionCellList[index].identifier )
+                    self.dupGroup = self.sectionCellList[index].identifier
                     self.indexPathToBeRemovedAfterDup = indexPath
                     
                     executeAddTodo()
@@ -888,16 +888,16 @@ class XYZTodoTableViewController: UITableViewController {
                     fatalError("Exception: error in casting destination as XYZTodoDetailTableViewController")
                 }
                 
-                if let _ = dupDow {
+                if let _ = dupGroup {
                     
-                    todoDetalTableViewController.dowLocalized = dupDow?.rawValue.localized()
+                    todoDetalTableViewController.dowLocalized = dupGroup!.localized()
                     todoDetalTableViewController.dupmode = true
                     todoDetalTableViewController.dupasmove = indexPathToBeRemovedAfterDup != nil
-                    todoDetalTableViewController.dow = dupDow
+                    todoDetalTableViewController.dow = DayOfWeek(rawValue: dupGroup!)
                     todoDetalTableViewController.detail = dupDetail
                     todoDetalTableViewController.time = dupTime
                     
-                    dupDow = nil
+                    dupGroup = nil
                     dupTime = nil
                     dupDetail = nil
                 } else {
