@@ -92,6 +92,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
     // communicate between detail view with list view
     var editmode = false
     var dupmode = false
+    var dupasmove = false
     var indexPath: IndexPath?
     var editTextView = false
     var textViewCell: XYZTextViewTableViewCell?
@@ -176,7 +177,13 @@ class XYZTodoDetailTableViewController: UITableViewController,
             navigationItem.title = "Edit todo".localized()
         } else if dupmode {
             
-            navigationItem.title = "Copy todo".localized()
+            if dupasmove {
+                
+                navigationItem.title = "Edit todo".localized()
+            } else {
+                
+                navigationItem.title = "Copy todo".localized()
+            }
         } else {
             
             navigationItem.title = "New todo".localized()

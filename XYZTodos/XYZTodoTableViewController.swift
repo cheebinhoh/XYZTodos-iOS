@@ -868,6 +868,8 @@ class XYZTodoTableViewController: UITableViewController {
                 let todoGroup = section.data as? TodoGroup
                 let todo = todoGroup!.todos[row]
                 
+                todoDetalTableViewController.dupmode = false
+                todoDetalTableViewController.dupasmove = false
                 todoDetalTableViewController.populateEditData(dow: todoGroup!.dow,
                                                               detail: todo.detail,
                                                               timeOn: todo.timeOn,
@@ -890,6 +892,7 @@ class XYZTodoTableViewController: UITableViewController {
                     
                     todoDetalTableViewController.dowLocalized = dupDow?.rawValue.localized()
                     todoDetalTableViewController.dupmode = true
+                    todoDetalTableViewController.dupasmove = indexPathToBeRemovedAfterDup != nil
                     todoDetalTableViewController.dow = dupDow
                     todoDetalTableViewController.detail = dupDetail
                     todoDetalTableViewController.time = dupTime
