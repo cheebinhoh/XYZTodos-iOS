@@ -121,6 +121,19 @@ class XYZTodoTableViewController: UITableViewController {
                     deleteRow(indexPath: indexPathToBeRemovedAfterDup)
                     undoManager?.removeAllActions()
                 }
+                
+                var groupIdentifier = other
+                if let dow = sourceViewController.dow {
+                    
+                    groupIdentifier = dow.rawValue
+                }
+                
+                let sectionIndex = sectionCellList.firstIndex {
+                    
+                    return $0.identifier == groupIdentifier
+                }
+                
+                tableView.scrollToRow(at: IndexPath(row: 0, section: sectionIndex!), at: .top, animated: true)
             }
         }
         
