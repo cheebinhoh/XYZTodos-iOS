@@ -234,12 +234,47 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
         let s1 = todo1.sequenceNr
         let s2 = todo2.sequenceNr
         
+        let hasNoTime1 = todo1.timeOn ? 0 : 1
+        let hasNoTime2 = todo2.timeOn ? 0 : 1
+        var time1 = 5000
+        var time2 = 5000
+        
+        if hasNoTime1 == 0 {
+            
+            let timeComponent = Calendar.current.dateComponents([.hour, .minute], from: todo1.time)
+            time1 = timeComponent.hour! * 100 + timeComponent.minute!
+        }
+        
+        if hasNoTime2 == 0 {
+            
+            let timeComponent = Calendar.current.dateComponents([.hour, .minute], from: todo2.time)
+            time2 = timeComponent.hour! * 100 + timeComponent.minute!
+        }
+
         let dow1Index = ( DayOfWeek(rawValue: g1)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
         let dow2Index = ( DayOfWeek(rawValue: g2)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
            
-        return dow1Index < dow2Index
-               || ( dow1Index == dow2Index
-                    && s1 < s2 )
+        var swap = dow1Index < dow2Index
+        
+        if !swap && dow1Index == dow2Index {
+            
+            swap = hasNoTime1 < hasNoTime2
+            
+            if !swap && hasNoTime1 == hasNoTime2 {
+                
+                swap = time1 < time2
+                
+                if !swap && time1 == time2 {
+                    
+                    swap = s1 < s2
+                }
+            }
+        }
+        
+        return swap
+        //return dow1Index < dow2Index
+        //       || ( dow1Index == dow2Index
+        //            && s1 < s2 )
     }
 }
 
@@ -316,6 +351,7 @@ func moveTodoInManagedContext(fromIndex: Int,
     
     let removeTodo = appDelegate.todos?.remove(at: fromIndex)
     appDelegate.todos?.insert(removeTodo!, at: toIndex)
+    appDelegate.todos = sortTodos(todos: appDelegate.todos!)
     appDelegate.reconciliateTodoSequenceNr()
     
     saveManageContext()
@@ -359,6 +395,8 @@ func editTodoInManagedContext(oldGroup: String,
     
     saveManageContext()
     registerDeregisterNotification()
+    
+    //printTodos(todos: appDelegate.todos!)
 }
 
 func addTodoToManagedContext(group: String,

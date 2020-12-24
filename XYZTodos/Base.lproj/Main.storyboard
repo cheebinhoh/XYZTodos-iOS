@@ -190,22 +190,35 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHK-8b-BdY">
+                                            <rect key="frame" x="25" y="15" width="70" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="70" id="7ce-E9-HAp"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuV-GN-bn2">
-                                            <rect key="frame" x="30" y="15" width="354" height="20"/>
+                                            <rect key="frame" x="111" y="15" width="278" height="20"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="leading" secondItem="1df-w1-iJI" secondAttribute="leading" constant="30" id="83p-96-ULN"/>
-                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="centerY" secondItem="1df-w1-iJI" secondAttribute="centerY" id="QP6-rL-kae"/>
-                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="top" secondItem="1df-w1-iJI" secondAttribute="topMargin" constant="4" id="crQ-bj-0zY"/>
-                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="centerX" secondItem="1df-w1-iJI" secondAttribute="centerX" id="sif-bc-D1n"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="baseline" secondItem="VHK-8b-BdY" secondAttribute="baseline" id="6Wq-nX-3YF"/>
+                                        <constraint firstItem="VHK-8b-BdY" firstAttribute="leading" secondItem="1df-w1-iJI" secondAttribute="leadingMargin" constant="5" id="Frs-jK-U3t"/>
+                                        <constraint firstItem="VHK-8b-BdY" firstAttribute="centerY" secondItem="1df-w1-iJI" secondAttribute="centerY" id="HBq-eJ-5GP"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="leading" secondItem="VHK-8b-BdY" secondAttribute="trailing" constant="16" id="XGb-bD-T0Q"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="tuV-GN-bn2" secondAttribute="trailing" constant="5" id="bPG-go-xHt"/>
+                                        <constraint firstItem="VHK-8b-BdY" firstAttribute="top" secondItem="1df-w1-iJI" secondAttribute="topMargin" constant="4" id="fCU-rq-PVa"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="firstBaseline" secondItem="VHK-8b-BdY" secondAttribute="firstBaseline" id="jX7-vT-D9X"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="detail" destination="tuV-GN-bn2" id="GSA-wF-sLh"/>
+                                    <outlet property="time" destination="VHK-8b-BdY" id="3bx-rM-S4i"/>
                                     <segue destination="f3A-cf-vy6" kind="show" identifier="showTodoDetail" id="6UZ-eP-t4h"/>
                                 </connections>
                             </tableViewCell>
@@ -539,24 +552,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="npX-e0-2OE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="123" y="1093"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="NeK-zO-jRu">
-            <objects>
-                <navigationController storyboardIdentifier="SelectionNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="JjR-hG-y1q" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Y4V-bT-DUs">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Cmq-8d-C9L" kind="relationship" relationship="rootViewController" id="gmf-wl-N4P"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vI3-lp-D7e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1213" y="1093"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

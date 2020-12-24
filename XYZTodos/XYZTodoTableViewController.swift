@@ -219,6 +219,7 @@ class XYZTodoTableViewController: UITableViewController {
                                      complete: false)
         } // if sectionId == originalSection.identifier
         
+        loadModelDataIntoSectionCellData()
         tableView.reloadData()
     }
     
@@ -254,6 +255,7 @@ class XYZTodoTableViewController: UITableViewController {
                                     time: time,
                                     complete: false)
             
+            loadModelDataIntoSectionCellData()
             tableView.reloadData()
         }
     }
@@ -267,6 +269,11 @@ class XYZTodoTableViewController: UITableViewController {
             
             let dow = section.identifier
             var group = TodoGroup()
+            
+            if let oldGroup = section.data as? TodoGroup {
+                
+                group.collapse = oldGroup.collapse
+            }
             
             group.dow = DayOfWeek(rawValue: section.identifier)
             
@@ -541,7 +548,18 @@ class XYZTodoTableViewController: UITableViewController {
                         newcell.accessoryType = .none
                     }
                     
-                    newcell.detail.text = todoGroup?.todos[indexPath.row - 1].detail
+                    let detailtext = todoGroup?.todos[indexPath.row - 1].detail
+                    var time = ""
+                    
+                    if let timeOn = todoGroup?.todos[indexPath.row - 1].timeOn, timeOn {
+                        
+                        let timeFormatter = DateFormatter()
+                        
+                        time = timeFormatter.stringWithShortTime(from: (todoGroup?.todos[indexPath.row - 1].time)!)
+                    }
+                    
+                    newcell.detail.text = detailtext!
+                    newcell.time.text = time
                     cell = newcell
                 }
         } // switch sectionId
@@ -815,6 +833,7 @@ class XYZTodoTableViewController: UITableViewController {
         } // if let _ = fromSectionTodoGroup,
              // let _ = toSectionTodoGroup
 
+        loadModelDataIntoSectionCellData()
         tableView.reloadData()
     }
 
