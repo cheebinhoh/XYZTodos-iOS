@@ -276,8 +276,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="xH9-qu-x8I">
-                                            <rect key="frame" x="5" y="4" width="329" height="42"/>
+                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="xH9-qu-x8I">
+                                            <rect key="frame" x="5" y="4" width="197" height="42"/>
                                             <connections>
                                                 <action selector="timePickerChanged:" destination="sfT-Bk-8Zh" eventType="valueChanged" id="eHw-Aq-F02"/>
                                             </connections>
@@ -293,7 +293,7 @@
                                         <constraint firstAttribute="bottom" secondItem="Avd-qr-RkO" secondAttribute="bottom" constant="10" id="2iH-QN-Rtz"/>
                                         <constraint firstItem="Avd-qr-RkO" firstAttribute="trailing" secondItem="qZ4-yX-oRf" secondAttribute="trailingMargin" id="8UP-bT-BCv"/>
                                         <constraint firstItem="xH9-qu-x8I" firstAttribute="top" secondItem="qZ4-yX-oRf" secondAttribute="top" constant="4" id="V37-jF-J7a"/>
-                                        <constraint firstAttribute="trailing" secondItem="xH9-qu-x8I" secondAttribute="trailing" constant="80" id="f0N-dr-JAQ"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xH9-qu-x8I" secondAttribute="trailing" constant="200" id="f0N-dr-JAQ"/>
                                         <constraint firstItem="Avd-qr-RkO" firstAttribute="top" secondItem="qZ4-yX-oRf" secondAttribute="top" constant="10" id="jof-f5-HyM"/>
                                         <constraint firstAttribute="bottom" secondItem="xH9-qu-x8I" secondAttribute="bottom" constant="4" id="kFx-Aa-vp8"/>
                                         <constraint firstItem="xH9-qu-x8I" firstAttribute="leading" secondItem="qZ4-yX-oRf" secondAttribute="leading" constant="5" id="log-DU-khZ"/>
