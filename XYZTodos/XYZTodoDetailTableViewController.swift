@@ -135,16 +135,9 @@ class XYZTodoDetailTableViewController: UITableViewController,
 
         sectionCellList = []
         
-        var timeList = ["dow"]
-        
-        if dow != nil {
-        
-            timeList.append("picktime")
-        }
-        
         let timeSection = TableViewSectionCell(identifier: "Time",
                                                 title: nil,
-                                                cellList: timeList,
+                                                cellList: ["dow", "picktime"],
                                                 data: nil)
         
         sectionCellList.append(timeSection)
