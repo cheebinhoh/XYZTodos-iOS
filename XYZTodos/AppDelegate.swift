@@ -542,7 +542,7 @@ func executeAddTodo() {
     
     DispatchQueue.main.async {
      
-        tableViewController.performSegue(withIdentifier: "NewTodoDetail",
+        tableViewController.performSegue(withIdentifier: "newTodoDetail",
                                          sender: scene)
     }
 }

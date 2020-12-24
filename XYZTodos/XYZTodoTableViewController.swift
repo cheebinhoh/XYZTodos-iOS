@@ -878,7 +878,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                               indexPath: indexPath)
                 indexPathToBeRemovedAfterDup = nil
                 
-            case "NewTodoDetail":
+            case "newTodoDetail":
                 guard let navController = segue.destination as? UINavigationController else {
                     
                     fatalError("Exception: error in casting destination as UINavigationController")
@@ -1023,6 +1023,8 @@ class XYZTodoTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        
+        previewIndexPath = nil
         
         return nil
     }

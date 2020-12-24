@@ -218,7 +218,7 @@
                     <navigationItem key="navigationItem" title="Todos" id="NyI-8z-OjC">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="zKY-1g-0HE">
                             <connections>
-                                <segue destination="8q6-qY-gHK" kind="showDetail" identifier="NewTodoDetail" id="XdG-1F-iCT"/>
+                                <segue destination="8q6-qY-gHK" kind="showDetail" identifier="newTodoDetail" id="XdG-1F-iCT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
