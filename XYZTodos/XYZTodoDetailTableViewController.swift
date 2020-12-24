@@ -119,7 +119,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
             dowLocalized = dow?.rawValue.localized() ?? otherLocalized
         } else if dupmode {
             
-            timeOn = time != nil
         } else {
         
             dowLocalized = todayDowLocalized

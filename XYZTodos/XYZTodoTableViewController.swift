@@ -40,6 +40,7 @@ class XYZTodoTableViewController: UITableViewController {
     var dupGroup: String?
     var dupDetail: String?
     var dupTime: Date?
+    var dupTimeOn: Bool?
     var indexPathToBeRemovedAfterDup: IndexPath?
     var previewIndexPath: IndexPath?
         
@@ -585,6 +586,7 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 self.dupDetail = todo?.detail
                 self.dupTime = todo?.time
+                self.dupTimeOn = todo?.timeOn
                 self.dupGroup = self.sectionCellList[index].identifier
                 
                 executeAddTodo()
@@ -621,6 +623,7 @@ class XYZTodoTableViewController: UITableViewController {
                     
                     self.dupDetail = todo?.detail
                     self.dupTime = todo?.time
+                    self.dupTimeOn = todo?.timeOn
                     self.dupGroup = self.sectionCellList[index].identifier
                     self.indexPathToBeRemovedAfterDup = indexPath
                     
@@ -916,9 +919,11 @@ class XYZTodoTableViewController: UITableViewController {
                     todoDetalTableViewController.dow = DayOfWeek(rawValue: dupGroup!)
                     todoDetalTableViewController.detail = dupDetail
                     todoDetalTableViewController.time = dupTime
+                    todoDetalTableViewController.timeOn = dupTimeOn
                     
                     dupGroup = nil
                     dupTime = nil
+                    dupTimeOn = nil
                     dupDetail = nil
                 } else {
                     
