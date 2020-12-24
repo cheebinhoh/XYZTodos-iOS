@@ -348,6 +348,7 @@ func moveTodoInManagedContext(fromIndex: Int,
     
     let removeTodo = appDelegate.todos?.remove(at: fromIndex)
     appDelegate.todos?.insert(removeTodo!, at: toIndex)
+    appDelegate.reconciliateTodoSequenceNr()
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
     appDelegate.reconciliateTodoSequenceNr()
     
