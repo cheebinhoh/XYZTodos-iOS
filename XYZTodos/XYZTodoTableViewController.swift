@@ -41,7 +41,8 @@ class XYZTodoTableViewController: UITableViewController {
     var dupDetail: String?
     var dupTime: Date?
     var indexPathToBeRemovedAfterDup: IndexPath?
-    
+    var previewIndexPath: IndexPath?
+        
     var sectionCellList = [TableViewSectionCell]() {
         
         didSet {
@@ -930,34 +931,36 @@ class XYZTodoTableViewController: UITableViewController {
         let timeOn = todoGroup?.todos[row].timeOn
         let complete = todoGroup?.todos[row].complete
         
-        return UIContextMenuConfiguration( identifier: nil,
-                                           previewProvider: {
-                                        
+        previewIndexPath = indexPath
+        
+        let cm = UIContextMenuConfiguration( identifier: nil,
+                                             previewProvider: {
+         
                                                 //viewController.preferredContentSize = textview.frame.size
                                                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                                guard let vc = storyboard.instantiateViewController(withIdentifier: "TodoPreview") as? XYZTodoPreviewViewController else {
-                                                    
+                                                guard let vc = storyboard.instantiateViewController(withIdentifier: "TodoPreview") as?   XYZTodoPreviewViewController else {
+                                                 
                                                     fatalError("Exception: XYZTodoPreviewViewController is expected")
                                                 }
-                                            
+
                                                 let dateFormatter = DateFormatter();
                                                 vc.loadView()
 
                                                 if let time = time, let timeOn = timeOn, timeOn {
-                                                   
+
                                                     vc.time?.text = " " + dateFormatter.stringWithShortTime(from: time)
                                                 } else {
-                                                    
+
                                                     vc.time.text = " -"
                                                     vc.time.isHidden = true
                                                 }
 
-                                                vc.detail?.text = detail
-                                            
-                                                return vc
-                                           }, // previewProvider
-                                           
-                                           actionProvider: { _ in
+                                                    vc.detail?.text = detail
+
+                                                    return vc
+                                                }, // previewProvider
+
+                                            actionProvider: { _ in
                                                 
                                                 let deleteImage = UIImage(systemName: "delete.left")
                                                 let deleteAction = UIAction(title: "Delete".localized(),
@@ -991,7 +994,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                     self.sectionCellList[indexPath.section].data = todoGroup
                                                     tableView.reloadData()
                                                 }
-                                            
+
                                                 let moveToAction = UIAction(title: "Move to".localized(),
                                                                             image: nil,
                                                                             identifier: nil,
@@ -1000,7 +1003,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                     
                                                     self.uiAlertActionToMoveTodo(from: indexPath)
                                                 }
-                                            
+
                                                 let dupToAction = UIAction(title: "Copy to".localized(),
                                                                             image: nil,
                                                                             identifier: nil,
@@ -1009,11 +1012,27 @@ class XYZTodoTableViewController: UITableViewController {
                                                     
                                                     self.uiAlertActionToDupTodo(from: indexPath)
                                                 }
-                                            
+
                                                 let children = [completeAction, moveToAction, dupToAction, deleteAction]
-                                            
+
                                                 return UIMenu(title: "", children: children)
-                                           } // actionProvider
+                                            } // actionProvider
             )
+        
+        return cm
+    }
+    
+    override func tableView(_ tableView: UITableView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        
+        let cell = tableView.cellForRow(at: previewIndexPath!)
+        
+        self.performSegue(withIdentifier: "showTodoDetail",
+                          sender: cell)
     }
 }
