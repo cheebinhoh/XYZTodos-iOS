@@ -169,7 +169,7 @@ class AppDelegate: UIResponder,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
         let tableViewController = getTodoTableViewController()
-        tableViewController.reloadData()
+        tableViewController.reloadSectionCellModelData()
         tableViewController.expandTodos(dows: [todayDoW])
         
         completionHandler()

@@ -220,8 +220,7 @@ class XYZTodoTableViewController: UITableViewController {
                                      complete: false)
         } // if sectionId == originalSection.identifier
         
-        loadModelDataIntoSectionCellData()
-        tableView.reloadData()
+        reloadModelData()
     }
     
     func addTodo(dow: DayOfWeek?,
@@ -256,12 +255,11 @@ class XYZTodoTableViewController: UITableViewController {
                                     time: time,
                                     complete: false)
             
-            loadModelDataIntoSectionCellData()
-            tableView.reloadData()
+            reloadModelData()
         }
     }
     
-    func loadModelDataIntoSectionCellData() {
+    func loadModelDataIntoSectionCell() {
         
         let todosInStored = getTodosFromManagedContext()
         var loadedSectionCellList = [TableViewSectionCell]()
@@ -326,7 +324,7 @@ class XYZTodoTableViewController: UITableViewController {
         print("---- end printSectionCellData")
     }
     
-    func loadSectionCellData() {
+    func loadSectionCellModelData() {
 
         sectionCellList = []
 
@@ -349,12 +347,18 @@ class XYZTodoTableViewController: UITableViewController {
         
         sectionCellList.append(groupSection)
         
-        loadModelDataIntoSectionCellData()
+        loadModelDataIntoSectionCell()
     }
     
-    func reloadData() {
+    func reloadModelData() {
         
-        loadSectionCellData()
+        loadModelDataIntoSectionCell()
+        tableView.reloadData()
+    }
+    
+    func reloadSectionCellModelData() {
+        
+        loadSectionCellModelData()
         tableView.reloadData()
     }
 
@@ -394,7 +398,7 @@ class XYZTodoTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        loadSectionCellData()
+        loadSectionCellModelData()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -836,8 +840,7 @@ class XYZTodoTableViewController: UITableViewController {
         } // if let _ = fromSectionTodoGroup,
              // let _ = toSectionTodoGroup
 
-        loadModelDataIntoSectionCellData()
-        tableView.reloadData()
+        self.reloadModelData()
     }
 
     // Override to support conditional rearranging of the table view.

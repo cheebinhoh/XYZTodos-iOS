@@ -45,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             || appDelegate.needRefreshTodo {
             
             let tableViewController = getTodoTableViewController(scene: scene)
-            tableViewController.reloadData()
+            tableViewController.reloadSectionCellModelData()
             tableViewController.expandTodos(dows: [todayDoW])
             
             appDelegate.needRefreshTodo = false

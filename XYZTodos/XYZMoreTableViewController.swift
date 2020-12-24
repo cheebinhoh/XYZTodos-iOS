@@ -19,7 +19,7 @@ class XYZMoreTableViewController: UITableViewController,
         firstWeekDay = dow?.weekDayNr ?? Locale.current.calendar.firstWeekday
 
         let tableViewController = getTodoTableViewController() 
-        tableViewController.reloadData()
+        tableViewController.reloadSectionCellModelData()
         tableView.reloadData()
     }
 
