@@ -1022,7 +1022,8 @@ class XYZTodoTableViewController: UITableViewController {
         return cm
     }
     
-    override func tableView(_ tableView: UITableView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+    override func tableView(_ tableView: UITableView,
+                            previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
         
         previewIndexPath = nil
         
@@ -1030,7 +1031,8 @@ class XYZTodoTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView,
-                            willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+                            willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
+                            animator: UIContextMenuInteractionCommitAnimating) {
         
         let cell = tableView.cellForRow(at: previewIndexPath!)
         
