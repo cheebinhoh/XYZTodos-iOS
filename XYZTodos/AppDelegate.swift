@@ -272,9 +272,6 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
         }
         
         return swap
-        //return dow1Index < dow2Index
-        //       || ( dow1Index == dow2Index
-        //            && s1 < s2 )
     }
 }
 
