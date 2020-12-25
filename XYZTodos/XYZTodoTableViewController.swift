@@ -584,6 +584,12 @@ class XYZTodoTableViewController: UITableViewController {
                 executeAddTodo()
             }
             
+            if dowLocalized == todayDowLocalized {
+                
+                let image = UIImage(named: "Star")
+                moveToDoW.setValue(image?.withRenderingMode(.alwaysTemplate), forKey: "image")
+            }
+            
             moveToMenu.addAction(moveToDoW)
         }
         
@@ -622,6 +628,12 @@ class XYZTodoTableViewController: UITableViewController {
                     
                     executeAddTodo()
                 }
+            }
+            
+            if dowLocalized == todayDowLocalized {
+                
+                let image = UIImage(named: "Star")
+                moveToDoW.setValue(image?.withRenderingMode(.alwaysTemplate), forKey: "image")
             }
             
             moveToMenu.addAction(moveToDoW)
