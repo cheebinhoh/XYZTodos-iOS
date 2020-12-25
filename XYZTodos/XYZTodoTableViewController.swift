@@ -60,6 +60,7 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         let undoLastChange = UIAlertAction(title: "Undo last change".localized(), style: .default, handler: { (action) in
             
             self.undoManager?.undo()
@@ -100,11 +101,7 @@ class XYZTodoTableViewController: UITableViewController {
                     undoManager?.removeAllActions()
                 }
                 
-                var groupIdentifier = other
-                if let dow = sourceViewController.dow {
-                    
-                    groupIdentifier = dow.rawValue
-                }
+                let groupIdentifier = sourceViewController.dow?.rawValue ?? other
                 
                 let sectionIndex = sectionCellList.firstIndex {
                     
@@ -124,7 +121,7 @@ class XYZTodoTableViewController: UITableViewController {
     func deleteRow(indexPath: IndexPath) {
         
         let row = indexPath.row - 1
-        var section = self.sectionCellList[indexPath.section]
+        var section = sectionCellList[indexPath.section]
         var todoGroup = section.data as! TodoGroup
         
         let detail = todoGroup.todos[row].detail
@@ -145,7 +142,7 @@ class XYZTodoTableViewController: UITableViewController {
         todoGroup.todos.remove(at: row)
         todoGroup.collapse = todoGroup.todos.isEmpty
         section.data = todoGroup
-        self.sectionCellList[indexPath.section] = section
+        sectionCellList[indexPath.section] = section
         
         deleteTodoFromManagedContext(group: section.identifier, sequenceNr: row)
         
@@ -503,10 +500,10 @@ class XYZTodoTableViewController: UITableViewController {
                                 newcell.accessoryType = .none
                                 newcell.accessoryView = nil // createDownDisclosureIndicatorImage
                             }
-                    } else {
-                            
-                            newcell.accessoryType = .none
-                            newcell.accessoryView = nil
+                        } else {
+                                
+                                newcell.accessoryType = .none
+                                newcell.accessoryView = nil
                         }
                     } else {
                         
@@ -565,6 +562,7 @@ class XYZTodoTableViewController: UITableViewController {
     func uiAlertActionToDupTodo(from indexPath:IndexPath) {
         
         let moveToMenu = UIAlertController(title: "Copy to".localized(), message: nil, preferredStyle: .actionSheet)
+        
         let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
             
         })
@@ -596,6 +594,7 @@ class XYZTodoTableViewController: UITableViewController {
     func uiAlertActionToMoveTodo(from indexPath:IndexPath) {
         
         let moveToMenu = UIAlertController(title: "Move to".localized(), message: nil, preferredStyle: .actionSheet)
+        
         let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
             
         })
@@ -702,6 +701,7 @@ class XYZTodoTableViewController: UITableViewController {
         let more = UIContextualAction(style: .normal, title: "More".localized()) { _, _, handler in
             
             let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
             let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
                 
                 handler(true)
@@ -963,9 +963,8 @@ class XYZTodoTableViewController: UITableViewController {
         let cm = UIContextMenuConfiguration( identifier: nil,
                                              previewProvider: {
          
-                                                //viewController.preferredContentSize = textview.frame.size
                                                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                                guard let vc = storyboard.instantiateViewController(withIdentifier: "TodoPreview") as?   XYZTodoPreviewViewController else {
+                                                guard let vc = storyboard.instantiateViewController(withIdentifier: "TodoPreview") as? XYZTodoPreviewViewController else {
                                                  
                                                     fatalError("Exception: XYZTodoPreviewViewController is expected")
                                                 }
@@ -982,10 +981,10 @@ class XYZTodoTableViewController: UITableViewController {
                                                     vc.time.isHidden = true
                                                 }
 
-                                                    vc.detail?.text = detail
+                                                vc.detail?.text = detail
 
-                                                    return vc
-                                                }, // previewProvider
+                                                return vc
+                                             }, // previewProvider
 
                                             actionProvider: { _ in
                                                 
