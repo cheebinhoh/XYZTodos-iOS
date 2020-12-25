@@ -194,6 +194,7 @@ class XYZMoreTableViewController: UITableViewController,
                             fatalError("Exception: error on instantiating SelectionNavigationController")
                         }
                         
+                        selectionTableViewController.displayTitleForHeader = false
                         selectionTableViewController.selectionIdentifier = "dow"
                         selectionTableViewController.setSelections("Day of week".localized(),
                                                                    false,
@@ -227,7 +228,7 @@ class XYZMoreTableViewController: UITableViewController,
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
         
-        return section == 0 ? 35 : 17.5
+        return section == 0 ? 35 : 15 //17.5
     }
     
     override func tableView(_ tableView: UITableView,

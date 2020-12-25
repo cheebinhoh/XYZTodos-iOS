@@ -329,6 +329,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
                             fatalError("Exception: error on instantiating SelectionNavigationController")
                         }
                         
+                        selectionTableViewController.displayTitleForHeader = false
                         selectionTableViewController.selectionIdentifier = "dow"
                         selectionTableViewController.setSelections("Day of week".localized(),
                                                                    false,

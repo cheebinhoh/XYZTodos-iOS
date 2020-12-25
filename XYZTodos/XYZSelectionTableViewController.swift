@@ -17,6 +17,7 @@ class XYZSelectionTableViewController: UITableViewController {
     
     // MARK: - property
     
+    var displayTitleForHeader = true
     var delegate: XYZSelectionDelegate?
     var tableSectionList = [TableViewSectionCell]()
     var selectedItem: String?
@@ -209,7 +210,14 @@ class XYZSelectionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             titleForHeaderInSection section: Int) -> String? {
         
-        return tableSectionList[section].title?.localized()
+        var title = ""
+        
+        if displayTitleForHeader {
+            
+            title = tableSectionList[section].title?.localized() ?? ""
+        }
+        
+        return title
     }
     
     override func tableView(_ tableView: UITableView,
@@ -221,7 +229,7 @@ class XYZSelectionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
         
-        return section == 0 ? 35 : 17.5
+        return section == 0 ? 35 : 15
     }
 
     override func tableView(_ tableView: UITableView,

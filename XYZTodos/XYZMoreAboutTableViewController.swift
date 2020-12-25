@@ -24,7 +24,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
     
     // MARK: - Function
     
-    func loadSectionCellData() {
+    func loadSectionCell() {
 
         let aboutSection = TableViewSectionCell(identifier: "about",
                                                 title: nil,
@@ -59,7 +59,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         
         showBarButtons()
-        loadSectionCellData()
+        loadSectionCell()
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -179,7 +179,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
         
-        return section == 0 ? 5 : 17.5
+        return section == 0 ? 5 : 15 //17.5
     }
     
     override func tableView(_ tableView: UITableView,

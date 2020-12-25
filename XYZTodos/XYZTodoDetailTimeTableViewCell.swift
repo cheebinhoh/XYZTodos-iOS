@@ -13,7 +13,6 @@ protocol XYZTodoDetailTimeTableViewCellDelegate : class {
     func timeChanged(select: Bool, time: Date, sender: XYZTodoDetailTimeTableViewCell)
 }
 
-
 class XYZTodoDetailTimeTableViewCell: UITableViewCell {
 
     weak var delegate: XYZTodoDetailTimeTableViewCellDelegate?
@@ -58,5 +57,4 @@ class XYZTodoDetailTimeTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }
