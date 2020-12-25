@@ -44,29 +44,7 @@ class XYZTodoTableViewController: UITableViewController {
     var indexPathToBeRemovedAfterDup: IndexPath?
     var previewIndexPath: IndexPath?
         
-    var sectionCellList = [TableViewSectionCell]() {
-        
-        didSet {
-            
-            let hasNoCollapse = sectionCellList.contains {
-            
-                    guard let todoGroup = $0.data as? TodoGroup else {
-                        
-                        return true
-                    }
-                    
-                    return !todoGroup.collapse
-                }
-            
-            if !hasNoCollapse {
-           
-                self.tableView.setEditing(false, animated: true)
-                self.setEditing(false, animated: true)
-            }
-            
-            self.navigationItem.leftBarButtonItem?.isEnabled = hasNoCollapse
-        }
-    }
+    var sectionCellList = [TableViewSectionCell]()
     
     override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         // code you want to implement
@@ -417,7 +395,6 @@ class XYZTodoTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem
-        self.navigationItem.leftBarButtonItem?.isEnabled = false
     }
 
 
@@ -763,6 +740,16 @@ class XYZTodoTableViewController: UITableViewController {
         
         // Return false if you do not want the specified item to be editable.
         return indexPath.row > 0
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+   
+        return false
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
+        return .none
     }
     
     // Override to support editing the table view.
