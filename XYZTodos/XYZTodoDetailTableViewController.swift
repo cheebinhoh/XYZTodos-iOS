@@ -19,7 +19,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
         self.time = time
     }
     
-    
     // MARK: - XYZTextViewTableViewCellDelegate
     func textViewDidBeginEditing(sender: XYZTextViewTableViewCell) {
     
@@ -57,7 +56,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
             dowLocalized = other
         }
         
-        loadSectionCellData()
+        loadSectionCell()
         tableView.reloadData()
     }
     
@@ -130,7 +129,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         }
     }
     
-    func loadSectionCellData() {
+    func loadSectionCell() {
 
         sectionCellList = []
         
@@ -182,7 +181,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         }
         
         loadModelData()
-        loadSectionCellData()
+        loadSectionCell()
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -210,7 +209,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
         
-        //return section == 0 ? 35.0 : 5.0
         var height: CGFloat = 5.0
     
         if section == 0
