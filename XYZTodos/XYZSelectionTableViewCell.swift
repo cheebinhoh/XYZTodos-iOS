@@ -13,9 +13,6 @@ class XYZSelectionTableViewCell: UITableViewCell {
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var selection: UILabel!
-    @IBOutlet weak var colorView: UIView!
-    @IBOutlet weak var icon: UIImageView!
-    
 
     // MARK: - function
     
