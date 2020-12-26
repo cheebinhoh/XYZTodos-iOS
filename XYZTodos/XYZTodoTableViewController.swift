@@ -433,7 +433,10 @@ class XYZTodoTableViewController: UITableViewController {
                 todoGroup!.collapse = !todoGroup!.collapse
                 sectionCellList[indexPath.section].data = todoGroup
                 
-                scrollToIndexPath = IndexPath(row: Int(todoGroup!.todos.count / 2), section: indexPath.section)
+                if !todoGroup!.collapse {
+                    
+                    scrollToIndexPath = IndexPath(row: Int(todoGroup!.todos.count / 2), section: indexPath.section)
+                }
             }
         }
         
