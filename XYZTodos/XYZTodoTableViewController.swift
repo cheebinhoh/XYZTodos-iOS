@@ -89,16 +89,16 @@ class XYZTodoTableViewController: UITableViewController {
                          existing: sourceViewController.indexPath!)
             } else {
                 
-                addTodo(dow: sourceViewController.dow,
-                        detail: sourceViewController.detail!,
-                        timeOn: sourceViewController.timeOn!,
-                        time: sourceViewController.time!)
-                
                 if let indexPathToBeRemovedAfterDup = indexPathToBeRemovedAfterDup {
                     
                     deleteRow(indexPath: indexPathToBeRemovedAfterDup)
                     undoManager?.removeAllActions()
                 }
+                
+                addTodo(dow: sourceViewController.dow,
+                        detail: sourceViewController.detail!,
+                        timeOn: sourceViewController.timeOn!,
+                        time: sourceViewController.time!)
                 
                 let groupIdentifier = sourceViewController.dow?.rawValue ?? other
                 
@@ -628,20 +628,13 @@ class XYZTodoTableViewController: UITableViewController {
 
             let moveToDoW = UIAlertAction(title: dowLocalized, style: .default) { (_) in
                 
-                let todoGroup = section.data as? TodoGroup
+                self.dupDetail = todo?.detail
+                self.dupTime = todo?.time
+                self.dupTimeOn = todo?.timeOn
+                self.dupGroup = self.sectionCellList[index].identifier
+                self.indexPathToBeRemovedAfterDup = indexPath
                 
-                let toIndexPath = IndexPath(row: (todoGroup?.todos.count ?? 0) + 1 , section: index)
-                
-                if toIndexPath.section != indexPath.section {
-                    
-                    self.dupDetail = todo?.detail
-                    self.dupTime = todo?.time
-                    self.dupTimeOn = todo?.timeOn
-                    self.dupGroup = self.sectionCellList[index].identifier
-                    self.indexPathToBeRemovedAfterDup = indexPath
-                    
-                    executeAddTodo()
-                }
+                executeAddTodo()
             }
             
             if dowLocalized == todayDowLocalized {
