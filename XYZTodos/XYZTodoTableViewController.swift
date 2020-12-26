@@ -43,7 +43,6 @@ class XYZTodoTableViewController: UITableViewController {
     var dupTimeOn: Bool?
     var indexPathToBeRemovedAfterDup: IndexPath?
     var previewIndexPath: IndexPath?
-        
     var sectionCellList = [TableViewSectionCell]()
     
     override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
@@ -423,6 +422,8 @@ class XYZTodoTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         
+        var scrollToIndexPath: IndexPath?
+        
         if indexPath.row <= 0 {
             
             var todoGroup = sectionCellList[indexPath.section].data as? TodoGroup
@@ -431,12 +432,22 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 todoGroup!.collapse = !todoGroup!.collapse
                 sectionCellList[indexPath.section].data = todoGroup
+                
+                scrollToIndexPath = IndexPath(row: Int(todoGroup!.todos.count / 2), section: indexPath.section)
             }
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
 
         tableView.reloadData()
+        
+        if let idp = scrollToIndexPath {
+            
+            DispatchQueue.main.async {
+                
+                self.tableView.scrollToRow(at: idp, at: .middle, animated: false)
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView,
