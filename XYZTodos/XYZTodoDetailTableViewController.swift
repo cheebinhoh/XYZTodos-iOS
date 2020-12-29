@@ -350,13 +350,8 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         self.present(nav, animated: true, completion: nil)
                         
                     case "picktime":
-                        if !(timeOn ?? false) {
-                            
-                            tableView.deselectRow(at: indexPath, animated: false)
-                        }
-                        
-                        break
-                        
+                        tableView.deselectRow(at: indexPath, animated: false)
+
                     default:
                         fatalError("Exception: unsupported cell id \(cellId)")
                 } // switch cellId 
@@ -378,10 +373,14 @@ class XYZTodoDetailTableViewController: UITableViewController,
                         fatalError("Exception: unsupported cell id \(cellId)")
                 }
         
+            case "Detail":
+                tableView.deselectRow(at: indexPath, animated: false)
+                
             default:
                 fatalError("Exception: unsupported section id \(sectionId)")
         } // switch sectionId
     }
+
     
     /*
     // Override to support conditional editing of the table view.
