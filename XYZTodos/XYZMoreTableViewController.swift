@@ -13,11 +13,16 @@ class XYZMoreTableViewController: UITableViewController,
     // MARK: - XYZSelectionDelegate
     
     func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
-        
-        let dow = DayOfWeek(rawValue: item!)
-        
-        firstWeekDay = dow?.weekDayNr ?? Locale.current.calendar.firstWeekday
 
+        if let dow = DayOfWeek(rawValue: item!) {
+        
+            firstWeekDay = dow.weekDayNr
+        } else {
+            
+            let defaults = UserDefaults.standard;
+            defaults.removeObject(forKey: "firstWeekDay")
+        }
+        
         let tableViewController = getTodoTableViewController() 
         tableViewController.reloadSectionCellModelData()
         tableView.reloadData()
