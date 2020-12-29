@@ -215,8 +215,6 @@ class XYZMoreTableViewController: UITableViewController,
                         selectionTableViewController.delegate = self
                         
                         let nav = UINavigationController(rootViewController: selectionTableViewController)
-                        nav.modalPresentationStyle = .popover
-                        
                         self.present(nav, animated: true, completion: nil)
                         
                     default:

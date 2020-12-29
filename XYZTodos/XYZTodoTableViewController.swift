@@ -575,7 +575,7 @@ class XYZTodoTableViewController: UITableViewController {
     
     func uiAlertActionToDupTodo(from indexPath:IndexPath) {
         
-        let moveToMenu = UIAlertController(title: "Copy to".localized(), message: nil, preferredStyle: .actionSheet)
+        let copyToMenu = UIAlertController(title: "Copy to".localized(), message: nil, preferredStyle: .actionSheet)
         
         let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
             
@@ -604,11 +604,15 @@ class XYZTodoTableViewController: UITableViewController {
                 moveToDoW.setValue(image?.withRenderingMode(.alwaysTemplate), forKey: "image")
             }
             
-            moveToMenu.addAction(moveToDoW)
+            copyToMenu.addAction(moveToDoW)
         }
         
-        moveToMenu.addAction(cancelMoveToAction)
-        self.present(moveToMenu, animated: true, completion: nil)
+        copyToMenu.addAction(cancelMoveToAction)
+        copyToMenu.popoverPresentationController?.sourceView = self.view
+        copyToMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
+        copyToMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+        
+        self.present(copyToMenu, animated: true, completion: nil)
     }
     
     func uiAlertActionToMoveTodo(from indexPath:IndexPath) {
@@ -647,6 +651,12 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         moveToMenu.addAction(cancelMoveToAction)
+        
+        
+        moveToMenu.popoverPresentationController?.sourceView = self.view
+        moveToMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
+        moveToMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+        
         self.present(moveToMenu, animated: true, completion: nil)
     }
 
@@ -741,6 +751,10 @@ class XYZTodoTableViewController: UITableViewController {
             optionMenu.addAction(moveToAction)
             optionMenu.addAction(dupToAction)
             optionMenu.addAction(cancelAction)
+            
+            optionMenu.popoverPresentationController?.sourceView = self.view
+            optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
+            optionMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             
             self.present(optionMenu, animated: true, completion: nil)
  
