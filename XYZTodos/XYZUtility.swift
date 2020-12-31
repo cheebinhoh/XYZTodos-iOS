@@ -211,4 +211,13 @@ extension Date {
         
         return afterHour!
     }
+    
+    static func nextMinute(minute: Int = 1) -> Date {
+        
+        let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: Date())
+        let now = Calendar.current.date(from: nowComponents)
+        let afterHour = Calendar.current.date(byAdding: .minute, value: minute, to: now!)
+        
+        return afterHour!
+    }
 }

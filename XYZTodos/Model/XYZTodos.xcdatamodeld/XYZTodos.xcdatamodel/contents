@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20C5048k" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D5029f" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="XYZGlobal" representedClassName="XYZGlobal" syncable="YES">
         <attribute name="dow" optional="YES" attributeType="String"/>
     </entity>
@@ -10,9 +10,10 @@
         <attribute name="sequenceNr" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timeOn" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="timeReschedule" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>
         <element name="XYZGlobal" positionX="-3187.986083984375" positionY="-1657.514343261719" width="128" height="44"/>
-        <element name="XYZTodo" positionX="-3183.913085937501" positionY="-1557.401580810547" width="128" height="133"/>
+        <element name="XYZTodo" positionX="-3183.913085937501" positionY="-1557.401580810547" width="128" height="134"/>
     </elements>
 </model>

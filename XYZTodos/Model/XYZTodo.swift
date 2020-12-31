@@ -20,6 +20,7 @@ class XYZTodo : NSManagedObject {
     static let complete = "complete"
     static let time = "time"
     static let timeOn = "timeOn"
+    static let timeReschedule = "timeReschedule"
     
     // MARK: - property
     
@@ -101,6 +102,20 @@ class XYZTodo : NSManagedObject {
         }
     }
     
+    // timeReschedule
+    var timeReschedule: Date? {
+        
+        get {
+            
+            return self.value(forKey: XYZTodo.timeReschedule) as? Date
+        }
+        
+        set {
+            
+            self.setValue(newValue, forKey: XYZTodo.timeReschedule)
+        }
+    }
+    
     // MARK: - function
     
     init(group: String?,
@@ -120,6 +135,7 @@ class XYZTodo : NSManagedObject {
         self.detail = detail
         self.timeOn = timeOn
         self.time = time
+        self.timeReschedule = nil
         self.complete = complete
     }
     

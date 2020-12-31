@@ -193,11 +193,21 @@ class AppDelegate: UIResponder,
                 if let todoFound = todoFound {
                     
                     todoFound.complete = true
+                    todoFound.timeReschedule = nil
+                
                     needRefreshTodo = true
-                    
                     saveManageContext()
                 }
                 
+            case "AN_HOUR_LATER_ACTION":
+                if let todoFound = todoFound {
+                    
+                    todoFound.timeReschedule = Date.nextMinute()
+                    saveManageContext()
+                    
+                    registerDeregisterNotification()
+                }
+                    
             default:
                 break
         }
@@ -388,6 +398,7 @@ func editTodoInManagedContext(oldGroup: String,
     todo.detail = detail
     todo.timeOn = timeOn
     todo.time = time
+    todo.timeReschedule = nil
     todo.complete = complete
 
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
@@ -478,10 +489,14 @@ func registerDeregisterNotification() {
                                           title: "Done".localized(),
                                           options: UNNotificationActionOptions(rawValue: 0))
 
+    let anHourAfterAction = UNNotificationAction(identifier: "AN_HOUR_LATER_ACTION",
+                                                 title: "Remind after an hour".localized(),
+                                                 options: UNNotificationActionOptions(rawValue: 0))
+    
     // Define the notification type
     let meetingInviteCategory =
           UNNotificationCategory(identifier: "TODO_ACTION",
-          actions: [doneAction],
+          actions: [doneAction, anHourAfterAction],
           intentIdentifiers: [],
           hiddenPreviewsBodyPlaceholder: "",
           options: .customDismissAction)
@@ -522,7 +537,19 @@ func registerDeregisterNotification() {
         dateComponents.calendar = Calendar.current
         dateComponents.weekday = todoDow!.weekDayNr
         
-        if todo.timeOn {
+        if let timeReschedule = todo.timeReschedule,
+           todo.timeOn && timeReschedule > Date() {
+            
+            let timeComponent = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute],
+                                                                  from: timeReschedule)
+            dateComponents = timeComponent
+            
+            let dateFormatter = DateFormatter()
+            
+            content.title = "You have todo on \(todoDow!.rawValue)".localized() + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
+            
+            content.body = todo.detail
+        } else if todo.timeOn {
         
             let timeComponent = Calendar.current.dateComponents([.hour, .minute],
                                                                   from: todo.time)
