@@ -202,7 +202,7 @@ class AppDelegate: UIResponder,
             case "AN_HOUR_LATER_ACTION":
                 if let todoFound = todoFound {
                     
-                    todoFound.timeReschedule = Date.nextMinute()
+                    todoFound.timeReschedule = Date.nextHour()
                     saveManageContext()
                     
                     registerDeregisterNotification()
