@@ -175,25 +175,27 @@ class AppDelegate: UIResponder,
         completionHandler()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
+        let reqIndex = Int(response.notification.request.identifier)
+        var todoFound: XYZTodo?
+        
+        for (index, todo) in todos!.enumerated() {
+            
+            if index == reqIndex {
+            
+                todoFound = todo
+                break
+            }
+        }
         
         switch response.actionIdentifier {
+        
             case "DONE_ACTION":
-                let reqIndex = Int(response.notification.request.identifier)
-                var todoFound: XYZTodo?
-                
-                for (index, todo) in todos!.enumerated() {
-                    
-                    if index == reqIndex {
-                    
-                        todoFound = todo
-                        break
-                    }
-                }
-                
                 if let todoFound = todoFound {
                     
                     todoFound.complete = true
                     needRefreshTodo = true
+                    
+                    saveManageContext()
                 }
                 
             default:
@@ -509,13 +511,30 @@ func registerDeregisterNotification() {
             lastDoWMidNightNotificationInstalled = false
         }
         
-        var timeComponent: DateComponents!
+        
+        let content = UNMutableNotificationContent()
+
+        content.badge = 1
+        content.categoryIdentifier = "TODO_ACTION"
+        
+        //var timeComponent: DateComponents!
+        var dateComponents = DateComponents()
+        dateComponents.calendar = Calendar.current
+        dateComponents.weekday = todoDow!.weekDayNr
         
         if todo.timeOn {
         
-            timeComponent = Calendar.current.dateComponents([.hour, .minute],
-                                                             from: todo.time)
+            let timeComponent = Calendar.current.dateComponents([.hour, .minute],
+                                                                  from: todo.time)
             
+            let dateFormatter = DateFormatter()
+            
+            content.title = "You have todo on \(todoDow!.rawValue)".localized() + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
+            
+            content.body = todo.detail
+            dateComponents.hour = timeComponent.hour ?? 0
+            dateComponents.minute = timeComponent.minute ?? 0
+
         } else {
         
             if lastDoWMidNightNotificationInstalled {
@@ -524,29 +543,7 @@ func registerDeregisterNotification() {
             }
             
             lastDoWMidNightNotificationInstalled = true
-        }
-        
-        let content = UNMutableNotificationContent()
-
-        content.badge = 1
-        content.categoryIdentifier = "TODO_ACTION"
-        
-        var dateComponents = DateComponents()
-        dateComponents.calendar = Calendar.current
-        dateComponents.weekday = todoDow!.weekDayNr
-        dateComponents.hour = timeComponent?.hour ?? 0
-        dateComponents.minute = timeComponent?.minute ?? 0
-        
-        if let timeComponent = timeComponent {
-        
-            let dateFormatter = DateFormatter()
-
-            content.title = "You have todo on \(todoDow!.rawValue)".localized() + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
-            content.body = todo.detail
             
-            dateComponents.hour = timeComponent.hour
-            dateComponents.minute = timeComponent.minute
-        } else {
             
             content.title = "You have todo on \(todoDow!.rawValue)".localized()
             
