@@ -114,6 +114,37 @@ class AppDelegate: UIResponder,
 
     // MARK: - Core Data stack
 
+    lazy var persistentContainerDeprecated: NSPersistentCloudKitContainer = {
+        /*
+         The persistent container for the application. This implementation
+         creates and returns a container, having loaded the store for the
+         application to it. This property is optional since there are legitimate
+         error conditions that could cause the creation of the store to fail.
+        */
+        let container = NSPersistentCloudKitContainer(name: "XYZTodos")
+    
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            
+            if let error = error as NSError? {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                 
+                /*
+                 Typical reasons for an error here include:
+                 * The parent directory does not exist, cannot be created, or disallows writing.
+                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                 * The device is out of space.
+                 * The store could not be migrated to the current model version.
+                 Check the error message to determine what the actual problem was.
+                 */
+                fatalError("Exception: unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        
+        return container
+    }()
+
+    
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         /*
          The persistent container for the application. This implementation
@@ -219,6 +250,16 @@ class AppDelegate: UIResponder,
     }
 }
 
+func managedContextDeprecated() -> NSManagedObjectContext? {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+        fatalError("Exception: AppDelegate is expected")
+    }
+    
+    return appDelegate.persistentContainerDeprecated.viewContext
+}
+
 func managedContext() -> NSManagedObjectContext? {
     
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -227,6 +268,19 @@ func managedContext() -> NSManagedObjectContext? {
     }
     
     return appDelegate.persistentContainer.viewContext
+}
+
+func saveManageContextDeprecated() {
+    
+    let aContext = managedContextDeprecated()
+    
+    do {
+        
+        try aContext?.save()
+    } catch let nserror as NSError {
+        
+        fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
+    }
 }
 
 func saveManageContext() {
@@ -294,8 +348,17 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
 
 func loadTodosFromManagedContext() -> [XYZTodo]? {
     
-    var output: [XYZTodo]?
+    var outputDeprecated: [XYZTodo]?
+
+    let aContextDeprecated = managedContextDeprecated()
+    let fetchRequestDeprecated = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
     
+    if let unsortedDeprecated = try? aContextDeprecated?.fetch(fetchRequestDeprecated) {
+        
+        outputDeprecated = sortTodos(todos: unsortedDeprecated)
+    }
+
+    var output: [XYZTodo]?
     let aContext = managedContext()
     let fetchRequest = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
     
@@ -303,7 +366,34 @@ func loadTodosFromManagedContext() -> [XYZTodo]? {
         
         output = sortTodos(todos: unsorted)
     }
-    
+
+    if outputDeprecated != nil && !outputDeprecated!.isEmpty {
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        appDelegate.todos = output
+        
+        for todo in outputDeprecated! {
+            
+            addTodoToManagedContext(group: todo.group,
+                                    sequenceNr: todo.sequenceNr,
+                                    detail: todo.detail,
+                                    timeOn: todo.timeOn,
+                                    time: todo.time,
+                                    complete: todo.complete)
+            
+            aContextDeprecated?.delete(todo)
+        }
+        
+        saveManageContext()
+        saveManageContextDeprecated()
+        
+        output = appDelegate.todos
+    }
+
     return output
 }
 
