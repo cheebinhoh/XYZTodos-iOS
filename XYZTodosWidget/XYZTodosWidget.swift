@@ -44,6 +44,27 @@ var persistentContainer: NSPersistentCloudKitContainer = {
     return container
 }()
 
+let todos = loadTodosFromManagedContext()
+
+func managedContext() -> NSManagedObjectContext? {
+    
+    return persistentContainer.viewContext
+}
+
+func loadTodosFromManagedContext() -> [XYZTodo]? {
+    
+    var output: [XYZTodo]?
+    let aContext = managedContext()
+    let fetchRequest = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
+    
+    if let unsorted = try? aContext?.fetch(fetchRequest) {
+        
+        output = sortTodos(todos: unsorted)
+    }
+
+    return output
+}
+
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date())
@@ -57,9 +78,6 @@ struct Provider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
 
-        let vc = persistentContainer.viewContext
-        
-        print("--- \(vc)")
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
