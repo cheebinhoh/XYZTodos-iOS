@@ -16,6 +16,7 @@
 		652267EC259F9DDA00D954E9 /* XYZTodos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E2132548DE7900C92101 /* XYZTodos.xcdatamodeld */; };
 		652267F1259F9DDD00D954E9 /* XYZTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06C1F254E365800DB3E16 /* XYZTodo.swift */; };
 		652267F6259F9DDF00D954E9 /* XYZGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653C7ED1254EFCAF0063A368 /* XYZGlobal.swift */; };
+		652267FF259FDA7300D954E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65F06B76254B45C500DB3E16 /* Localizable.strings */; };
 		652301FC257C5D8F0007D894 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 652301FE257C5D8F0007D894 /* InfoPlist.strings */; };
 		6523022A2587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652302292587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift */; };
 		653B9F91254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */; };
@@ -422,6 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				652267C8259F9A4A00D954E9 /* Assets.xcassets in Resources */,
+				652267FF259FDA7300D954E9 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

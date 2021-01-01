@@ -229,6 +229,17 @@ extension Date {
         
         return afterSecond!
     }
+    
+    func getTimeOfToday() -> Date {
+        
+        var today = Calendar.current.dateComponents([.day, .month, .year], from: Date())
+        let time =  Calendar.current.dateComponents([.hour, .minute], from: self)
+
+        today.setValue(time.minute, for: .minute)
+        today.setValue(time.hour, for: .hour)
+        
+        return Calendar.current.date(from: today)!
+    }
 }
 
 public extension URL {

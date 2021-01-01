@@ -44,8 +44,6 @@ var persistentContainer: NSPersistentCloudKitContainer = {
     return container
 }()
 
-let todos = loadTodosFromManagedContext()
-
 func managedContext() -> NSManagedObjectContext? {
     
     return persistentContainer.viewContext
@@ -67,11 +65,11 @@ func loadTodosFromManagedContext() -> [XYZTodo]? {
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+        SimpleEntry(date: Date(), todos: [XYZTodo]())
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
+        let entry = SimpleEntry(date: Date(), todos: [XYZTodo]())
         completion(entry)
     }
 
@@ -79,16 +77,36 @@ struct Provider: TimelineProvider {
         
         var entries: [SimpleEntry] = []
 
-        print("--- todo # \(todos!.count)")
+        let todos = loadTodosFromManagedContext()
+        var todosInFutureOfToday = [XYZTodo]()
         
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        for todo in todos! {
+
+            if let dow = DayOfWeek(rawValue: todo.group), dow == todayDoW {
+                
+                if !todo.timeOn {
+                    
+                    todosInFutureOfToday.append(todo)
+                } else {
+                    
+                    let timeOfToday = todo.time.getTimeOfToday()
+                    
+                    if timeOfToday >= Date() {
+                        
+                        todosInFutureOfToday.append(todo)
+                    }
+                }
+            }
+        }
         
-        let entry = SimpleEntry(date: Date())
+        print("---- \(todosInFutureOfToday.count)")
+        
+        let entry = SimpleEntry(date: Date(), todos: todosInFutureOfToday)
         entries.append(entry)
         
         let after = Date.nextSecond(second: 60)
         
-        let afterentry = SimpleEntry(date: after)
+        let afterentry = SimpleEntry(date: after, todos: todosInFutureOfToday)
         entries.append(afterentry)
         
         let timeline = Timeline(entries: entries, policy: .atEnd)
@@ -101,14 +119,19 @@ struct Provider: TimelineProvider {
 struct SimpleEntry: TimelineEntry {
     
     let date: Date
+    var todos = [XYZTodo]()
 }
 
 struct XYZTodosWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        
-        Text(entry.date, style: .time)
+       
+        VStack(alignment: .leading, spacing: 5, content: {
+            
+            Text(entry.todos.first != nil ? "Next".localized() : "You are done for today!".localized()).font(.headline).foregroundColor(.green)
+            Text(entry.todos.first != nil ? "\(DateFormatter().stringWithShortTime(from:entry.todos.first?.time ?? Date()))  \(entry.todos.first?.detail ?? "")" : "").fontWeight(.light)
+        }).padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
     }
 }
 
@@ -121,15 +144,15 @@ struct XYZTodosWidget: Widget {
             
             XYZTodosWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("XYZ Todos Widget")
+        .description("What is next task?")
     }
 }
 
 struct XYZTodosWidget_Previews: PreviewProvider {
     
     static var previews: some View {
-        XYZTodosWidgetEntryView(entry: SimpleEntry(date: Date()))
+        XYZTodosWidgetEntryView(entry: SimpleEntry(date: Date(), todos: [XYZTodo]()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
