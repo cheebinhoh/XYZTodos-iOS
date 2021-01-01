@@ -123,7 +123,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
             dowLocalized = todayDowLocalized
             dow = todayDoW
     
-            timeOn = false
+            timeOn = true
             time = Date.nextHour()
             detail = ""
         }

@@ -191,7 +191,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHK-8b-BdY">
-                                            <rect key="frame" x="25" y="15" width="70" height="20"/>
+                                            <rect key="frame" x="20" y="15" width="70" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="70" id="7ce-E9-HAp"/>
                                             </constraints>
@@ -200,7 +200,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuV-GN-bn2">
-                                            <rect key="frame" x="111" y="15" width="278" height="20"/>
+                                            <rect key="frame" x="112" y="15" width="277" height="20"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -208,9 +208,9 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="tuV-GN-bn2" firstAttribute="baseline" secondItem="VHK-8b-BdY" secondAttribute="baseline" id="6Wq-nX-3YF"/>
-                                        <constraint firstItem="VHK-8b-BdY" firstAttribute="leading" secondItem="1df-w1-iJI" secondAttribute="leadingMargin" constant="5" id="Frs-jK-U3t"/>
+                                        <constraint firstItem="VHK-8b-BdY" firstAttribute="leading" secondItem="1df-w1-iJI" secondAttribute="leadingMargin" id="Frs-jK-U3t"/>
                                         <constraint firstItem="VHK-8b-BdY" firstAttribute="centerY" secondItem="1df-w1-iJI" secondAttribute="centerY" id="HBq-eJ-5GP"/>
-                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="leading" secondItem="VHK-8b-BdY" secondAttribute="trailing" constant="16" id="XGb-bD-T0Q"/>
+                                        <constraint firstItem="tuV-GN-bn2" firstAttribute="leading" secondItem="VHK-8b-BdY" secondAttribute="trailing" constant="22" id="XGb-bD-T0Q"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="tuV-GN-bn2" secondAttribute="trailing" constant="5" id="bPG-go-xHt"/>
                                         <constraint firstItem="VHK-8b-BdY" firstAttribute="top" secondItem="1df-w1-iJI" secondAttribute="topMargin" constant="4" id="fCU-rq-PVa"/>
                                         <constraint firstItem="tuV-GN-bn2" firstAttribute="firstBaseline" secondItem="VHK-8b-BdY" secondAttribute="firstBaseline" id="jX7-vT-D9X"/>
