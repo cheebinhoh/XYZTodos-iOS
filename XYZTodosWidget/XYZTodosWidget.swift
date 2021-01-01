@@ -82,7 +82,8 @@ struct Provider: TimelineProvider {
         
         for todo in todos! {
 
-            if let dow = DayOfWeek(rawValue: todo.group), dow == todayDoW {
+            if let dow = DayOfWeek(rawValue: todo.group),
+               dow == todayDoW && !todo.complete {
                 
                 if !todo.timeOn {
                     
@@ -98,9 +99,7 @@ struct Provider: TimelineProvider {
                 }
             }
         }
-        
-        print("---- \(todosInFutureOfToday.count)")
-        
+
         let entry = SimpleEntry(date: Date(), todos: todosInFutureOfToday)
         entries.append(entry)
         
@@ -110,7 +109,6 @@ struct Provider: TimelineProvider {
         entries.append(afterentry)
         
         let timeline = Timeline(entries: entries, policy: .atEnd)
-        print("---- timeline = \(timeline)")
         
         completion(timeline)
     }
@@ -129,7 +127,7 @@ struct XYZTodosWidgetEntryView : View {
        
         VStack(alignment: .leading, spacing: 5, content: {
             
-            Text(entry.todos.first != nil ? "Next".localized() : "You are done for today!".localized()).font(.headline).foregroundColor(.green)
+            Text(entry.todos.first != nil ? "Next".localized() : "You are done for today".localized()).font(.headline).foregroundColor(.green)
             Text(entry.todos.first != nil ? "\(DateFormatter().stringWithShortTime(from:entry.todos.first?.time ?? Date()))  \(entry.todos.first?.detail ?? "")" : "").fontWeight(.light)
         }).padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
     }
@@ -137,9 +135,11 @@ struct XYZTodosWidgetEntryView : View {
 
 @main
 struct XYZTodosWidget: Widget {
+    
     let kind: String = "XYZTodosWidget"
 
     var body: some WidgetConfiguration {
+        
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             
             XYZTodosWidgetEntryView(entry: entry)
@@ -152,6 +152,7 @@ struct XYZTodosWidget: Widget {
 struct XYZTodosWidget_Previews: PreviewProvider {
     
     static var previews: some View {
+        
         XYZTodosWidgetEntryView(entry: SimpleEntry(date: Date(), todos: [XYZTodo]()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
