@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		652267C1259F9A4900D954E9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652267C0259F9A4900D954E9 /* WidgetKit.framework */; };
+		652267C3259F9A4900D954E9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652267C2259F9A4900D954E9 /* SwiftUI.framework */; };
+		652267C6259F9A4900D954E9 /* XYZTodosWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652267C5259F9A4900D954E9 /* XYZTodosWidget.swift */; };
+		652267C8259F9A4A00D954E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 652267C7259F9A4A00D954E9 /* Assets.xcassets */; };
+		652267CC259F9A4A00D954E9 /* XYZTodosWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 652267BE259F9A4900D954E9 /* XYZTodosWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		652267D9259F9A7C00D954E9 /* XYZUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06B54254B32EC00DB3E16 /* XYZUtility.swift */; };
+		652267EC259F9DDA00D954E9 /* XYZTodos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E2132548DE7900C92101 /* XYZTodos.xcdatamodeld */; };
+		652267F1259F9DDD00D954E9 /* XYZTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06C1F254E365800DB3E16 /* XYZTodo.swift */; };
+		652267F6259F9DDF00D954E9 /* XYZGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653C7ED1254EFCAF0063A368 /* XYZGlobal.swift */; };
 		652301FC257C5D8F0007D894 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 652301FE257C5D8F0007D894 /* InfoPlist.strings */; };
 		6523022A2587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652302292587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift */; };
 		653B9F91254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */; };
@@ -39,6 +48,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		652267CA259F9A4A00D954E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65A1E1FF2548DE7900C92101 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 652267BD259F9A4900D954E9;
+			remoteInfo = XYZTodosWidgetExtension;
+		};
 		65A1E2212548DE7B00C92101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 65A1E1FF2548DE7900C92101 /* Project object */;
@@ -55,7 +71,29 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		652267D0259F9A4A00D954E9 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				652267CC259F9A4A00D954E9 /* XYZTodosWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		652267B6259F984500D954E9 /* XYZTodos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XYZTodos.entitlements; sourceTree = "<group>"; };
+		652267BE259F9A4900D954E9 /* XYZTodosWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = XYZTodosWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		652267C0259F9A4900D954E9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		652267C2259F9A4900D954E9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		652267C5259F9A4900D954E9 /* XYZTodosWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodosWidget.swift; sourceTree = "<group>"; };
+		652267C7259F9A4A00D954E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		652267C9259F9A4A00D954E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		652267DE259F9ABF00D954E9 /* XYZTodosWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XYZTodosWidgetExtension.entitlements; sourceTree = "<group>"; };
 		652301FD257C5D8F0007D894 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		652301FF257C5D940007D894 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65230200257C5D950007D894 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -114,6 +152,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		652267BB259F9A4900D954E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				652267C3259F9A4900D954E9 /* SwiftUI.framework in Frameworks */,
+				652267C1259F9A4900D954E9 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		65A1E2042548DE7900C92101 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,12 +185,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		652267BF259F9A4900D954E9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				652267C0259F9A4900D954E9 /* WidgetKit.framework */,
+				652267C2259F9A4900D954E9 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		652267C4259F9A4900D954E9 /* XYZTodosWidget */ = {
+			isa = PBXGroup;
+			children = (
+				652267C5259F9A4900D954E9 /* XYZTodosWidget.swift */,
+				652267C7259F9A4A00D954E9 /* Assets.xcassets */,
+				652267C9259F9A4A00D954E9 /* Info.plist */,
+			);
+			path = XYZTodosWidget;
+			sourceTree = "<group>";
+		};
 		65A1E1FE2548DE7900C92101 = {
 			isa = PBXGroup;
 			children = (
+				652267DE259F9ABF00D954E9 /* XYZTodosWidgetExtension.entitlements */,
 				65A1E2092548DE7900C92101 /* XYZTodos */,
+				652267C4259F9A4900D954E9 /* XYZTodosWidget */,
 				65A1E2232548DE7B00C92101 /* XYZTodosTests */,
 				65A1E22E2548DE7B00C92101 /* XYZTodosUITests */,
+				652267BF259F9A4900D954E9 /* Frameworks */,
 				65A1E2082548DE7900C92101 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -154,6 +223,7 @@
 				65A1E2072548DE7900C92101 /* XYZTodos.app */,
 				65A1E2202548DE7B00C92101 /* XYZTodosTests.xctest */,
 				65A1E22B2548DE7B00C92101 /* XYZTodosUITests.xctest */,
+				652267BE259F9A4900D954E9 /* XYZTodosWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,6 +231,7 @@
 		65A1E2092548DE7900C92101 /* XYZTodos */ = {
 			isa = PBXGroup;
 			children = (
+				652267B6259F984500D954E9 /* XYZTodos.entitlements */,
 				65A1E24F25490BB900C92101 /* Model */,
 				65F06B81254B5E8B00DB3E16 /* XYZTodoTableViewController.swift */,
 				65F06B94254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift */,
@@ -222,6 +293,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		652267BD259F9A4900D954E9 /* XYZTodosWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 652267CD259F9A4A00D954E9 /* Build configuration list for PBXNativeTarget "XYZTodosWidgetExtension" */;
+			buildPhases = (
+				652267BA259F9A4900D954E9 /* Sources */,
+				652267BB259F9A4900D954E9 /* Frameworks */,
+				652267BC259F9A4900D954E9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XYZTodosWidgetExtension;
+			productName = XYZTodosWidgetExtension;
+			productReference = 652267BE259F9A4900D954E9 /* XYZTodosWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		65A1E2062548DE7900C92101 /* XYZTodos */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 65A1E2342548DE7B00C92101 /* Build configuration list for PBXNativeTarget "XYZTodos" */;
@@ -229,10 +317,12 @@
 				65A1E2032548DE7900C92101 /* Sources */,
 				65A1E2042548DE7900C92101 /* Frameworks */,
 				65A1E2052548DE7900C92101 /* Resources */,
+				652267D0259F9A4A00D954E9 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				652267CB259F9A4A00D954E9 /* PBXTargetDependency */,
 			);
 			name = XYZTodos;
 			productName = XYZTodos;
@@ -281,9 +371,12 @@
 		65A1E1FF2548DE7900C92101 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1210;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
+					652267BD259F9A4900D954E9 = {
+						CreatedOnToolsVersion = 12.3;
+					};
 					65A1E2062548DE7900C92101 = {
 						CreatedOnToolsVersion = 12.1;
 					};
@@ -318,11 +411,20 @@
 				65A1E2062548DE7900C92101 /* XYZTodos */,
 				65A1E21F2548DE7B00C92101 /* XYZTodosTests */,
 				65A1E22A2548DE7B00C92101 /* XYZTodosUITests */,
+				652267BD259F9A4900D954E9 /* XYZTodosWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		652267BC259F9A4900D954E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				652267C8259F9A4A00D954E9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		65A1E2052548DE7900C92101 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -352,6 +454,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		652267BA259F9A4900D954E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				652267F6259F9DDF00D954E9 /* XYZGlobal.swift in Sources */,
+				652267D9259F9A7C00D954E9 /* XYZUtility.swift in Sources */,
+				652267F1259F9DDD00D954E9 /* XYZTodo.swift in Sources */,
+				652267EC259F9DDA00D954E9 /* XYZTodos.xcdatamodeld in Sources */,
+				652267C6259F9A4900D954E9 /* XYZTodosWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		65A1E2032548DE7900C92101 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -400,6 +514,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		652267CB259F9A4A00D954E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 652267BD259F9A4900D954E9 /* XYZTodosWidgetExtension */;
+			targetProxy = 652267CA259F9A4A00D954E9 /* PBXContainerItemProxy */;
+		};
 		65A1E2222548DE7B00C92101 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 65A1E2062548DE7900C92101 /* XYZTodos */;
@@ -468,6 +587,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		652267CE259F9A4A00D954E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = XYZTodosWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BKU6P4Y9G4;
+				INFOPLIST_FILE = XYZTodosWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbHOH.XYZTodos.XYZTodosWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		652267CF259F9A4A00D954E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = XYZTodosWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BKU6P4Y9G4;
+				INFOPLIST_FILE = XYZTodosWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbHOH.XYZTodos.XYZTodosWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		65A1E2322548DE7B00C92101 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -589,8 +754,10 @@
 		65A1E2352548DE7B00C92101 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = XYZTodos/XYZTodos.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
@@ -610,8 +777,10 @@
 		65A1E2362548DE7B00C92101 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = XYZTodos/XYZTodos.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
@@ -715,6 +884,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		652267CD259F9A4A00D954E9 /* Build configuration list for PBXNativeTarget "XYZTodosWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				652267CE259F9A4A00D954E9 /* Debug */,
+				652267CF259F9A4A00D954E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		65A1E2022548DE7900C92101 /* Build configuration list for PBXProject "XYZTodos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

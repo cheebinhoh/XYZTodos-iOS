@@ -121,7 +121,12 @@ class AppDelegate: UIResponder,
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
+        //let persistentContainer = NSPersistentContainer(name: "Collect")
+        let storeURL = URL.storeURL(for: "group.com.XYZTodos", databaseName: "XYZTodos")
+        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+
         let container = NSPersistentCloudKitContainer(name: "XYZTodos")
+        container.persistentStoreDescriptions = [storeDescription]
         
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             
