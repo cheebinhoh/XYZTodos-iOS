@@ -216,9 +216,18 @@ extension Date {
         
         let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: Date())
         let now = Calendar.current.date(from: nowComponents)
-        let afterHour = Calendar.current.date(byAdding: .minute, value: minute, to: now!)
+        let afterMinute = Calendar.current.date(byAdding: .minute, value: minute, to: now!)
         
-        return afterHour!
+        return afterMinute!
+    }
+    
+    static func nextSecond(second: Int = 1) -> Date {
+        
+        let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute, .second], from: Date())
+        let now = Calendar.current.date(from: nowComponents)
+        let afterSecond = Calendar.current.date(byAdding: .second, value: second, to: now!)
+        
+        return afterSecond!
     }
 }
 

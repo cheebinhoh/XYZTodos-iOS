@@ -76,22 +76,30 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        
         var entries: [SimpleEntry] = []
 
+        print("--- todo # \(todos!.count)")
+        
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
-            entries.append(entry)
-        }
-
+        
+        let entry = SimpleEntry(date: Date())
+        entries.append(entry)
+        
+        let after = Date.nextSecond(second: 60)
+        
+        let afterentry = SimpleEntry(date: after)
+        entries.append(afterentry)
+        
         let timeline = Timeline(entries: entries, policy: .atEnd)
+        print("---- timeline = \(timeline)")
+        
         completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
+    
     let date: Date
 }
 
@@ -99,6 +107,7 @@ struct XYZTodosWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
+        
         Text(entry.date, style: .time)
     }
 }
@@ -109,6 +118,7 @@ struct XYZTodosWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            
             XYZTodosWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("My Widget")
@@ -117,6 +127,7 @@ struct XYZTodosWidget: Widget {
 }
 
 struct XYZTodosWidget_Previews: PreviewProvider {
+    
     static var previews: some View {
         XYZTodosWidgetEntryView(entry: SimpleEntry(date: Date()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
