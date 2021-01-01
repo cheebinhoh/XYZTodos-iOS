@@ -71,7 +71,7 @@ class XYZTodo : NSManagedObject {
         }
         
         set {
-            
+         
             self.setValue(newValue, forKey: XYZTodo.complete)
         }
     }

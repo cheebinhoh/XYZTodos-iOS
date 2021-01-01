@@ -234,6 +234,7 @@ class AppDelegate: UIResponder,
                 
                     needRefreshTodo = true
                     saveManageContext()
+                    registerDeregisterNotification()
                 }
                 
             case "AN_HOUR_LATER_ACTION":
