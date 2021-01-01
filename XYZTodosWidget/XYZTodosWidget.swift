@@ -79,6 +79,7 @@ struct Provider: TimelineProvider {
 
         let todos = loadTodosFromManagedContext()
         var todosInFutureOfToday = [XYZTodo]()
+        var todosDue = [XYZTodo]()
         
         for todo in todos! {
 
@@ -95,10 +96,15 @@ struct Provider: TimelineProvider {
                     if timeOfToday >= Date() {
                         
                         todosInFutureOfToday.append(todo)
+                    } else {
+                        
+                        todosDue.append(todo)
                     }
                 }
             }
         }
+        
+        todosInFutureOfToday.append(contentsOf: todosDue)
 
         let entry = SimpleEntry(date: Date(), todos: todosInFutureOfToday)
         entries.append(entry)
