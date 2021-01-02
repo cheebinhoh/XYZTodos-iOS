@@ -258,3 +258,56 @@ public extension URL {
         return fileContainer.appendingPathComponent("\(databaseName)")
     }
 }
+
+func getTodo(group: String, sequenceNr: Int, from todos: [XYZTodo]) -> XYZTodo? {
+    
+    return todos.first { (todo) -> Bool in
+        
+        return todo.group == group
+                && todo.sequenceNr == sequenceNr
+    }
+}
+
+func parseGroupAndSequenceNr(outof parameter: String) -> (String?, Int?) {
+    
+    var group: String?
+    var sequenceNr: Int?
+
+    let parameterList = parameter.split(separator: "&")
+    
+    for parameter in parameterList {
+        
+        let parameterNameValue = parameter.split(separator: "=")
+        
+        for (index, name) in parameterNameValue.enumerated() {
+            
+            switch name {
+                case "sequenceNr":
+                    guard index + 1 < parameterNameValue.count else {
+                        
+                        fatalError("Exception: missing parameter value for SequenceNr")
+                    }
+                
+                    guard let value = Int(parameterNameValue[index + 1]) else {
+                        
+                        fatalError("Exception: parameter value for SequenceNr must be number")
+                    }
+                    
+                    sequenceNr = value
+                    
+                case "group":
+                    guard index + 1 < parameterNameValue.count else {
+                        
+                        fatalError("Exception: missing parameter value for SequenceNr")
+                    }
+                
+                   group = String(parameterNameValue[index + 1])
+                    
+                default:
+                    break
+            }
+        }
+    }
+
+    return (group, sequenceNr)
+}

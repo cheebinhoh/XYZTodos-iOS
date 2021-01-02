@@ -211,18 +211,15 @@ class AppDelegate: UIResponder,
         completionHandler()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
-        let reqIndex = Int(response.notification.request.identifier)
+        
         var todoFound: XYZTodo?
-        
-        for (index, todo) in todos!.enumerated() {
+        let (group, sequenceNr) = parseGroupAndSequenceNr(outof: response.notification.request.identifier)
+
+        if let group = group, let sequenceNr = sequenceNr {
             
-            if index == reqIndex {
-            
-                todoFound = todo
-                break
-            }
+            todoFound = getTodo(group: group, sequenceNr: sequenceNr, from: todos!)
         }
-        
+
         switch response.actionIdentifier {
         
             case "DONE_ACTION":
@@ -246,6 +243,17 @@ class AppDelegate: UIResponder,
                 }
                     
             default:
+                if todoFound != nil {
+                    
+                    if let dow = DayOfWeek(rawValue: group!) {
+                        
+                        let tableViewController = getTodoTableViewController()
+                        tableViewController.reloadSectionCellModelData()
+                        tableViewController.expandTodos(dows: [dow], sequenceNr: sequenceNr!)
+                        tableViewController.highlight(todoIndex: sequenceNr!, group: group!)
+                    }
+                }
+                
                 break
         }
     }
@@ -257,7 +265,7 @@ func managedContextDeprecated() -> NSManagedObjectContext? {
         
         fatalError("Exception: AppDelegate is expected")
     }
-    
+  
     return appDelegate.persistentContainerDeprecated.viewContext
 }
 
@@ -555,7 +563,6 @@ func registerDeregisterNotification() {
         fatalError("Exception: AppDelegate is expected")
     }
 
-    var index = 0
     var lastDoWMidNightNotificationInstalled = false
     var lastDoW: DayOfWeek?
     for todo in appDelegate.todos! {
@@ -626,7 +633,7 @@ func registerDeregisterNotification() {
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
-        let request = UNNotificationRequest(identifier:"\(index)", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier:"group=\(todo.group)&sequenceNr=\(todo.sequenceNr)", content: content, trigger: trigger)
         
         center.add(request) { (error) in
             
@@ -637,7 +644,6 @@ func registerDeregisterNotification() {
         }
         
         lastDoW = todoDow
-        index = index + 1
     }
 } // func registerDeregisterNotification()
 
@@ -653,14 +659,9 @@ func executeAddTodo() {
     }
 }
 
-func getTodoTableViewController(scene: UIScene? = UIApplication.shared.connectedScenes.first) -> XYZTodoTableViewController {
-    
-    guard let sd = (scene?.delegate as? SceneDelegate) else {
+func getTodoTableViewController(window: UIWindow) -> XYZTodoTableViewController {
 
-        fatalError("Exception sceneDelegate is expected")
-    }
-    
-    guard let tabBarController = sd.window?.rootViewController as? UITabBarController else {
+    guard let tabBarController = window.rootViewController as? UITabBarController else {
         
         fatalError("Exception: UITabBarController is expected" )
     }
@@ -676,4 +677,14 @@ func getTodoTableViewController(scene: UIScene? = UIApplication.shared.connected
     }
     
     return tableViewController
+}
+
+func getTodoTableViewController(scene: UIScene? = UIApplication.shared.connectedScenes.first) -> XYZTodoTableViewController {
+    
+    guard let sd = (scene?.delegate as? SceneDelegate) else {
+
+        fatalError("Exception sceneDelegate is expected")
+    }
+    
+    return getTodoTableViewController(window: sd.window!)
 }
