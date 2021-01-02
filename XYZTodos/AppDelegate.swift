@@ -246,19 +246,6 @@ func saveManageContextDeprecated() {
     }
 }
 
-func saveManageContext() {
-    
-    let aContext = managedContext()
-    
-    do {
-        
-        try aContext?.save()
-    } catch let nserror as NSError {
-        
-        fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
-    }
-}
-
 func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
     
     var outputDeprecated: [XYZTodo]?
@@ -303,26 +290,6 @@ func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
     }
 
     return output
-}
-
-func loadGlobalFromManagedContext() -> XYZGlobal? {
-    
-    let aContext = managedContext()
-    let fetchRequest = NSFetchRequest<XYZGlobal>(entityName: XYZGlobal.type)
-    
-    guard let output = try? aContext?.fetch(fetchRequest) else {
-        
-        fatalError("Exception: error in fetchRequest XYZGlobal")
-    }
-
-    var global = output.first
-    if nil == global {
-        
-        global = XYZGlobal(dow: "", context: managedContext())
-        saveManageContext()
-    }
-    
-    return global
 }
 
 func deleteTodoFromManagedContext(group: String,
