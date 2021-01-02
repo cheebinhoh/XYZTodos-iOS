@@ -44,25 +44,6 @@ var persistentContainer: NSPersistentCloudKitContainer = {
     return container
 }()
 
-func managedContext() -> NSManagedObjectContext? {
-    
-    return persistentContainer.viewContext
-}
-
-func loadTodosFromManagedContext() -> [XYZTodo]? {
-    
-    var output: [XYZTodo]?
-    let aContext = managedContext()
-    let fetchRequest = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
-    
-    if let unsorted = try? aContext?.fetch(fetchRequest) {
-        
-        output = sortTodos(todos: unsorted)
-    }
-
-    return output
-}
-
 struct Provider: TimelineProvider {
     
     func placeholder(in context: Context) -> SimpleEntry {
@@ -78,7 +59,7 @@ struct Provider: TimelineProvider {
         
         var entries: [SimpleEntry] = []
 
-        let todos = loadTodosFromManagedContext()
+        let todos = loadTodosFromManagedContext(persistentContainer.viewContext)
         var todosInFutureOfToday = [XYZTodo]()
         var todosDue = [XYZTodo]()
         var overdues = [Bool]()

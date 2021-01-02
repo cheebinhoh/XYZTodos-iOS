@@ -7,6 +7,7 @@
 
 
 import Foundation
+import CoreData
 
 // MARK: - Global Property
 let appScheme = "xyztodot"
@@ -257,6 +258,19 @@ public extension URL {
 
         return fileContainer.appendingPathComponent("\(databaseName)")
     }
+}
+
+func loadTodosFromManagedContext(_ aContext: NSManagedObjectContext?) -> [XYZTodo]? {
+    
+    var output: [XYZTodo]?
+    let fetchRequest = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
+    
+    if let unsorted = try? aContext?.fetch(fetchRequest) {
+        
+        output = sortTodos(todos: unsorted)
+    }
+
+    return output
 }
 
 func getTodo(group: String, sequenceNr: Int, from todos: [XYZTodo]) -> XYZTodo? {

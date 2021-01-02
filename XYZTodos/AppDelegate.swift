@@ -72,7 +72,7 @@ class AppDelegate: UIResponder,
         // Override point for customization after application launch.
         
         global = loadGlobalFromManagedContext();
-        todos = loadTodosFromManagedContext()
+        todos = loadAndConvertTodosFromManagedContext()
         
         // reconciliate
         reconciliateData()
@@ -305,7 +305,7 @@ func saveManageContext() {
     }
 }
 
-func loadTodosFromManagedContext() -> [XYZTodo]? {
+func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
     
     var outputDeprecated: [XYZTodo]?
 
@@ -317,14 +317,9 @@ func loadTodosFromManagedContext() -> [XYZTodo]? {
         outputDeprecated = sortTodos(todos: unsortedDeprecated)
     }
 
-    var output: [XYZTodo]?
+    // load new structure
     let aContext = managedContext()
-    let fetchRequest = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
-    
-    if let unsorted = try? aContext?.fetch(fetchRequest) {
-        
-        output = sortTodos(todos: unsorted)
-    }
+    var output = loadTodosFromManagedContext(aContext)
 
     if outputDeprecated != nil && !outputDeprecated!.isEmpty {
 
