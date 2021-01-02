@@ -158,8 +158,8 @@ struct XYZTodosWidget: Widget {
             
             XYZTodosWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("XYZ Todos Widget")
-        .description("What is next task?")
+        .configurationDisplayName("XYZTodos".localized())
+        .description("What is next task?".localized())
     }
 }
 
