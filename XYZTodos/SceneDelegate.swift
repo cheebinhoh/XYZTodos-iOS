@@ -67,6 +67,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     let tableViewController = getTodoTableViewController(scene: scene)
                     tableViewController.reloadSectionCellModelData()
                     tableViewController.expandTodos(dows: [dow], sequenceNr: sequenceNr)
+                    tableViewController.highlight(todoIndex: sequenceNr, group: dow.rawValue)
                 }
                 
             default:

@@ -352,16 +352,14 @@ class XYZTodoTableViewController: UITableViewController {
     func expandTodos(dows: [DayOfWeek], sequenceNr: Int = -1) {
         
         var expndedSectionCellList = [TableViewSectionCell]()
-        var sectionIndexExpanded: Int?
-        
-        for (sectionIndex, var section) in sectionCellList.enumerated() {
+      
+        for var section in sectionCellList {
             
             var group = section.data as? TodoGroup
             
             if let dow = DayOfWeek(rawValue: section.identifier),
                dows.contains(dow) {
         
-                sectionIndexExpanded = sectionIndex
                 group!.collapse = false
             } else {
                 
@@ -375,24 +373,38 @@ class XYZTodoTableViewController: UITableViewController {
         sectionCellList = expndedSectionCellList
         
         tableView.reloadData()
+    }
+    
+    func highlight(todoIndex: Int, group: String) {
         
-        if let setionIndex = sectionIndexExpanded, sequenceNr >= 0 {
+        guard let sectionIndex = sectionCellList.firstIndex(where: { (section) -> Bool in
             
-            let indexPath = IndexPath(row: sequenceNr + 1, section: setionIndex)
-               
-            DispatchQueue.main.async {
-                
-                self.tableView.selectRow(at: indexPath,
-                                         animated: true,
-                                         scrollPosition: .middle)
-            }
+            return section.identifier == group
+        }) else {
+            
+            return
+        }
+        
+        let todoGroup = sectionCellList[sectionIndex].data as? TodoGroup
+        
+        guard (todoGroup?.todos.count)! > todoIndex else {
+            
+            return
+        }
+        
+        let indexPath = IndexPath(row: todoIndex + 1, section: sectionIndex)
+           
+        DispatchQueue.main.async {
+            
+            self.tableView.selectRow(at: indexPath,
+                                     animated: true,
+                                     scrollPosition: .middle)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
              
                 self.tableView.deselectRow(at: indexPath,
                                            animated: true)
             }
-
         }
     }
     
