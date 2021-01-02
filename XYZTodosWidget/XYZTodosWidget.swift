@@ -81,6 +81,7 @@ struct Provider: TimelineProvider {
         let todos = loadTodosFromManagedContext()
         var todosInFutureOfToday = [XYZTodo]()
         var todosDue = [XYZTodo]()
+        var overdues = [Bool]()
         let nowOnward = Date().getTimeOfToday()
         
         for todo in todos! {
@@ -106,14 +107,16 @@ struct Provider: TimelineProvider {
             }
         }
         
+        overdues = Array(repeating: false, count: todosInFutureOfToday.count)
+        overdues.append(contentsOf: Array(repeating: true, count: todosDue.count))
         todosInFutureOfToday.append(contentsOf: todosDue)
 
-        let entry = SimpleEntry(date: Date(), todos: todosInFutureOfToday)
+        let entry = SimpleEntry(date: Date(), todos: todosInFutureOfToday, overdues: overdues)
         entries.append(entry)
         
         let after = Date.nextSecond(second: 60)
         
-        let afterentry = SimpleEntry(date: after, todos: todosInFutureOfToday)
+        let afterentry = SimpleEntry(date: after, todos: todosInFutureOfToday, overdues: overdues)
         entries.append(afterentry)
         
         let timeline = Timeline(entries: entries, policy: .atEnd)
@@ -126,6 +129,7 @@ struct SimpleEntry: TimelineEntry {
     
     let date: Date
     var todos = [XYZTodo]()
+    var overdues = [Bool]()
 }
 
 struct XYZTodosWidgetEntryView : View {
@@ -136,7 +140,7 @@ struct XYZTodosWidgetEntryView : View {
        
         VStack(alignment: .leading, spacing: 5, content: {
             
-            Text(entry.todos.first != nil ? "Next".localized() : "You are done for today".localized()).font(.headline).foregroundColor(.green)
+            Text(entry.todos.first != nil ? ( entry.overdues.first! ? "Overdue".localized() : "Next".localized() ) : "You are done for today".localized()).font(.headline).foregroundColor(entry.overdues.first == nil || (!entry.overdues.first!) ? .green : .red )
             Text(entry.todos.first != nil ? "\(DateFormatter().stringWithShortTime(from:entry.todos.first?.time ?? Date()))  \(entry.todos.first?.detail ?? "")" : "").fontWeight(.light)
         }).padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
         
