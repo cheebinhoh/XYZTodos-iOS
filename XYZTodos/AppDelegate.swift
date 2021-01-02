@@ -10,7 +10,6 @@ import CoreData
 import CloudKit
 import NotificationCenter
 import UserNotifications
-import WidgetKit
 
 @main
 class AppDelegate: UIResponder,
@@ -292,8 +291,6 @@ func saveManageContext() {
     do {
         
         try aContext?.save()
-        
-        WidgetCenter.shared.reloadAllTimelines()
     } catch let nserror as NSError {
         
         fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")

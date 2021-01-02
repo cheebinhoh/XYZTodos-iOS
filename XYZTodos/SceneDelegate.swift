@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WidgetKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -134,6 +135,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
+        
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -154,6 +157,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         appDelegate.saveContext()
         registerDeregisterNotification()
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     func windowScene(_ windowScene: UIWindowScene,

@@ -81,6 +81,7 @@ struct Provider: TimelineProvider {
         let todos = loadTodosFromManagedContext()
         var todosInFutureOfToday = [XYZTodo]()
         var todosDue = [XYZTodo]()
+        let nowOnward = Date().getTimeOfToday()
         
         for todo in todos! {
 
@@ -94,7 +95,7 @@ struct Provider: TimelineProvider {
                     
                     let timeOfToday = todo.time.getTimeOfToday()
                     
-                    if timeOfToday >= Date() {
+                    if timeOfToday >= nowOnward {
                         
                         todosInFutureOfToday.append(todo)
                     } else {
