@@ -17,10 +17,10 @@ var persistentContainer: NSPersistentCloudKitContainer = {
      error conditions that could cause the creation of the store to fail.
     */
     //let persistentContainer = NSPersistentContainer(name: "Collect")
-    let storeURL = URL.storeURL(for: "group.com.XYZTodos", databaseName: "XYZTodos")
+    let storeURL = URL.storeURL(for: appGroup, databaseName: databaseName)
     let storeDescription = NSPersistentStoreDescription(url: storeURL)
 
-    let container = NSPersistentCloudKitContainer(name: "XYZTodos")
+    let container = NSPersistentCloudKitContainer(name: databaseName)
     container.persistentStoreDescriptions = [storeDescription]
     
     container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -64,6 +64,7 @@ func loadTodosFromManagedContext() -> [XYZTodo]? {
 }
 
 struct Provider: TimelineProvider {
+    
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), todos: [XYZTodo]())
     }
@@ -127,6 +128,7 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct XYZTodosWidgetEntryView : View {
+    
     var entry: Provider.Entry
 
     var body: some View {

@@ -9,6 +9,8 @@
 import Foundation
 
 // MARK: - Global Property
+let appGroup = "group.com.XYZTodos"
+let databaseName = "XYZTodos"
 
 let other = "Other"
 
