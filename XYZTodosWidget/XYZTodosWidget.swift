@@ -54,9 +54,30 @@ struct Provider: TimelineProvider {
                 }
             }
         }
-        
+ 
         overdues = Array(repeating: false, count: todosInFutureOfToday.count)
-        overdues.append(contentsOf: Array(repeating: true, count: todosDue.count))
+        
+        if !todosDue.isEmpty {
+            
+            if !todosInFutureOfToday.isEmpty {
+                
+                let lastDueTodoEpoch = todosDue.last!.time.timeIntervalSinceReferenceDate
+                let nowOnwardEpoch = nowOnward.timeIntervalSinceReferenceDate
+                let nextTodoEpoch = todosInFutureOfToday.first!.time.timeIntervalSinceReferenceDate
+            
+                if abs( nowOnwardEpoch - lastDueTodoEpoch )
+                    < abs( nextTodoEpoch - nowOnwardEpoch ) {
+                    
+                    let todo = todosDue.removeLast()
+                    todosInFutureOfToday.insert(todo, at: 0)
+                    
+                    overdues.insert(true, at: 0)
+                }
+            }
+            
+            overdues = overdues + Array(repeating: true, count: todosDue.count)
+        }
+        
         todosInFutureOfToday.append(contentsOf: todosDue)
 
         let entry = SimpleEntry(date: Date(), todos: todosInFutureOfToday, overdues: overdues)
