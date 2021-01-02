@@ -575,6 +575,21 @@ func executeAddTodo() {
     }
 }
 
+func switchToTodoTableViewController(scene: UIScene? = UIApplication.shared.connectedScenes.first) {
+    
+    guard let sd = (scene?.delegate as? SceneDelegate) else {
+
+        fatalError("Exception sceneDelegate is expected")
+    }
+    
+    guard let tabBarController = sd.window?.rootViewController as? UITabBarController else {
+        
+        fatalError("Exception: UITabBarController is expected" )
+    }
+    
+    tabBarController.selectedIndex = 0
+}
+
 func getTodoTableViewController(window: UIWindow) -> XYZTodoTableViewController {
 
     guard let tabBarController = window.rootViewController as? UITabBarController else {

@@ -65,6 +65,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 if let dow = dow, let sequenceNr = sequenceNr {
                     
+                    switchToTodoTableViewController()
+                    
                     let tableViewController = getTodoTableViewController(scene: scene)
                     tableViewController.reloadSectionCellModelData()
                     tableViewController.expandTodos(dows: [dow], sequenceNr: sequenceNr)
@@ -121,6 +123,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if appDelegate.reconciliateData()
             || appDelegate.needRefreshTodo {
+            
+            switchToTodoTableViewController()
             
             let tableViewController = getTodoTableViewController(scene: scene)
             tableViewController.reloadSectionCellModelData()
