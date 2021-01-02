@@ -349,17 +349,19 @@ class XYZTodoTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    func expandTodos(dows: [DayOfWeek]) {
+    func expandTodos(dows: [DayOfWeek], sequenceNr: Int = -1) {
         
         var expndedSectionCellList = [TableViewSectionCell]()
+        var sectionIndexExpanded: Int?
         
-        for var section in sectionCellList {
+        for (sectionIndex, var section) in sectionCellList.enumerated() {
             
             var group = section.data as? TodoGroup
             
             if let dow = DayOfWeek(rawValue: section.identifier),
                dows.contains(dow) {
         
+                sectionIndexExpanded = sectionIndex
                 group!.collapse = false
             } else {
                 
@@ -373,6 +375,25 @@ class XYZTodoTableViewController: UITableViewController {
         sectionCellList = expndedSectionCellList
         
         tableView.reloadData()
+        
+        if let setionIndex = sectionIndexExpanded, sequenceNr >= 0 {
+            
+            let indexPath = IndexPath(row: sequenceNr + 1, section: setionIndex)
+               
+            DispatchQueue.main.async {
+                
+                self.tableView.selectRow(at: indexPath,
+                                         animated: true,
+                                         scrollPosition: .middle)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+             
+                self.tableView.deselectRow(at: indexPath,
+                                           animated: true)
+            }
+
+        }
     }
     
     override func viewDidLoad() {

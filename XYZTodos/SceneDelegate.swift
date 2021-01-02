@@ -11,6 +11,79 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    func handleAppUrl(_ scene: UIScene, openURLContexts urlContexts:Set<UIOpenURLContext>) {
+        
+        let urllink = urlContexts.first {
+       
+            return $0.url.scheme == appScheme
+        }
+        
+        if let url = urllink?.url {
+        
+            switch url.host {
+            
+            case httpUrlWidgetHost:
+                var sequenceNr: Int?
+                var dow: DayOfWeek?
+                
+                let parameterList = url.query?.split(separator: "&")
+                
+                for parameter in parameterList! {
+                    
+                    let parameterNameValue = parameter.split(separator: "=")
+                    
+                    for (index, name) in parameterNameValue.enumerated() {
+                        
+                        switch name {
+                            case "sequenceNr":
+                                guard index + 1 < parameterNameValue.count else {
+                                    
+                                    fatalError("Exception: missing parameter value for SequenceNr")
+                                }
+                            
+                                guard let value = Int(parameterNameValue[index + 1]) else {
+                                    
+                                    fatalError("Exception: parameter value for SequenceNr must be number")
+                                }
+                                
+                                sequenceNr = value
+                                
+                            case "group":
+                                guard index + 1 < parameterNameValue.count else {
+                                    
+                                    fatalError("Exception: missing parameter value for SequenceNr")
+                                }
+                            
+                                dow = DayOfWeek(rawValue:String(parameterNameValue[index + 1]))
+                                
+                            default:
+                                break
+                        }
+                    }
+                }
+                
+                if let dow = dow, let sequenceNr = sequenceNr {
+                    
+                    let tableViewController = getTodoTableViewController(scene: scene)
+                    tableViewController.reloadSectionCellModelData()
+                    tableViewController.expandTodos(dows: [dow], sequenceNr: sequenceNr)
+                }
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    // App opened from background
+    func scene(_ scene: UIScene, openURLContexts urlContexts: Set<UIOpenURLContext>) {
+        
+        if !urlContexts.isEmpty {
+
+            handleAppUrl(scene, openURLContexts: urlContexts)
+        }
+    }
+    
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -23,6 +96,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 // Save it off for later when we become active.
             
             executeAddTodo()
+        } else if !connectionOptions.urlContexts.isEmpty {
+            
+            handleAppUrl(scene, openURLContexts: connectionOptions.urlContexts)
         }
     }
 

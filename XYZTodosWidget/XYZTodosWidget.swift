@@ -138,6 +138,11 @@ struct XYZTodosWidgetEntryView : View {
             Text(entry.todos.first != nil ? "Next".localized() : "You are done for today".localized()).font(.headline).foregroundColor(.green)
             Text(entry.todos.first != nil ? "\(DateFormatter().stringWithShortTime(from:entry.todos.first?.time ?? Date()))  \(entry.todos.first?.detail ?? "")" : "").fontWeight(.light)
         }).padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+        
+        .widgetURL(URL(string: httpUrlPrefix
+                        + httpUrlWidgetHost
+                        + "?group=\(entry.todos.first?.group ?? "nil")"
+                        + "&sequenceNr=\(entry.todos.first?.sequenceNr ?? -1)"))
     }
 }
 

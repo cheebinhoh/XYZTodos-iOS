@@ -9,6 +9,9 @@
 import Foundation
 
 // MARK: - Global Property
+let appScheme = "xyztodot"
+let httpUrlPrefix = appScheme + "://"
+let httpUrlWidgetHost = "widget"
 let appGroup = "group.com.XYZTodos"
 let databaseName = "XYZTodos"
 
