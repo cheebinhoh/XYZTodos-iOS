@@ -79,16 +79,19 @@
       "size" : "40x40"
     },
     {
+      "filename" : "XYZTodos-512-ipad-76-by-76.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
     },
     {
+      "filename" : "XYZTodos-512-ipad-152-by-152.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
+      "filename" : "XYZTodos-512-ipad-167-by-167.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
