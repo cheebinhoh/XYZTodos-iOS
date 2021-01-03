@@ -493,11 +493,15 @@ func registerDeregisterNotification() {
             continue
         }
         
+        if todo.complete {
+            
+            continue
+        }
+        
         if lastDoW != nil && lastDoW! != todoDow {
             
             lastDoWMidNightNotificationInstalled = false
         }
-        
         
         let content = UNMutableNotificationContent()
 
