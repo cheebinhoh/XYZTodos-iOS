@@ -109,8 +109,25 @@ struct XYZTodosWidgetEntryView : View {
        
         VStack(alignment: .leading, spacing: 5, content: {
             
-            Text(entry.todos.first != nil ? ( entry.overdues.first! ? "Overdue".localized() : "Next".localized() ) : "All done".localized()).font(.headline).foregroundColor(entry.overdues.first == nil || (!entry.overdues.first!) ? .green : .red )
-            Text(entry.todos.first != nil ? "\(DateFormatter().stringWithShortTime(from:entry.todos.first?.time ?? Date()))  \(entry.todos.first?.detail ?? "")" : "").fontWeight(.light)
+            if let first = entry.todos.first,
+               let firstoverdue = entry.overdues.first  {
+            
+                if firstoverdue {
+                    
+                    Text("Overdue".localized()).font(.headline).foregroundColor(.red)
+                } else {
+                    
+                    Text("Next".localized()).font(.headline).foregroundColor(.green)
+                }
+                
+                let dateFormatter = DateFormatter()
+                
+                let timeDetails = "\(dateFormatter.stringWithShortTime(from: first.time)) \(first.detail)"
+                Text(timeDetails).font(.system(.body))
+            } else {
+                
+                Text("All done".localized()).font(.headline).foregroundColor(.green)
+            }
         }).padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
         
         .widgetURL(URL(string: httpUrlPrefix
