@@ -10,6 +10,7 @@ import CoreData
 import CloudKit
 import NotificationCenter
 import UserNotifications
+import WidgetKit
 
 @main
 class AppDelegate: UIResponder,
@@ -195,6 +196,8 @@ class AppDelegate: UIResponder,
                     needRefreshTodo = true
                     saveManageContext()
                     registerDeregisterNotification()
+                    
+                    WidgetCenter.shared.reloadAllTimelines()
                 }
                 
             case "AN_HOUR_LATER_ACTION":
