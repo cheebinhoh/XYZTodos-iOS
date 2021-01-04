@@ -27,7 +27,7 @@ struct Provider: TimelineProvider {
         var entries: [SimpleEntry] = []
 
         let todos = loadTodosFromManagedContext(managedContext())
-        var todosInFutureOfToday = [XYZTodo]()
+        var todosForWidget = [XYZTodo]()
         var todosDue = [XYZTodo]()
         var overdues = [Bool]()
         let nowOnward = Date().getTimeOfToday()
@@ -39,14 +39,14 @@ struct Provider: TimelineProvider {
                 
                 if !todo.timeOn {
                     
-                    todosInFutureOfToday.append(todo)
+                    todosForWidget.append(todo)
                 } else {
                     
                     let timeOfToday = todo.time.getTimeOfToday()
                     
                     if timeOfToday >= nowOnward {
                         
-                        todosInFutureOfToday.append(todo)
+                        todosForWidget.append(todo)
                     } else {
                         
                         todosDue.append(todo)
@@ -55,37 +55,41 @@ struct Provider: TimelineProvider {
             }
         }
  
-        overdues = Array(repeating: false, count: todosInFutureOfToday.count)
-        
+        overdues = Array(repeating: false, count: todosForWidget.count)
+
         if !todosDue.isEmpty {
             
-            if !todosInFutureOfToday.isEmpty {
+            if !todosForWidget.isEmpty {
                 
-                let lastDueTodoEpoch = todosDue.last!.time.timeIntervalSinceReferenceDate
+                let lastDueTodoEpoch = todosDue.last!.time.getTimeOfToday().timeIntervalSinceReferenceDate
                 let nowOnwardEpoch = nowOnward.timeIntervalSinceReferenceDate
-                let nextTodoEpoch = todosInFutureOfToday.first!.time.timeIntervalSinceReferenceDate
-            
+                let nextTodoEpoch = todosForWidget.first!.time.getTimeOfToday().timeIntervalSinceReferenceDate
+
                 if abs( nowOnwardEpoch - lastDueTodoEpoch )
                     < abs( nextTodoEpoch - nowOnwardEpoch ) {
                     
                     let todo = todosDue.removeLast()
-                    todosInFutureOfToday.insert(todo, at: 0)
-                    
-                    overdues.insert(true, at: 0)
+                    todosForWidget.insert(todo, at: 0)
                 }
             }
             
-            overdues = overdues + Array(repeating: true, count: todosDue.count)
+            todosDue.reverse()
         }
         
-        todosInFutureOfToday.append(contentsOf: todosDue)
+        todosForWidget.append(contentsOf: todosDue)
+        overdues = [Bool]()
+        for todo in todosForWidget {
+            
+            let time = todo.time.getTimeOfToday()
+            overdues.append(time < nowOnward)
+        }
 
-        let entry = SimpleEntry(date: Date(), todos: todosInFutureOfToday, overdues: overdues)
+        let entry = SimpleEntry(date: Date(), todos: todosForWidget, overdues: overdues)
         entries.append(entry)
         
-        let after = Date.nextSecond(second: 60)
+        let after = Date.nextMinute()
         
-        let afterentry = SimpleEntry(date: after, todos: todosInFutureOfToday, overdues: overdues)
+        let afterentry = SimpleEntry(date: after, todos: todosForWidget, overdues: overdues)
         entries.append(afterentry)
         
         let timeline = Timeline(entries: entries, policy: .atEnd)
