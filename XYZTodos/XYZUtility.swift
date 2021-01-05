@@ -309,7 +309,7 @@ func getTodo(group: String, sequenceNr: Int, from todos: [XYZTodo]) -> XYZTodo? 
     }
 }
 
-func parseGroupAndSequenceNr(outof parameter: String) -> (String?, Int?) {
+func parseGroupAndSequenceNr(of parameter: String) -> (String?, Int?) {
     
     var group: String?
     var sequenceNr: Int?

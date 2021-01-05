@@ -349,7 +349,7 @@ class XYZTodoTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    func expandTodos(dows: [DayOfWeek], sequenceNr: Int = -1) {
+    func expandTodos(dows: [String], sequenceNr: Int = -1) {
         
         var expndedSectionCellList = [TableViewSectionCell]()
       
@@ -357,8 +357,7 @@ class XYZTodoTableViewController: UITableViewController {
             
             var group = section.data as? TodoGroup
             
-            if let dow = DayOfWeek(rawValue: section.identifier),
-               dows.contains(dow) {
+            if dows.contains(section.identifier) {
         
                 group!.collapse = false
             } else {

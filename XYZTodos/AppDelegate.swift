@@ -19,7 +19,6 @@ class AppDelegate: UIResponder,
 
     var todos: [XYZTodo]?
     var global: XYZGlobal?
-    var needRefreshTodo = false
     
     @discardableResult
     func reconciliateData() -> Bool {
@@ -68,7 +67,7 @@ class AppDelegate: UIResponder,
         registerDeregisterNotification()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
-        //printTodos(todos: todos!)
+    
         return true
     }
 
@@ -126,60 +125,42 @@ class AppDelegate: UIResponder,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        let tableViewController = getTodoTableViewController()
-        tableViewController.reloadSectionCellModelData()
-        tableViewController.expandTodos(dows: [todayDoW])
-        
-        completionHandler()
-        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
-        var todoFound: XYZTodo?
-        let (group, sequenceNr) = parseGroupAndSequenceNr(outof: response.notification.request.identifier)
+        let (group, sequenceNr) = parseGroupAndSequenceNr(of: response.notification.request.identifier)
 
-        if let group = group, let sequenceNr = sequenceNr {
+        if let group = group,
+            let sequenceNr = sequenceNr {
             
-            todoFound = getTodo(group: group, sequenceNr: sequenceNr, from: todos!)
-        }
+            if let todoFound = getTodo(group: group, sequenceNr: sequenceNr, from: todos!) {
 
-        switch response.actionIdentifier {
-        
-            case "DONE_ACTION":
-                if let todoFound = todoFound {
-                    
-                    todoFound.complete = true
-                    todoFound.timeReschedule = nil
+                switch response.actionIdentifier {
                 
-                    needRefreshTodo = true
-                    saveManageContext()
-                    registerDeregisterNotification()
-                    
-                    WidgetCenter.shared.reloadAllTimelines()
-                }
-                
-            case "AN_HOUR_LATER_ACTION":
-                if let todoFound = todoFound {
-                    
-                    todoFound.timeReschedule = Date.nextHour()
-                    saveManageContext()
-                    
-                    registerDeregisterNotification()
-                }
-                    
-            default:
-                if todoFound != nil {
-                    
-                    if let dow = DayOfWeek(rawValue: group!) {
+                    case "DONE_ACTION":
+                        todoFound.complete = true
+                        todoFound.timeReschedule = nil
+                        saveManageContext()
                         
-                        let tableViewController = getTodoTableViewController()
-                        tableViewController.reloadSectionCellModelData()
-                        tableViewController.expandTodos(dows: [dow], sequenceNr: sequenceNr!)
-                        tableViewController.highlight(todoIndex: sequenceNr!, group: group!)
-                    }
+                    case "AN_HOUR_LATER_ACTION":
+                        todoFound.timeReschedule = Date.nextHour()
+                        saveManageContext()
+                            
+                    default:
+                        break
                 }
                 
-                break
+                let tableViewController = getTodoTableViewController()
+                tableViewController.reloadSectionCellModelData()
+                tableViewController.expandTodos(dows: [group], sequenceNr: sequenceNr)
+                tableViewController.highlight(todoIndex: sequenceNr, group: group)
+            }
         }
+     
+        // register notification and refresh widget
+        registerDeregisterNotification()
+        WidgetCenter.shared.reloadAllTimelines()
+        
+        completionHandler()
     }
 }
 
@@ -258,11 +239,6 @@ func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
 // MARK :- functions to manage data in AppDelegate
 
 func reconciliateTodoSequenceNr(todos: [XYZTodo]) -> [XYZTodo] {
-    
-    //guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-        
-    //    fatalError("Exception: AppDelegate is expected")
-    //}
     
     var index = 0
     var lastGroup = ""
@@ -366,8 +342,6 @@ func editTodoInAppDelegate(oldGroup: String,
         
     saveManageContext()
     registerDeregisterNotification()
-    
-    //printTodos(todos: appDelegate.todos!)
 }
 
 func addTodoToAppDelegate(group: String,

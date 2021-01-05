@@ -69,7 +69,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     let tableViewController = getTodoTableViewController(scene: scene)
                     tableViewController.reloadSectionCellModelData()
-                    tableViewController.expandTodos(dows: [dow], sequenceNr: sequenceNr)
+                    tableViewController.expandTodos(dows: [dow.rawValue], sequenceNr: sequenceNr)
                     tableViewController.highlight(todoIndex: sequenceNr, group: dow.rawValue)
                 }
                 
@@ -121,16 +121,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        if appDelegate.reconciliateData()
-            || appDelegate.needRefreshTodo {
+        if appDelegate.reconciliateData() {
             
             switchToTodoTableViewController()
             
             let tableViewController = getTodoTableViewController(scene: scene)
             tableViewController.reloadSectionCellModelData()
-            tableViewController.expandTodos(dows: [todayDoW])
-            
-            appDelegate.needRefreshTodo = false
+            tableViewController.expandTodos(dows: [todayDoW.rawValue])
         }
         
         UIApplication.shared.applicationIconBadgeNumber = 0
