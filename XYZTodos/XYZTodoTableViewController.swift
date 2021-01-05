@@ -143,7 +143,7 @@ class XYZTodoTableViewController: UITableViewController {
         section.data = todoGroup
         sectionCellList[indexPath.section] = section
         
-        deleteTodoFromManagedContext(group: section.identifier, sequenceNr: row)
+        deleteTodoInAppDelegate(group: section.identifier, sequenceNr: row)
         
         tableView.reloadData()
     }
@@ -168,14 +168,14 @@ class XYZTodoTableViewController: UITableViewController {
             originalSection.data = originalTodoGroup
             sectionCellList[indexPath.section] = originalSection
             
-            editTodoInManagedContext(oldGroup: sectionId,
-                                     oldSequenceNr: originalRow,
-                                     newGroup: sectionId,
-                                     newSequenceNr: originalRow,
-                                     detail: detail,
-                                     timeOn: timeOn,
-                                     time: time,
-                                     complete: false)
+            editTodoInAppDelegate(oldGroup: sectionId,
+                                  oldSequenceNr: originalRow,
+                                  newGroup: sectionId,
+                                  newSequenceNr: originalRow,
+                                  detail: detail,
+                                  timeOn: timeOn,
+                                  time: time,
+                                  complete: false)
         } else {
             
             var originalTodoGroup = originalSection.data as! TodoGroup
@@ -197,14 +197,14 @@ class XYZTodoTableViewController: UITableViewController {
             targetSection.data = targetTodoGroup
             sectionCellList[targetSectionIndex!] = targetSection
             
-            editTodoInManagedContext(oldGroup: originalSection.identifier,
-                                     oldSequenceNr: originalRow,
-                                     newGroup: sectionId,
-                                     newSequenceNr: targetTodoGroup.todos.count - 1,
-                                     detail: detail,
-                                     timeOn: timeOn,
-                                     time: time,
-                                     complete: false)
+            editTodoInAppDelegate(oldGroup: originalSection.identifier,
+                                  oldSequenceNr: originalRow,
+                                  newGroup: sectionId,
+                                  newSequenceNr: targetTodoGroup.todos.count - 1,
+                                  detail: detail,
+                                  timeOn: timeOn,
+                                  time: time,
+                                  complete: false)
         } // if sectionId == originalSection.identifier
         
         reloadModelData()
@@ -235,12 +235,12 @@ class XYZTodoTableViewController: UITableViewController {
             section.data = todoGroup
             sectionCellList[dowSectionIndex] = section
             
-            addTodoToManagedContext(group: sectionId,
-                                    sequenceNr: todoGroup!.todos.count - 1,
-                                    detail: detail,
-                                    timeOn: timeOn,
-                                    time: time,
-                                    complete: false)
+            addTodoToAppDelegate(group: sectionId,
+                                 sequenceNr: todoGroup!.todos.count - 1,
+                                 detail: detail,
+                                 timeOn: timeOn,
+                                 time: time,
+                                 complete: false)
             
             reloadModelData()
         }
@@ -248,7 +248,7 @@ class XYZTodoTableViewController: UITableViewController {
     
     func loadModelDataIntoSectionCell() {
         
-        let todosInStored = getTodosFromManagedContext()
+        let todosInStored = getTodosFromAppDelegate()
         var loadedSectionCellList = [TableViewSectionCell]()
         
         for var section in sectionCellList {
@@ -741,14 +741,14 @@ class XYZTodoTableViewController: UITableViewController {
                 
                 todoGroup?.todos[row].complete = !(complete ?? true)
                 
-                editTodoInManagedContext(oldGroup: self.sectionCellList[indexPath.section].identifier,
-                                         oldSequenceNr: row,
-                                         newGroup: self.sectionCellList[indexPath.section].identifier,
-                                         newSequenceNr: row,
-                                         detail: todoGroup!.todos[row].detail,
-                                         timeOn: todoGroup!.todos[row].timeOn,
-                                         time: todoGroup!.todos[row].time,
-                                         complete: todoGroup!.todos[row].complete)
+                editTodoInAppDelegate(oldGroup: self.sectionCellList[indexPath.section].identifier,
+                                      oldSequenceNr: row,
+                                      newGroup: self.sectionCellList[indexPath.section].identifier,
+                                      newSequenceNr: row,
+                                      detail: todoGroup!.todos[row].detail,
+                                      timeOn: todoGroup!.todos[row].timeOn,
+                                      time: todoGroup!.todos[row].time,
+                                      complete: todoGroup!.todos[row].complete)
             }
             
             self.sectionCellList[indexPath.section].data = todoGroup
@@ -866,8 +866,8 @@ class XYZTodoTableViewController: UITableViewController {
                     fromIndexBase = fromIndexBase + ( section.data as? TodoGroup )!.todos.count
                 }
                 
-                moveTodoInManagedContext(fromIndex: fromIndexBase + fromRow,
-                                         toIndex: fromIndexBase + toRow)
+                moveTodoInAppDelegate(fromIndex: fromIndexBase + fromRow,
+                                      toIndex: fromIndexBase + toRow)
                 
                 fromSectionTodoGroup!.todos.insert(todo, at: toRow)
                 
@@ -881,15 +881,15 @@ class XYZTodoTableViewController: UITableViewController {
                 // we manipulate in a copy of sectioncelllist so that the didset only triggered once.
                 var copiedSectionCellList = sectionCellList;
                 
-                deleteTodoFromManagedContext(group: fromSection.identifier,
-                                             sequenceNr: fromRow )
+                deleteTodoInAppDelegate(group: fromSection.identifier,
+                                        sequenceNr: fromRow )
                 
-                addTodoToManagedContext(group: toSection.identifier,
-                                        sequenceNr: toRow,
-                                        detail: todo.detail,
-                                        timeOn: todo.timeOn,
-                                        time: todo.time,
-                                        complete: false)
+                addTodoToAppDelegate(group: toSection.identifier,
+                                     sequenceNr: toRow,
+                                     detail: todo.detail,
+                                     timeOn: todo.timeOn,
+                                     time: todo.time,
+                                     complete: false)
                 
                 toSectionTodoGroup!.todos.insert(todo, at: toRow)
                 
@@ -1074,14 +1074,14 @@ class XYZTodoTableViewController: UITableViewController {
                                                     
                                                     todoGroup?.todos[row].complete = !(complete!)
 
-                                                    editTodoInManagedContext(oldGroup:  self.sectionCellList[indexPath.section].identifier,
-                                                                             oldSequenceNr: row,
-                                                                             newGroup: self.sectionCellList[indexPath.section].identifier,
-                                                                             newSequenceNr: row,
-                                                                             detail: todoGroup!.todos[row].detail,
-                                                                             timeOn: todoGroup!.todos[row].timeOn,
-                                                                             time: todoGroup!.todos[row].time,
-                                                                             complete: todoGroup!.todos[row].complete)
+                                                    editTodoInAppDelegate(oldGroup:  self.sectionCellList[indexPath.section].identifier,
+                                                                          oldSequenceNr: row,
+                                                                          newGroup: self.sectionCellList[indexPath.section].identifier,
+                                                                          newSequenceNr: row,
+                                                                          detail: todoGroup!.todos[row].detail,
+                                                                          timeOn: todoGroup!.todos[row].timeOn,
+                                                                          time: todoGroup!.todos[row].time,
+                                                                          complete: todoGroup!.todos[row].complete)
                                                     
                                                     self.sectionCellList[indexPath.section].data = todoGroup
                                                     tableView.reloadData()

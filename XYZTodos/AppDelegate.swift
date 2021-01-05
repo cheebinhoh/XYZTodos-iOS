@@ -21,29 +21,6 @@ class AppDelegate: UIResponder,
     var global: XYZGlobal?
     var needRefreshTodo = false
     
-    func reconciliateTodoSequenceNr() {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            
-            fatalError("Exception: AppDelegate is expected")
-        }
-        
-        var index = 0
-        var lastGroup = ""
-        for todo in appDelegate.todos! {
-            
-            let group = todo.group 
-            if lastGroup == "" || lastGroup != group {
-                
-                lastGroup = group
-                index = 0
-            }
-            
-            todo.sequenceNr = index
-            index += 1
-        }
-    }
-    
     @discardableResult
     func reconciliateData() -> Bool {
         
@@ -61,7 +38,7 @@ class AppDelegate: UIResponder,
         }
         
         global!.dow = todayDoW.rawValue
-        reconciliateTodoSequenceNr()
+        todos = reconciliateTodoSequenceNr(todos: todos!)
         
         saveManageContext()
         
@@ -226,6 +203,9 @@ class AppDelegate: UIResponder,
     }
 }
 
+
+// MARK :- Deprecated managed context
+
 func managedContextDeprecated() -> NSManagedObjectContext? {
     
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -276,12 +256,12 @@ func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
         
         for todo in outputDeprecated! {
             
-            addTodoToManagedContext(group: todo.group,
-                                    sequenceNr: todo.sequenceNr,
-                                    detail: todo.detail,
-                                    timeOn: todo.timeOn,
-                                    time: todo.time,
-                                    complete: todo.complete)
+            addTodoToAppDelegate(group: todo.group,
+                                 sequenceNr: todo.sequenceNr,
+                                 detail: todo.detail,
+                                 timeOn: todo.timeOn,
+                                 time: todo.time,
+                                 complete: todo.complete)
             
             aContextDeprecated?.delete(todo)
         }
@@ -295,8 +275,35 @@ func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
     return output
 }
 
-func deleteTodoFromManagedContext(group: String,
-                                  sequenceNr: Int )
+// MARK :- functions to manage data in AppDelegate
+
+func reconciliateTodoSequenceNr(todos: [XYZTodo]) -> [XYZTodo] {
+    
+    //guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+    //    fatalError("Exception: AppDelegate is expected")
+    //}
+    
+    var index = 0
+    var lastGroup = ""
+    for todo in todos {
+        
+        let group = todo.group
+        if lastGroup == "" || lastGroup != group {
+            
+            lastGroup = group
+            index = 0
+        }
+        
+        todo.sequenceNr = index
+        index += 1
+    }
+    
+    return todos
+}
+
+func deleteTodoInAppDelegate(group: String,
+                             sequenceNr: Int )
 {
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
         
@@ -317,14 +324,14 @@ func deleteTodoFromManagedContext(group: String,
     let todo = appDelegate.todos?.remove(at: index)
     
     managedContext()?.delete(todo!)
-    appDelegate.reconciliateTodoSequenceNr()
+    appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     
     saveManageContext()
     registerDeregisterNotification()
 }
 
-func moveTodoInManagedContext(fromIndex: Int,
-                              toIndex: Int)
+func moveTodoInAppDelegate(fromIndex: Int,
+                           toIndex: Int)
 {
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
         
@@ -333,22 +340,22 @@ func moveTodoInManagedContext(fromIndex: Int,
     
     let removeTodo = appDelegate.todos?.remove(at: fromIndex)
     appDelegate.todos?.insert(removeTodo!, at: toIndex)
-    appDelegate.reconciliateTodoSequenceNr()
+    appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
-    appDelegate.reconciliateTodoSequenceNr()
+    appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     
     saveManageContext()
     registerDeregisterNotification()
 }
 
-func editTodoInManagedContext(oldGroup: String,
-                              oldSequenceNr: Int,
-                              newGroup: String,
-                              newSequenceNr: Int,
-                              detail: String,
-                              timeOn: Bool,
-                              time: Date,
-                              complete: Bool) {
+func editTodoInAppDelegate(oldGroup: String,
+                           oldSequenceNr: Int,
+                           newGroup: String,
+                           newSequenceNr: Int,
+                           detail: String,
+                           timeOn: Bool,
+                           time: Date,
+                           complete: Bool) {
     
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
         
@@ -375,20 +382,20 @@ func editTodoInManagedContext(oldGroup: String,
     todo.complete = complete
 
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
-    appDelegate.reconciliateTodoSequenceNr()
-    
+    appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
+        
     saveManageContext()
     registerDeregisterNotification()
     
     //printTodos(todos: appDelegate.todos!)
 }
 
-func addTodoToManagedContext(group: String,
-                             sequenceNr: Int,
-                             detail: String,
-                             timeOn: Bool,
-                             time: Date,
-                             complete: Bool) {
+func addTodoToAppDelegate(group: String,
+                          sequenceNr: Int,
+                          detail: String,
+                          timeOn: Bool,
+                          time: Date,
+                          complete: Bool) {
     
     let todo = XYZTodo(group: group,
                        sequenceNr: sequenceNr,
@@ -405,13 +412,13 @@ func addTodoToManagedContext(group: String,
     
     appDelegate.todos!.append(todo)
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
-    appDelegate.reconciliateTodoSequenceNr()
-    
+    appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
+        
     saveManageContext()
     registerDeregisterNotification()
 }
 
-func getTodosFromManagedContext() -> [XYZTodo] {
+func getTodosFromAppDelegate() -> [XYZTodo] {
     
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
         
@@ -419,31 +426,6 @@ func getTodosFromManagedContext() -> [XYZTodo] {
     }
     
     return appDelegate.todos!
-}
-
-func printTodos(todos: [XYZTodo]) {
-    
-    print("---- print todos")
-    
-    for todo in todos {
-        
-        let group = todo.group
-        let sequenceNr = todo.sequenceNr
-        let detail = todo.detail
-        let timeOn = todo.timeOn
-        let time = todo.time
-        let complete = todo.complete
-        
-        print("group = \(group), sequenceNr = \(sequenceNr), detail = \(detail), timeOn = \(timeOn), time = \(time), complete = \(complete)")
-    }
-}
-
-func printGlobal(global: XYZGlobal) {
-    
-    print("---- print global")
-    
-    let dow = global.dow
-    print("dow = ", dow)
 }
 
 func registerDeregisterNotification() {

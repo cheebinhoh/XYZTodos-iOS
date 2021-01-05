@@ -298,59 +298,6 @@ extension URL {
     }
 }
 
-// MARK: - Core data and managed context
-
-func managedContext() -> NSManagedObjectContext? {
-  
-    return persistentContainer.viewContext
-}
-
-func saveManageContext() {
-    
-    let aContext = managedContext()
-    
-    do {
-        
-        try aContext?.save()
-    } catch let nserror as NSError {
-        
-        fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
-    }
-}
-
-func loadTodosFromManagedContext(_ aContext: NSManagedObjectContext?) -> [XYZTodo]? {
-    
-    var output: [XYZTodo]?
-    let fetchRequest = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
-    
-    if let unsorted = try? aContext?.fetch(fetchRequest) {
-        
-        output = sortTodos(todos: unsorted)
-    }
-
-    return output
-}
-
-func loadGlobalFromManagedContext() -> XYZGlobal? {
-    
-    let aContext = managedContext()
-    let fetchRequest = NSFetchRequest<XYZGlobal>(entityName: XYZGlobal.type)
-    
-    guard let output = try? aContext?.fetch(fetchRequest) else {
-        
-        fatalError("Exception: error in fetchRequest XYZGlobal")
-    }
-
-    var global = output.first
-    if nil == global {
-        
-        global = XYZGlobal(dow: "", context: managedContext())
-        saveManageContext()
-    }
-    
-    return global
-}
-
 // MARK: - Miscallenous
 
 func getTodo(group: String, sequenceNr: Int, from todos: [XYZTodo]) -> XYZTodo? {
