@@ -65,7 +65,6 @@ class AppDelegate: UIResponder,
         
         center.delegate = self
         registerDeregisterNotification()
-        
         UIApplication.shared.applicationIconBadgeNumber = 0
     
         return true
@@ -403,12 +402,11 @@ func registerDeregisterNotification() {
                                                  options: UNNotificationActionOptions(rawValue: 0))
     
     // Define the notification type
-    let meetingInviteCategory =
-          UNNotificationCategory(identifier: "TODO_ACTION",
-          actions: [doneAction, anHourAfterAction],
-          intentIdentifiers: [],
-          hiddenPreviewsBodyPlaceholder: "",
-          options: .customDismissAction)
+    let meetingInviteCategory = UNNotificationCategory(identifier: "TODO_ACTION",
+                                                       actions: [doneAction, anHourAfterAction],
+                                                       intentIdentifiers: [],
+                                                       hiddenPreviewsBodyPlaceholder: "",
+                                                       options: .customDismissAction)
 
     let notificationCenter = UNUserNotificationCenter.current()
     notificationCenter.setNotificationCategories([meetingInviteCategory])
@@ -434,7 +432,7 @@ func registerDeregisterNotification() {
             continue
         }
         
-        if lastDoW != nil && lastDoW! != todoDow {
+        if let lastDow = lastDoW, lastDow != todoDow {
             
             lastDoWMidNightNotificationInstalled = false
         }
@@ -443,6 +441,7 @@ func registerDeregisterNotification() {
 
         content.badge = 1
         content.categoryIdentifier = "TODO_ACTION"
+        content.body = todo.detail
         
         //var timeComponent: DateComponents!
         var dateComponents = DateComponents()
@@ -452,28 +451,22 @@ func registerDeregisterNotification() {
         if let timeReschedule = todo.timeReschedule,
            todo.timeOn && timeReschedule > Date() {
             
-            let timeComponent = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute],
-                                                                  from: timeReschedule)
-            dateComponents = timeComponent
-            
+            dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute],
+                                                             from: timeReschedule)
+
             let dateFormatter = DateFormatter()
             
-            content.title = "You have todo on \(todoDow!.rawValue)".localized() + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
-            
-            content.body = todo.detail
+            content.title = "You have todo on \(todoDow!.rawValue)".localized()
+                            + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
         } else if todo.timeOn {
         
-            let timeComponent = Calendar.current.dateComponents([.hour, .minute],
-                                                                  from: todo.time)
+            dateComponents = Calendar.current.dateComponents([.hour, .minute],
+                                                             from: todo.time)
             
             let dateFormatter = DateFormatter()
             
-            content.title = "You have todo on \(todoDow!.rawValue)".localized() + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
-            
-            content.body = todo.detail
-            dateComponents.hour = timeComponent.hour ?? 0
-            dateComponents.minute = timeComponent.minute ?? 0
-
+            content.title = "You have todo on \(todoDow!.rawValue)".localized()
+                            + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
         } else {
         
             if lastDoWMidNightNotificationInstalled {
@@ -483,7 +476,6 @@ func registerDeregisterNotification() {
             
             lastDoWMidNightNotificationInstalled = true
             
-            
             content.title = "You have todo on \(todoDow!.rawValue)".localized()
             
             dateComponents.hour = 0
@@ -492,7 +484,9 @@ func registerDeregisterNotification() {
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
-        let request = UNNotificationRequest(identifier:"group=\(todo.group)&sequenceNr=\(todo.sequenceNr)", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier:"group=\(todo.group)&sequenceNr=\(todo.sequenceNr)",
+                                            content: content,
+                                            trigger: trigger)
         
         center.add(request) { (error) in
             
