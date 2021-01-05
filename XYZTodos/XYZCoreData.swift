@@ -19,12 +19,15 @@ func saveManageContext() {
     
     let aContext = managedContext()
     
-    do {
-        
-        try aContext?.save()
-    } catch let nserror as NSError {
-        
-        fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
+    if aContext!.hasChanges {
+    
+        do {
+            
+            try aContext?.save()
+        } catch let nserror as NSError {
+            
+            fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
+        }
     }
 }
 
