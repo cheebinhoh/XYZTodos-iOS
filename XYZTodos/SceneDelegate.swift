@@ -153,13 +153,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
 
-        // Save changes in the application's managed object context when the application transitions to the background.
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            
-            fatalError("Exception: AppDelegate is expected")
-        }
-        
-        appDelegate.saveContext()
+        // Save changes in the application's managed object context when the application transitions to the background.        
+        saveManageContext()
         registerDeregisterNotification()
         WidgetCenter.shared.reloadAllTimelines()
     }
