@@ -23,60 +23,60 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
             switch url.host {
             
-            case httpUrlWidgetHost:
-                var sequenceNr: Int?
-                var dow: DayOfWeek?
-                
-                let parameterList = url.query?.split(separator: "&")
-                
-                for parameter in parameterList! {
+                case httpUrlWidgetHost:
+                    var sequenceNr: Int?
+                    var dow: DayOfWeek?
                     
-                    let parameterNameValue = parameter.split(separator: "=")
+                    let parameterList = url.query?.split(separator: "&")
                     
-                    for (index, name) in parameterNameValue.enumerated() {
+                    for parameter in parameterList! {
                         
-                        switch name {
-                            case "sequenceNr":
-                                guard index + 1 < parameterNameValue.count else {
-                                    
-                                    fatalError("Exception: missing parameter value for SequenceNr")
-                                }
+                        let parameterNameValue = parameter.split(separator: "=")
+                        
+                        for (index, name) in parameterNameValue.enumerated() {
                             
-                                guard let value = Int(parameterNameValue[index + 1]) else {
+                            switch name {
+                                case "sequenceNr":
+                                    guard index + 1 < parameterNameValue.count else {
+                                        
+                                        fatalError("Exception: missing parameter value for SequenceNr")
+                                    }
+                                
+                                    guard let value = Int(parameterNameValue[index + 1]) else {
+                                        
+                                        fatalError("Exception: parameter value for SequenceNr must be number")
+                                    }
                                     
-                                    fatalError("Exception: parameter value for SequenceNr must be number")
-                                }
-                                
-                                sequenceNr = value
-                                
-                            case "group":
-                                guard index + 1 < parameterNameValue.count else {
+                                    sequenceNr = value
                                     
-                                    fatalError("Exception: missing parameter value for SequenceNr")
-                                }
-                            
-                                dow = DayOfWeek(rawValue:String(parameterNameValue[index + 1]))
+                                case "group":
+                                    guard index + 1 < parameterNameValue.count else {
+                                        
+                                        fatalError("Exception: missing parameter value for SequenceNr")
+                                    }
                                 
-                            default:
-                                break
+                                    dow = DayOfWeek(rawValue:String(parameterNameValue[index + 1]))
+                                    
+                                default:
+                                    break
+                            }
                         }
                     }
-                }
-                
-                if let dow = dow, let sequenceNr = sequenceNr {
                     
-                    switchToTodoTableViewController()
+                    if let dow = dow, let sequenceNr = sequenceNr {
+                        
+                        switchToTodoTableViewController()
+                        
+                        let tableViewController = getTodoTableViewController(scene: scene)
+                        tableViewController.reloadSectionCellModelData()
+                        tableViewController.expandTodos(dows: [dow.rawValue], sequenceNr: sequenceNr)
+                        tableViewController.highlight(todoIndex: sequenceNr, group: dow.rawValue)
+                    }
                     
-                    let tableViewController = getTodoTableViewController(scene: scene)
-                    tableViewController.reloadSectionCellModelData()
-                    tableViewController.expandTodos(dows: [dow.rawValue], sequenceNr: sequenceNr)
-                    tableViewController.highlight(todoIndex: sequenceNr, group: dow.rawValue)
-                }
-                
-            default:
-                break
-            }
-        }
+                default:
+                    break
+            } // switch url.host 
+        } // if let url = urllink?.url
     }
     
     // App opened from background

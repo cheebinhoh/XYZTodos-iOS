@@ -51,6 +51,15 @@ class AppDelegate: UIResponder,
         global = loadGlobalFromManagedContext();
         todos = loadAndConvertTodosFromManagedContext()
         
+        // cloud kit
+        // 1. load data from icloud into temporary buffer based on last change token from global
+        // 2. merge data from temporary buffer into todos
+        // 3. push todos back to icloud
+        // 4. pull data from icloud and update last change token.
+        // 5. subscribe change from icloud based on last change token.
+        //
+        // can we get the last change token related step 3 without step 4 but step 5?
+        
         // reconciliate
         reconciliateData()
         
