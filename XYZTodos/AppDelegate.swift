@@ -56,7 +56,8 @@ class AppDelegate: UIResponder,
         // 2. merge data from temporary buffer into todos
         // 3. push todos back to icloud
         // 4. pull data from icloud and update last change token.
-        // 5. subscribe change from icloud based on last change token.
+        // 5. overwrite all data from icloud (2nd pull) into todos 
+        // 6. subscribe change from icloud based on last change token.
         //
         // can we get the last change token related step 3 without step 4 but step 5?
         
