@@ -153,6 +153,32 @@ class AppDelegate: UIResponder,
     
     func writeTodosToCloudKit() {
         
+        let groups = getTodoGroup(todos: todos!)
+        
+        for group in groups {
+            
+            var cloudTodos = [XYZCloudTodo]()
+            
+            for todo in todos! {
+                
+                if todo.group == group {
+                    
+                    let ctodo = XYZCloudTodo(group: todo.group,
+                                             sequenceNr: todo.sequenceNr,
+                                             detail: todo.detail,
+                                             complete: todo.complete,
+                                             time: todo.time,
+                                             timeOn: todo.timeOn)
+                    
+                    cloudTodos.append(ctodo)
+                }
+            }
+            
+            if !cloudTodos.isEmpty {
+                
+                XYZCloudCache.write(todos: cloudTodos, of: group)
+            }
+        }
     }
 
     // MARK: UISceneSession Lifecycle

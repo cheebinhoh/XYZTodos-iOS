@@ -64,7 +64,7 @@ struct XYZCloudCache {
     
     static var dataDictionary = [String : XYZCloudCacheData]()
     
-    static func write(todos: [XYZTodo], of identifier: String) {
+    static func write(todos: [XYZCloudTodo], of identifier: String) {
         
         var cacheData = dataDictionary[identifier]
         
@@ -72,20 +72,8 @@ struct XYZCloudCache {
             
             cacheData = XYZCloudCacheData()
         }
-        
-        cacheData!.writtingPendingTodos = [XYZCloudTodo]()
-        
-        for todo in todos {
-            
-            let cloudTodo = XYZCloudTodo(group: todo.group,
-                                         sequenceNr: todo.sequenceNr,
-                                         detail: todo.detail,
-                                         complete: todo.complete,
-                                         time: todo.time,
-                                         timeOn: todo.timeOn)
-        
-            cacheData!.writtingPendingTodos?.append(cloudTodo)
-        }
+    
+        cacheData!.writtingPendingTodos = todos
         
         dataDictionary[identifier] = cacheData
         
@@ -96,7 +84,6 @@ struct XYZCloudCache {
     
     static func read(of identifier: String) -> [XYZCloudTodo]? {
      
-        print("-- read \(identifier)")
         var cacheData = dataDictionary[identifier]
         
         if cacheData == nil {
@@ -116,6 +103,7 @@ struct XYZCloudCache {
         print("---- start of XYZCloudCache.printDebug")
         for (key, dataCache) in dataDictionary {
             
+            print("")
             print("-------- identifier = \(key)")
             dataCache.printDebug()
         }
