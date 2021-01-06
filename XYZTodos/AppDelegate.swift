@@ -23,7 +23,7 @@ class AppDelegate: UIResponder,
     @discardableResult
     func reconciliateData() -> Bool {
         
-        let globalDow = DayOfWeek(rawValue: global?.dow ?? "" )
+        let globalDow = DayOfWeek(rawValue: global!.dow )
         let refreshTodos = nil == globalDow
                             || ( globalDow != todayDoW
                                  && todayDoW.weekDayNr == firstWeekDay )

@@ -11,6 +11,7 @@ import CoreData
 @objc(XYZTodo)
 class XYZTodo : NSManagedObject {
     
+    
     // MARK: - static property
     
     static let type = "XYZTodo"
@@ -21,6 +22,7 @@ class XYZTodo : NSManagedObject {
     static let time = "time"
     static let timeOn = "timeOn"
     static let timeReschedule = "timeReschedule"
+    
     
     // MARK: - property
     var recordId: String {

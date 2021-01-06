@@ -131,6 +131,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         UIApplication.shared.applicationIconBadgeNumber = 0
+        registerDeregisterNotification()
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
