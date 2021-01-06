@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
                 case httpUrlWidgetHost:
                     var sequenceNr: Int?
-                    var dow: DayOfWeek?
+                    var group: String?
                     
                     let parameterList = url.query?.split(separator: "&")
                     
@@ -55,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                         fatalError("Exception: missing parameter value for SequenceNr")
                                     }
                                 
-                                    dow = DayOfWeek(rawValue:String(parameterNameValue[index + 1]))
+                                    group = String(parameterNameValue[index + 1])
                                     
                                 default:
                                     break
@@ -63,14 +63,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     }
                     
-                    if let dow = dow, let sequenceNr = sequenceNr {
+                    if let group = group, let sequenceNr = sequenceNr {
                         
                         switchToTodoTableViewController()
                         
                         let tableViewController = getTodoTableViewController(scene: scene)
                         tableViewController.reloadSectionCellModelData()
-                        tableViewController.expandTodos(dows: [dow.rawValue], sequenceNr: sequenceNr)
-                        tableViewController.highlight(todoIndex: sequenceNr, group: dow.rawValue)
+                        tableViewController.expandTodos(dows: [group], sequenceNr: sequenceNr)
+                        tableViewController.highlight(todoIndex: sequenceNr, group: group)
                     }
                     
                 default:

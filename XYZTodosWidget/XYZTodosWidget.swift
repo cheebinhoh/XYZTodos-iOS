@@ -7,7 +7,6 @@
 
 import WidgetKit
 import SwiftUI
-import CoreData
 
 struct Provider: TimelineProvider {
     
@@ -29,7 +28,6 @@ struct Provider: TimelineProvider {
         let todos = loadTodosFromManagedContext(managedContext())
         var todosForWidget = [XYZTodo]()
         var todosDue = [XYZTodo]()
-        var overdues = [Bool]()
         let nowOnward = Date().getTimeOfToday()
 
         for todo in todos! {
@@ -55,8 +53,6 @@ struct Provider: TimelineProvider {
             }
         }
  
-        overdues = Array(repeating: false, count: todosForWidget.count)
-
         if !todosDue.isEmpty {
             
             if !todosForWidget.isEmpty {
@@ -77,19 +73,17 @@ struct Provider: TimelineProvider {
         }
         
         todosForWidget.append(contentsOf: todosDue)
-        overdues = [Bool]()
-        for todo in todosForWidget {
+        let overdues = todosForWidget.map { (todo) -> Bool in
             
             let time = todo.time.getTimeOfToday()
-            overdues.append(time < nowOnward)
+            
+            return time < nowOnward
         }
 
         let entry = SimpleEntry(date: Date(), todos: todosForWidget, overdues: overdues)
         entries.append(entry)
         
-        let after = Date.nextMinute()
-        
-        let afterentry = SimpleEntry(date: after, todos: todosForWidget, overdues: overdues)
+        let afterentry = SimpleEntry(date: Date.nextMinute(), todos: todosForWidget, overdues: overdues)
         entries.append(afterentry)
         
         let timeline = Timeline(entries: entries, policy: .atEnd)
@@ -125,8 +119,8 @@ struct XYZTodosWidgetEntryView : View {
                 }
                 
                 let dateFormatter = DateFormatter()
-                
                 let timeDetails = "\(dateFormatter.stringWithShortTime(from: first.time)) \(first.detail)"
+                
                 Text(timeDetails).font(.system(.body))
             } else {
                 

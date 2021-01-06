@@ -103,9 +103,10 @@ struct XYZCloudCache {
         print("---- start of XYZCloudCache.printDebug")
         for (key, dataCache) in dataDictionary {
             
-            print("")
             print("-------- identifier = \(key)")
             dataCache.printDebug()
+            
+            print("")
         }
         
         print("---- end of XYZCloudCache.printDebug")
