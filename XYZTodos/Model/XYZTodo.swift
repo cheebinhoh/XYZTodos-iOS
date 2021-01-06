@@ -122,6 +122,7 @@ class XYZTodo : NSManagedObject {
         }
     }
     
+    
     // MARK: - function
     
     init(group: String?,

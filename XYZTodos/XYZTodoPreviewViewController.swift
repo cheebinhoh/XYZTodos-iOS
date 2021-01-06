@@ -13,6 +13,7 @@ class XYZTodoPreviewViewController: UIViewController {
     @IBOutlet weak var detail: UITextView!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
