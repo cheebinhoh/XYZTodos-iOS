@@ -79,44 +79,13 @@ class AppDelegate: UIResponder,
         }
         
         center.delegate = self
-        registerDeregisterNotification()
         UIApplication.shared.applicationIconBadgeNumber = 0
-    
+        registerDeregisterNotification()
+        WidgetCenter.shared.reloadAllTimelines()
+        
         return true
     }
-    
-    func filterTodos(of todos: [XYZTodo], group: String) -> [XYZTodo] {
-    
-        var filteredTodos = [XYZTodo]()
-        
-        for todo in todos {
-            
-            if todo.group == group {
-                
-                filteredTodos.append(todo)
-            }
-        }
-    
-        return filteredTodos
-    }
-    
-    func getTodoGroup(todos: [XYZTodo]) -> [String] {
-        
-        let groups = todos.reduce([String](), { (groups, todo) -> [String] in
-            
-            var result = groups
-            
-            if !result.contains(todo.group) {
-                
-                result.append(todo.group)
-            }
-            
-            return result
-        })
-        
-        return groups
-    }
-    
+
     // MARK: CloudKit
     func readAndMergeTodosFromCloudKit() {
         
@@ -262,6 +231,8 @@ class AppDelegate: UIResponder,
                 tableViewController.expandTodos(dows: [group], sequenceNr: sequenceNr)
                 tableViewController.highlight(todoIndex: sequenceNr, group: group)
             }
+            
+            writeTodosToCloudKit(of: [group])
         }
      
         // register notification and refresh widget
@@ -270,79 +241,80 @@ class AppDelegate: UIResponder,
         
         completionHandler()
     }
-}
-
-
-// MARK :- Deprecated managed context
-
-func managedContextDeprecated() -> NSManagedObjectContext? {
     
-    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+    // MARK :- Deprecated managed context
+
+    func managedContextDeprecated() -> NSManagedObjectContext? {
         
-        fatalError("Exception: AppDelegate is expected")
-    }
-  
-    return appDelegate.persistentContainerDeprecated.viewContext
-}
-
-func saveManageContextDeprecated() {
-    
-    let aContext = managedContextDeprecated()
-    
-    do {
-        
-        try aContext?.save()
-    } catch let nserror as NSError {
-        
-        fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
-    }
-}
-
-func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
-    
-    var outputDeprecated: [XYZTodo]?
-
-    let aContextDeprecated = managedContextDeprecated()
-    let fetchRequestDeprecated = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
-    
-    if let unsortedDeprecated = try? aContextDeprecated?.fetch(fetchRequestDeprecated) {
-        
-        outputDeprecated = sortTodos(todos: unsortedDeprecated)
-    }
-
-    // load new structure
-    let aContext = managedContext()
-    var output = loadTodosFromManagedContext(aContext)
-
-    if outputDeprecated != nil && !outputDeprecated!.isEmpty {
-
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             
             fatalError("Exception: AppDelegate is expected")
         }
-        
-        appDelegate.todos = output
-        
-        for todo in outputDeprecated! {
-            
-            addTodoToAppDelegate(group: todo.group,
-                                 sequenceNr: todo.sequenceNr,
-                                 detail: todo.detail,
-                                 timeOn: todo.timeOn,
-                                 time: todo.time,
-                                 complete: todo.complete)
-            
-            aContextDeprecated?.delete(todo)
-        }
-        
-        saveManageContext()
-        saveManageContextDeprecated()
-        
-        output = appDelegate.todos
+      
+        return appDelegate.persistentContainerDeprecated.viewContext
     }
 
-    return output
+    func saveManageContextDeprecated() {
+        
+        let aContext = managedContextDeprecated()
+        
+        do {
+            
+            try aContext?.save()
+        } catch let nserror as NSError {
+            
+            fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+
+    func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
+
+        // load from old storage
+        var outputDeprecated: [XYZTodo]?
+
+        let aContextDeprecated = managedContextDeprecated()
+        let fetchRequestDeprecated = NSFetchRequest<XYZTodo>(entityName: XYZTodo.type)
+        
+        if let unsortedDeprecated = try? aContextDeprecated?.fetch(fetchRequestDeprecated) {
+            
+            outputDeprecated = sortTodos(todos: unsortedDeprecated)
+        }
+
+        // load from new storage
+        let aContext = managedContext()
+        var output = loadTodosFromManagedContext(aContext)
+
+        if outputDeprecated != nil && !outputDeprecated!.isEmpty {
+
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                
+                fatalError("Exception: AppDelegate is expected")
+            }
+            
+            appDelegate.todos = output
+            
+            for todo in outputDeprecated! {
+                
+                addTodoToAppDelegate(group: todo.group,
+                                     sequenceNr: todo.sequenceNr,
+                                     detail: todo.detail,
+                                     timeOn: todo.timeOn,
+                                     time: todo.time,
+                                     complete: todo.complete)
+                
+                aContextDeprecated?.delete(todo)
+            }
+            
+            saveManageContext()
+            saveManageContextDeprecated()
+            
+            output = appDelegate.todos
+        }
+
+        return output
+    }
 }
+
 
 // MARK :- functions to manage data in AppDelegate
 
@@ -408,6 +380,7 @@ func moveTodoInAppDelegate(fromIndex: Int,
     
     let removeTodo = appDelegate.todos?.remove(at: fromIndex)
     let group = removeTodo?.group
+    
     appDelegate.todos?.insert(removeTodo!, at: toIndex)
     appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
@@ -459,7 +432,7 @@ func editTodoInAppDelegate(oldGroup: String,
     saveManageContext()
     registerDeregisterNotification()
     
-    appDelegate.writeTodosToCloudKit(of: [todo.group])
+    appDelegate.writeTodosToCloudKit(of: [oldGroup, newGroup])
     XYZCloudCache.printDebug()
 }
 
@@ -566,7 +539,6 @@ func registerDeregisterNotification() {
         content.categoryIdentifier = "TODO_ACTION"
         content.body = todo.detail
         
-        //var timeComponent: DateComponents!
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
         dateComponents.weekday = todoDow!.weekDayNr
@@ -580,7 +552,7 @@ func registerDeregisterNotification() {
             let dateFormatter = DateFormatter()
             
             content.title = "You have todo on \(todoDow!.rawValue)".localized()
-                            + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
+                            + " \(dateFormatter.stringWithShortTime(from: todo.time))"
         } else if todo.timeOn {
         
             dateComponents = Calendar.current.dateComponents([.hour, .minute],
@@ -589,7 +561,7 @@ func registerDeregisterNotification() {
             let dateFormatter = DateFormatter()
             
             content.title = "You have todo on \(todoDow!.rawValue)".localized()
-                            + " \(dateFormatter.stringWithShortTime(from:  todo.time))"
+                            + " \(dateFormatter.stringWithShortTime(from: todo.time))"
         } else {
         
             if lastDoWMidNightNotificationInstalled {
