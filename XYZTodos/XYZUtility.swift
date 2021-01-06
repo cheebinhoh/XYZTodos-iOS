@@ -10,6 +10,22 @@ import Foundation
 import CoreData
 
 // MARK: - Global Property
+var allGroups: [String] {
+    
+    var groups = DayOfWeek.allCasesString
+    
+    groups.append(other)
+    
+    return groups
+}
+
+var allGroupsLocalized: [String] {
+    
+    return allGroups.map {
+        
+        return $0.localized()
+    }
+}
 
 let appScheme = "xyztodot"
 let httpUrlPrefix = appScheme + "://"

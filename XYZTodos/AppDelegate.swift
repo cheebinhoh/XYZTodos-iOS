@@ -65,6 +65,9 @@ class AppDelegate: UIResponder,
         
         // reconciliate
         reconciliateData()
+        writeTodosToCloudKit()
+        
+        XYZCloudCache.printDebug()
         
         // notification
         let center = UNUserNotificationCenter.current()
@@ -151,10 +154,9 @@ class AppDelegate: UIResponder,
         todos = sortTodos(todos: todos!)
     }
     
-    func writeTodosToCloudKit() {
-        
-        let groups = getTodoGroup(todos: todos!)
-        
+
+    func writeTodosToCloudKit(of groups: [String] = allGroups) {
+    
         for group in groups {
             
             var cloudTodos = [XYZCloudTodo]()
@@ -388,12 +390,16 @@ func deleteTodoInAppDelegate(group: String,
     }
 
     let todo = appDelegate.todos?.remove(at: index)
+    let group = todo?.group
     
     managedContext()?.delete(todo!)
     appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     
     saveManageContext()
     registerDeregisterNotification()
+    
+    appDelegate.writeTodosToCloudKit(of: [group!])
+    XYZCloudCache.printDebug()
 }
 
 func moveTodoInAppDelegate(fromIndex: Int,
@@ -405,6 +411,7 @@ func moveTodoInAppDelegate(fromIndex: Int,
     }
     
     let removeTodo = appDelegate.todos?.remove(at: fromIndex)
+    let group = removeTodo?.group
     appDelegate.todos?.insert(removeTodo!, at: toIndex)
     appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     appDelegate.todos = sortTodos(todos: appDelegate.todos!)
@@ -412,6 +419,9 @@ func moveTodoInAppDelegate(fromIndex: Int,
     
     saveManageContext()
     registerDeregisterNotification()
+    
+    appDelegate.writeTodosToCloudKit(of: [group!])
+    XYZCloudCache.printDebug()
 }
 
 func editTodoInAppDelegate(oldGroup: String,
@@ -452,6 +462,9 @@ func editTodoInAppDelegate(oldGroup: String,
         
     saveManageContext()
     registerDeregisterNotification()
+    
+    appDelegate.writeTodosToCloudKit(of: [todo.group])
+    XYZCloudCache.printDebug()
 }
 
 func addTodoToAppDelegate(group: String,
@@ -480,6 +493,9 @@ func addTodoToAppDelegate(group: String,
         
     saveManageContext()
     registerDeregisterNotification()
+    
+    appDelegate.writeTodosToCloudKit(of: [todo.group])
+    XYZCloudCache.printDebug()
 }
 
 func getTodosFromAppDelegate() -> [XYZTodo] {
