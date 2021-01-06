@@ -86,7 +86,7 @@ class AppDelegate: UIResponder,
         return true
     }
 
-    // MARK: CloudKit
+    // MARK: CloudKit methods to get and set
     func readAndMergeTodosFromCloudKit() {
         
         for group in allGroups {
@@ -166,7 +166,7 @@ class AppDelegate: UIResponder,
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-    // MARK: - Core Data stack
+    // MARK: - Deprecated Core Data stack
 
     lazy var persistentContainerDeprecated: NSPersistentCloudKitContainer = {
         /*
@@ -316,7 +316,7 @@ class AppDelegate: UIResponder,
 }
 
 
-// MARK :- functions to manage data in AppDelegate
+// MARK: - functions to manage data in AppDelegate
 
 func reconciliateTodoSequenceNr(todos: [XYZTodo]) -> [XYZTodo] {
     
