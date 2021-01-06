@@ -120,11 +120,7 @@ class AppDelegate: UIResponder,
     // MARK: CloudKit
     func readAndMergeTodosFromCloudKit() {
         
-        var groups = DayOfWeek.allCasesString
-        
-        groups.append(other)
-        
-        for group in groups {
+        for group in allGroups {
             
             if let groupTodos = XYZCloudCache.read(of: group) {
                 
