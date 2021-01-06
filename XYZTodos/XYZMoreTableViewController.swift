@@ -10,6 +10,7 @@ import UIKit
 class XYZMoreTableViewController: UITableViewController,
                                   XYZSelectionDelegate {
     
+    
     // MARK: - XYZSelectionDelegate
     
     func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
@@ -112,7 +113,7 @@ class XYZMoreTableViewController: UITableViewController,
                         
                     default:
                         fatalError("Exception: unsupport cell id \(cellId)")
-                }
+                } // switch cellId
                 
             case "parameter":
                 switch cellId {
@@ -147,11 +148,11 @@ class XYZMoreTableViewController: UITableViewController,
                     
                     default:
                         fatalError("Exception: unsupport cell id \(cellId)")
-                }
+                } // switch cellId
         
             default:
                 fatalError("Exception: unsupport section id \(sectionId)")
-        }
+        } // switch sectionId
 
         return cell!
     }

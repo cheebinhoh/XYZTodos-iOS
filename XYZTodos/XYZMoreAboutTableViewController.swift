@@ -9,6 +9,7 @@ import UIKit
 
 class XYZMoreAboutTableViewController: UITableViewController {
 
+    
     // MARK: - Property
     
     var sectionCellList = [TableViewSectionCell]()
@@ -171,7 +172,7 @@ class XYZMoreAboutTableViewController: UITableViewController {
                                 
             default:
                 fatalError("Unsupport more table view cell \(cellId)")
-        }
+        } // switch cellId 
 
         return cell!
     }

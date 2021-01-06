@@ -9,12 +9,14 @@ import UIKit
 
 class XYZMoreTableViewCell: UITableViewCell {
 
+    
     // MARK: - IBOutlet
     
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var onOff: UISwitch!
 
     var switchValueChangedAction: ((Bool) -> Void)?
+    
     
     // MARK: - Function
     

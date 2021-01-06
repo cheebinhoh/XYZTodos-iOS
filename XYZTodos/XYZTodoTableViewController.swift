@@ -287,7 +287,7 @@ class XYZTodoTableViewController: UITableViewController {
             section.data = group
             
             loadedSectionCellList.append(section)
-        }
+        } // for var section in sectionCellList
         
         sectionCellList = loadedSectionCellList
     }
@@ -610,7 +610,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         let copyToMenu = UIAlertController(title: "Copy to".localized(), message: nil, preferredStyle: .actionSheet)
         
-        let cancelMoveToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
+        let cancelDupToAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (action) in
             
         })
         
@@ -640,7 +640,8 @@ class XYZTodoTableViewController: UITableViewController {
             copyToMenu.addAction(moveToDoW)
         }
         
-        copyToMenu.addAction(cancelMoveToAction)
+        copyToMenu.addAction(cancelDupToAction)
+        
         copyToMenu.popoverPresentationController?.sourceView = self.view
         copyToMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
         copyToMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
@@ -684,7 +685,6 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         moveToMenu.addAction(cancelMoveToAction)
-        
         
         moveToMenu.popoverPresentationController?.sourceView = self.view
         moveToMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
@@ -755,7 +755,7 @@ class XYZTodoTableViewController: UITableViewController {
             tableView.reloadData()
             
             handler(true)
-        }
+        } // let complete = UIContextualAction(
         
         complete.backgroundColor = UIColor.systemBlue
         commands.append(complete)
@@ -792,7 +792,7 @@ class XYZTodoTableViewController: UITableViewController {
             self.present(optionMenu, animated: true, completion: nil)
  
             handler(true)
-        }
+        } // let more = UIContextualAction(
 
         more.image = UIImage(named: "More")
         commands.append(more)
@@ -1004,7 +1004,7 @@ class XYZTodoTableViewController: UITableViewController {
                 
             default:
                 break
-        }
+        } // switch segue.identifier {
     }
 
     override func tableView(_ tableView: UITableView,
@@ -1050,7 +1050,7 @@ class XYZTodoTableViewController: UITableViewController {
                                                 vc.detail?.text = detail
 
                                                 return vc
-                                             }, // previewProvider
+                                             }, // previewProvider:
 
                                             actionProvider: { _ in
                                                 
@@ -1109,7 +1109,7 @@ class XYZTodoTableViewController: UITableViewController {
 
                                                 return UIMenu(title: "", children: children)
                                             } // actionProvider
-            )
+            ) // UIContextMenuConfiguration(
         
         return cm
     }

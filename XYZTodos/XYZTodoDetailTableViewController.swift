@@ -12,14 +12,18 @@ class XYZTodoDetailTableViewController: UITableViewController,
                                         XYZTextViewTableViewCellDelegate,
                                         XYZTodoDetailTimeTableViewCellDelegate {
     
+    
     // MARK: - XYZTodoDetailTimeTableViewCellDelegate
+    
     func timeChanged(select: Bool, time: Date, sender: XYZTodoDetailTimeTableViewCell) {
       
         self.timeOn = select
         self.time = time
     }
     
+    
     // MARK: - XYZTextViewTableViewCellDelegate
+    
     func textViewDidBeginEditing(sender: XYZTextViewTableViewCell) {
     
         editTextView = true
@@ -60,6 +64,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         tableView.reloadData()
     }
     
+    
     // MARK: - IBOutlet
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -96,7 +101,9 @@ class XYZTodoDetailTableViewController: UITableViewController,
     var editTextView = false
     var textViewCell: XYZTextViewTableViewCell?
     
+    
     // MARK: - Function
+    
     func populateEditData(dow: DayOfWeek!,
                           detail: String,
                           timeOn: Bool,
