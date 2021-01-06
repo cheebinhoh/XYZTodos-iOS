@@ -60,6 +60,8 @@ class AppDelegate: UIResponder,
         // 6. subscribe change from icloud based on last change token.
         //
         // can we get the last change token related step 3 without step 4 but step 5?
+        readAndMergeTodosFromCloudKit()
+        writeTodosToCloudKit()
         
         // reconciliate
         reconciliateData()
@@ -78,6 +80,79 @@ class AppDelegate: UIResponder,
         UIApplication.shared.applicationIconBadgeNumber = 0
     
         return true
+    }
+    
+    func filterTodos(of todos: [XYZTodo], group: String) -> [XYZTodo] {
+    
+        var filteredTodos = [XYZTodo]()
+        
+        for todo in todos {
+            
+            if todo.group == group {
+                
+                filteredTodos.append(todo)
+            }
+        }
+    
+        return filteredTodos
+    }
+    
+    func getTodoGroup(todos: [XYZTodo]) -> [String] {
+        
+        let groups = todos.reduce([String](), { (groups, todo) -> [String] in
+            
+            var result = groups
+            
+            if !result.contains(todo.group) {
+                
+                result.append(todo.group)
+            }
+            
+            return result
+        })
+        
+        return groups
+    }
+    
+    // MARK: CloudKit
+    func readAndMergeTodosFromCloudKit() {
+        
+        var groups = DayOfWeek.allCasesString
+        
+        groups.append(other)
+        
+        for group in groups {
+            
+            if let groupTodos = XYZCloudCache.read(of: group) {
+                
+                for todo in todos! {
+                    
+                    if todo.group == group {
+                        
+                        managedContext()?.delete(todo)
+                    }
+                }
+                
+                for todo in groupTodos {
+                    
+                    let _ = XYZTodo(group: group,
+                                    sequenceNr: todo.sequenceNr!,
+                                    detail: todo.detail!,
+                                    timeOn: todo.timeOn!,
+                                    time: todo.time!,
+                                    complete: todo.complete!,
+                                    context: managedContext())
+                }
+            }
+        }
+        
+        saveManageContext()
+        todos = loadTodosFromManagedContext(managedContext())
+        todos = sortTodos(todos: todos!)
+    }
+    
+    func writeTodosToCloudKit() {
+        
     }
 
     // MARK: UISceneSession Lifecycle

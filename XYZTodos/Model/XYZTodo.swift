@@ -23,6 +23,10 @@ class XYZTodo : NSManagedObject {
     static let timeReschedule = "timeReschedule"
     
     // MARK: - property
+    var recordId: String {
+    
+        return "\(group)-\(sequenceNr)"
+    }
     
     var group: String {
         

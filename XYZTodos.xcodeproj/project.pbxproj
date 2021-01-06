@@ -21,6 +21,7 @@
 		6523022A2587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652302292587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift */; };
 		65280F8A25A4BCF70071CE1D /* XYZCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65280F8925A4BCF70071CE1D /* XYZCoreData.swift */; };
 		65280F8D25A4BD0D0071CE1D /* XYZCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65280F8925A4BCF70071CE1D /* XYZCoreData.swift */; };
+		65383FF825A52995009F1616 /* XYZCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65383FF725A52995009F1616 /* XYZCloudKit.swift */; };
 		653B9F91254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */; };
 		653B9F96254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */; };
 		653B9FA3254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9FA2254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift */; };
@@ -89,6 +90,7 @@
 		65230206257C5F1B0007D894 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		652302292587F2880007D894 /* XYZTodoDetailTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZTodoDetailTimeTableViewCell.swift; sourceTree = "<group>"; };
 		65280F8925A4BCF70071CE1D /* XYZCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZCoreData.swift; sourceTree = "<group>"; };
+		65383FF725A52995009F1616 /* XYZCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZCloudKit.swift; sourceTree = "<group>"; };
 		653B9F90254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreTableViewCell.swift; sourceTree = "<group>"; };
 		653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreAboutTableViewController.swift; sourceTree = "<group>"; };
 		653B9FA2254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreAboutTableViewCell.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				65A1E2602549FB6A00C92101 /* XYZUIUtility.swift */,
 				65F06B54254B32EC00DB3E16 /* XYZUtility.swift */,
 				65280F8925A4BCF70071CE1D /* XYZCoreData.swift */,
+				65383FF725A52995009F1616 /* XYZCloudKit.swift */,
 				65A1E2162548DE7B00C92101 /* Assets.xcassets */,
 				65A1E21B2548DE7B00C92101 /* Info.plist */,
 				652301FE257C5D8F0007D894 /* InfoPlist.strings */,
@@ -381,6 +384,7 @@
 				65F06B95254B9AA300DB3E16 /* XYZTodoItemTableViewCell.swift in Sources */,
 				653B9F91254A1CCE00E1C3D0 /* XYZMoreTableViewCell.swift in Sources */,
 				65F06C20254E365800DB3E16 /* XYZTodo.swift in Sources */,
+				65383FF825A52995009F1616 /* XYZCloudKit.swift in Sources */,
 				653B9FA3254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,7 +462,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = XYZTodosWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
 				INFOPLIST_FILE = XYZTodosWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
@@ -483,7 +487,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = XYZTodosWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
 				INFOPLIST_FILE = XYZTodosWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
@@ -627,7 +631,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = XYZTodos/XYZTodos.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
 				INFOPLIST_FILE = XYZTodos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -650,7 +654,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = XYZTodos/XYZTodos.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = BKU6P4Y9G4;
 				INFOPLIST_FILE = XYZTodos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
