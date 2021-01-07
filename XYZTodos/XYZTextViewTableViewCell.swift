@@ -16,7 +16,7 @@ protocol XYZTextViewTableViewCellDelegate : class {
 }
 
 class XYZTextViewTableViewCell: UITableViewCell,
-    UITextViewDelegate {
+                                UITextViewDelegate {
 
     // MARK: - Property
     
