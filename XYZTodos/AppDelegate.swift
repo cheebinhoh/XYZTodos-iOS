@@ -60,14 +60,16 @@ class AppDelegate: UIResponder,
         // 6. subscribe change from icloud based on last change token.
         //
         // can we get the last change token related step 3 without step 4 but step 5?
+        XYZCloudCache.intialize()
         readAndMergeTodosFromCloudKit()
         writeTodosToCloudKit()
         
+        print("************ end")
         // reconciliate
-        reconciliateData()
-        writeTodosToCloudKit()
+        //reconciliateData()
+        //writeTodosToCloudKit()
         
-        XYZCloudCache.printDebug()
+        //XYZCloudCache.printDebug()
         
         // notification
         let center = UNUserNotificationCenter.current()
@@ -119,7 +121,6 @@ class AppDelegate: UIResponder,
         todos = sortTodos(todos: todos!)
     }
     
-
     func writeTodosToCloudKit(of groups: [String] = allGroups) {
     
         for group in groups {
@@ -130,7 +131,8 @@ class AppDelegate: UIResponder,
                 
                 if todo.group == group {
                     
-                    let ctodo = XYZCloudTodo(group: todo.group,
+                    let ctodo = XYZCloudTodo(recordId: todo.recordId,
+                                             group: todo.group,
                                              sequenceNr: todo.sequenceNr,
                                              detail: todo.detail,
                                              complete: todo.complete,

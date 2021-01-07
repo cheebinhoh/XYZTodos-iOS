@@ -26,6 +26,7 @@
 		653B9F96254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */; };
 		653B9FA3254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653B9FA2254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift */; };
 		653C7ED2254EFCAF0063A368 /* XYZGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653C7ED1254EFCAF0063A368 /* XYZGlobal.swift */; };
+		654CB98225A75F9000F2A704 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 654CB98125A75F9000F2A704 /* CloudKit.framework */; };
 		65A1E20B2548DE7900C92101 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E20A2548DE7900C92101 /* AppDelegate.swift */; };
 		65A1E20D2548DE7900C92101 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A1E20C2548DE7900C92101 /* SceneDelegate.swift */; };
 		65A1E2122548DE7900C92101 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A1E2102548DE7900C92101 /* Main.storyboard */; };
@@ -95,6 +96,7 @@
 		653B9F95254A3A9200E1C3D0 /* XYZMoreAboutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreAboutTableViewController.swift; sourceTree = "<group>"; };
 		653B9FA2254A414500E1C3D0 /* XYZMoreAboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZMoreAboutTableViewCell.swift; sourceTree = "<group>"; };
 		653C7ED1254EFCAF0063A368 /* XYZGlobal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYZGlobal.swift; sourceTree = "<group>"; };
+		654CB98125A75F9000F2A704 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		65A1E2072548DE7900C92101 /* XYZTodos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XYZTodos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A1E20A2548DE7900C92101 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65A1E20C2548DE7900C92101 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				654CB98225A75F9000F2A704 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +161,7 @@
 		652267BF259F9A4900D954E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				654CB98125A75F9000F2A704 /* CloudKit.framework */,
 				652267C0259F9A4900D954E9 /* WidgetKit.framework */,
 				652267C2259F9A4900D954E9 /* SwiftUI.framework */,
 			);
