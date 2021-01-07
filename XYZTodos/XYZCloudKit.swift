@@ -21,26 +21,30 @@ struct XYZCloudTodo {
 
 struct XYZCloudCacheData {
 
+    let group: String
     var todos: [XYZCloudTodo]?
     var lastReadFromCloud: Date?
 
     var writtingPendingTodos: [XYZCloudTodo]?
     var lastWrittenToWrite: Date?
     
+    var deletedRecordIds = [String]()
+    
     mutating func writeToiCloud() {
-        
+
+        let group = self.group
         // write to icloud
         printDebug(todos: writtingPendingTodos)
 
-        if let writtingPendingTodos = writtingPendingTodos,
-           !writtingPendingTodos.isEmpty {
+        if let writtingPendingTodos = writtingPendingTodos
+        //   ,!writtingPendingTodos.isEmpty
+        {
             
             let container = CKContainer.default()
             let database = container.privateCloudDatabase
             
-            let group = writtingPendingTodos.first!.group
             let recordZone = CKRecordZone(zoneName: XYZTodo.type)
-            let groupRecordId = CKRecord.ID(recordName: group!, zoneID: recordZone.zoneID)
+            let groupRecordId = CKRecord.ID(recordName: group, zoneID: recordZone.zoneID)
  
             let op = CKModifyRecordsOperation(recordsToSave: [], recordIDsToDelete: [groupRecordId])
             op.savePolicy = .allKeys
@@ -95,7 +99,7 @@ struct XYZCloudCacheData {
         lastWrittenToWrite = Date()
     }
     
-    mutating func readFromiCloud(of group: String) {
+    mutating func readFromiCloud(of group: String, changeToken: CKServerChangeToken? = nil) {
         
         lastReadFromCloud = Date()
     }
@@ -125,7 +129,13 @@ struct XYZCloudCache {
     
     static var dataDictionary = [String : XYZCloudCacheData]()
     
-    static func intialize() {
+    static func intialize(groups: [String]) {
+
+        for g in groups {
+            
+            let cacheData = XYZCloudCacheData(group: g)
+            dataDictionary[g] = cacheData
+        }
         
         let recordZone = CKRecordZone(zoneName: XYZTodo.type)
         
@@ -153,9 +163,11 @@ struct XYZCloudCache {
         
         if cacheData == nil {
             
-            cacheData = XYZCloudCacheData()
+            cacheData = XYZCloudCacheData(group: identifier)
         }
-    
+        
+        dataDictionary[identifier] = cacheData
+        
         cacheData!.writtingPendingTodos = todos
         
         dataDictionary[identifier] = cacheData
@@ -165,20 +177,129 @@ struct XYZCloudCache {
         dataDictionary[identifier] = cacheData
     }
     
-    static func read(of identifier: String) -> [XYZCloudTodo]? {
-     
+    static func readFromiCloud(completion: @escaping () -> Void) {
+        
+        // not using change token
+        var changeToken: CKServerChangeToken? = nil
+        let defaults = UserDefaults.standard;
+        
+        if let changeTokenData = defaults.value(forKey: "LastChangeToken") as? Data {
+            
+            changeToken = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(changeTokenData) as? CKServerChangeToken
+        }
+        
+        let recordZone = CKRecordZone(zoneName: XYZTodo.type)
+        var optionsByRecordZoneID = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
+        let option = CKFetchRecordZoneChangesOperation.ZoneConfiguration()
+        option.previousServerChangeToken = changeToken
+        optionsByRecordZoneID[recordZone.zoneID] = option
+        
+        let op = CKFetchRecordZoneChangesOperation(recordZoneIDs: [recordZone.zoneID], configurationsByRecordZoneID: optionsByRecordZoneID)
+        op.recordChangedBlock = { (record) in
+            
+            print("********* recordChangedBlock")
+            
+            if record.recordType == XYZTodo.type {
+            
+                let group = record[XYZTodo.group] as? String ?? ""
+                let sequenceNr = record[XYZTodo.sequenceNr] as? Int ?? 0
+                let detail = record[XYZTodo.detail] as? String ?? ""
+                let complete = record[XYZTodo.complete] as? Bool ?? false
+                let time = record[XYZTodo.time] as? Date ?? Date()
+                let timeOn = record[XYZTodo.timeOn] as? Bool ?? false
+
+                if var data = dataDictionary[group] {
+                
+                    if data.todos == nil {
+                        
+                        data.todos = [XYZCloudTodo]()
+                    }
+                    
+                    if let index = data.todos?.firstIndex(where: { (todo) -> Bool in
+                        
+                        return todo.recordId == record.recordID.recordName
+                    }) {
+                        
+                        data.todos?.remove(at: index)
+                    }
+                    
+                    let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr, detail: detail, complete: complete, time: time, timeOn: timeOn)
+                    
+                    data.todos?.append(newTodo)                    
+                    dataDictionary[group] = data
+                }
+            }
+        }
+        
+        op.recordWithIDWasDeletedBlock = { (recordId, recordType) in
+        
+            let tokens = recordId.recordName.split(separator: "-")
+            let group = String(tokens[0])
+            var cacheData = dataDictionary[group]
+            
+            cacheData?.deletedRecordIds.append(recordId.recordName)
+            dataDictionary[group] = cacheData
+        }
+        
+        op.recordZoneChangeTokensUpdatedBlock = { (zoneId, token, data) in
+         
+            print("********* recordZoneChangeTokensUpdatedBlock")
+        }
+        
+        op.recordZoneFetchCompletionBlock = { (zoneId, changeToken, _, _, error) in
+           
+            print("********* recordZoneFetchCompletionBlock")
+            
+            let data = try! NSKeyedArchiver.archivedData(withRootObject: changeToken!, requiringSecureCoding: false)
+            defaults.setValue(data, forKey: "LastChangeToken")
+        }
+        
+        op.fetchRecordZoneChangesCompletionBlock = { (error) in
+
+            print("********* fetchRecordZoneChangesCompletionBlock")
+            completion()
+        }
+        
+        let container = CKContainer.default()
+        let database = container.privateCloudDatabase
+        
+        database.add(op)
+    }
+    
+    static func read(of identifier: String, completion: @escaping ([XYZCloudTodo]?) -> Void )  {
+
         var cacheData = dataDictionary[identifier]
         
         if cacheData == nil {
         
-            cacheData = XYZCloudCacheData()
+            cacheData = XYZCloudCacheData(group: identifier)
         }
-        
-        cacheData?.readFromiCloud(of: identifier)
-        
+    
+        cacheData?.deletedRecordIds.removeAll()
         dataDictionary[identifier] = cacheData
+    
         
-        return cacheData?.todos
+        let defaults = UserDefaults.standard;
+        defaults.setValue(Data(), forKey: "LastChangeToken")
+        
+        readFromiCloud {
+            
+            print("-------- complete")
+            var result: [XYZCloudTodo]? = nil
+            let cacheData = dataDictionary[identifier]
+            
+            if let todos = cacheData?.todos {
+                
+                result = todos
+            } else if !cacheData!.deletedRecordIds.isEmpty {
+                
+                result = [XYZCloudTodo]()
+            }
+            
+            print("-------- \(cacheData)")
+            
+            completion(result)
+        }
     }
     
     static func printDebug() {
