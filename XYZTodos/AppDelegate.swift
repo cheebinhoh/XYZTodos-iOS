@@ -73,7 +73,7 @@ class AppDelegate: UIResponder,
         // can we get the last change token related step 3 without step 4 but step 5?
         XYZCloudCache.intialize(groups: allGroups)
         readAndMergeTodosFromCloudKit()
-        registeriCloudSubscription()
+        XYZCloudCache.registeriCloudSubscription()
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
@@ -172,7 +172,7 @@ class AppDelegate: UIResponder,
             }
             
             let _ = "-------- notifiction \(String(describing: notification.recordZoneID?.zoneName))"
-            
+            print("__________________________ ")
             readAndMergeTodosFromCloudKit()
             completionHandler(.newData)
         }

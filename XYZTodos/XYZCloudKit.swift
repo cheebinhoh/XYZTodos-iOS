@@ -127,6 +127,38 @@ struct XYZCloudCache {
     
     static var dataDictionary = [String : XYZCloudCacheData]()
     
+    static func intializeRecordZoneAndDo(completion: @escaping () -> Void) {
+        
+        if recordZoneInitialized {
+         
+            completion()
+        } else {
+            
+            let recordZone = CKRecordZone(zoneName: XYZTodo.type)
+            
+            let op = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil)
+            
+            op.modifyRecordZonesCompletionBlock = { (saved, deleted, error) in
+                
+                print("---- CKModifyRecordZonesOperation is done")
+                
+                if let error = error {
+                    
+                    print("Error in CKModifyRecordZonesOperation: \(error)")
+                } else {
+                    
+                    recordZoneInitialized = true
+                    completion()
+                }
+            }
+            
+            let container = CKContainer.default()
+            let database = container.privateCloudDatabase
+            
+            database.add(op)
+        }
+    }
+    
     static func intialize(groups: [String]) {
 
         for g in groups {
@@ -134,54 +166,37 @@ struct XYZCloudCache {
             let cacheData = XYZCloudCacheData(group: g)
             dataDictionary[g] = cacheData
         }
-        
-        let recordZone = CKRecordZone(zoneName: XYZTodo.type)
-        
-        let op = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil)
-        
-        op.modifyRecordZonesCompletionBlock = { (saved, deleted, error) in
-            
-            print("---- CKModifyRecordZonesOperation is done")
-            
-            if let error = error {
-                
-                print("Error in CKModifyRecordZonesOperation: \(error)")
-            }
-        }
-        
-        let container = CKContainer.default()
-        let database = container.privateCloudDatabase
-        
-        database.add(op)
     }
     
     static func write(todos: [XYZCloudTodo], of identifier: String) {
         
-        var cacheData = dataDictionary[identifier]
-        
-        if cacheData == nil {
+        intializeRecordZoneAndDo {
+                
+            var cacheData = dataDictionary[identifier]
             
-            cacheData = XYZCloudCacheData(group: identifier)
+            if cacheData == nil {
+                
+                cacheData = XYZCloudCacheData(group: identifier)
+            }
+            
+            dataDictionary[identifier] = cacheData
+            
+            cacheData!.writtingPendingTodos = todos
+            
+            dataDictionary[identifier] = cacheData
+            
+            cacheData?.writeToiCloud()
+            
+            dataDictionary[identifier] = cacheData
         }
-        
-        dataDictionary[identifier] = cacheData
-        
-        cacheData!.writtingPendingTodos = todos
-        
-        dataDictionary[identifier] = cacheData
-        
-        cacheData?.writeToiCloud()
-        
-        dataDictionary[identifier] = cacheData
     }
     
     static func readFromiCloud(completion: @escaping () -> Void) {
         
         // not using change token
         var changeToken: CKServerChangeToken? = nil
-        let defaults = UserDefaults.standard;
-        
-        if let changeTokenData = defaults.value(forKey: "LastChangeToken") as? Data {
+   
+        if let changeTokenData = lastChangeToken {
             
             changeToken = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(changeTokenData) as? CKServerChangeToken
         }
@@ -231,11 +246,26 @@ struct XYZCloudCache {
         
         op.recordWithIDWasDeletedBlock = { (recordId, recordType) in
         
+            print("********* recordWithIDWasDeletedBlock = \(recordId)")
             let tokens = recordId.recordName.split(separator: "-")
             let group = String(tokens[0])
             var cacheData = dataDictionary[group]
             
             cacheData?.deletedRecordIds.append(recordId.recordName)
+            if var todos = cacheData?.todos,
+               !todos.isEmpty {
+                
+                if let index = todos.firstIndex(where: { (todo) -> Bool in
+                    
+                    return todo.recordId == recordId.recordName
+                }) {
+                    
+                    todos.remove(at: index)
+                    
+                    cacheData?.todos = todos
+                }
+            }
+            
             dataDictionary[group] = cacheData
         }
         
@@ -249,7 +279,7 @@ struct XYZCloudCache {
             print("********* recordZoneFetchCompletionBlock")
             
             let data = try! NSKeyedArchiver.archivedData(withRootObject: changeToken!, requiringSecureCoding: false)
-            defaults.setValue(data, forKey: "LastChangeToken")
+            lastChangeToken = data
         }
         
         op.fetchRecordZoneChangesCompletionBlock = { (error) in
@@ -266,31 +296,33 @@ struct XYZCloudCache {
     
     static func read(of identifier: String, completion: @escaping ([XYZCloudTodo]?) -> Void )  {
 
-        var cacheData = dataDictionary[identifier]
-        
-        if cacheData == nil {
-        
-            cacheData = XYZCloudCacheData(group: identifier)
-        }
-    
-        cacheData?.deletedRecordIds.removeAll()
-        dataDictionary[identifier] = cacheData
-    
-        readFromiCloud {
-            
-            print("-------- complete")
-            var result: [XYZCloudTodo]? = nil
-            let cacheData = dataDictionary[identifier]
-            
-            if let todos = cacheData?.todos {
+        intializeRecordZoneAndDo {
                 
-                result = todos
-            } else if !cacheData!.deletedRecordIds.isEmpty {
-                
-                result = [XYZCloudTodo]()
+            var cacheData = dataDictionary[identifier]
+            
+            if cacheData == nil {
+            
+                cacheData = XYZCloudCacheData(group: identifier)
             }
-     
-            completion(result)
+        
+            cacheData?.deletedRecordIds.removeAll()
+            dataDictionary[identifier] = cacheData
+        
+            readFromiCloud {
+                
+                var result: [XYZCloudTodo]? = nil
+                let cacheData = dataDictionary[identifier]
+                
+                if let todos = cacheData?.todos {
+                    
+                    result = todos
+                } else if !cacheData!.deletedRecordIds.isEmpty {
+                    
+                    result = [XYZCloudTodo]()
+                }
+         
+                completion(result)
+            }
         }
     }
     
@@ -307,51 +339,51 @@ struct XYZCloudCache {
         
         print("---- end of XYZCloudCache.printDebug")
     }
-}
 
-func registeriCloudSubscription() {
-    
-    print("-------- registeriCloudSubscription")
-    let container = CKContainer.default()
-    let database = container.privateCloudDatabase
-    
-    let ckrecordzone = CKRecordZone(zoneName: XYZTodo.type)
-
-    let id = "\((ckrecordzone.zoneID.zoneName))-\((ckrecordzone.zoneID.ownerName))"
-    let fetchOp = CKFetchSubscriptionsOperation.init(subscriptionIDs: [id])
-    
-    fetchOp.fetchSubscriptionCompletionBlock = {(subscriptionDict, error) -> Void in
+    static func registeriCloudSubscription() {
         
-        print("******** fetchSubscriptionCompletionBlock")
-        if let _ = subscriptionDict![id] {
-            
-            print("******** already have id")
-        } else {
+        print("-------- registeriCloudSubscription")
+        let container = CKContainer.default()
+        let database = container.privateCloudDatabase
+        
+        let ckrecordzone = CKRecordZone(zoneName: XYZTodo.type)
 
-            let subscription = CKRecordZoneSubscription.init(zoneID: (ckrecordzone.zoneID), subscriptionID: id)
-            let notificationInfo = CKSubscription.NotificationInfo()
+        let id = "\((ckrecordzone.zoneID.zoneName))-\((ckrecordzone.zoneID.ownerName))"
+        let fetchOp = CKFetchSubscriptionsOperation.init(subscriptionIDs: [id])
+        
+        fetchOp.fetchSubscriptionCompletionBlock = {(subscriptionDict, error) -> Void in
             
-            notificationInfo.shouldSendContentAvailable = true
-            subscription.notificationInfo = notificationInfo
-            
-            let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
-            operation.qualityOfService = .utility
-            operation.completionBlock = {
+            print("******** fetchSubscriptionCompletionBlock")
+            if let _ = subscriptionDict![id] {
                 
-            }
-            
-            operation.modifySubscriptionsCompletionBlock = { subscriptions, strings, error in
+                print("******** already have id")
+            } else {
+
+                let subscription = CKRecordZoneSubscription.init(zoneID: (ckrecordzone.zoneID), subscriptionID: id)
+                let notificationInfo = CKSubscription.NotificationInfo()
                 
-                print("******** modifySubscriptionsCompletionBlock")
-                if let _ = error {
+                notificationInfo.shouldSendContentAvailable = true
+                subscription.notificationInfo = notificationInfo
+                
+                let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
+                operation.qualityOfService = .utility
+                operation.completionBlock = {
                     
-                    print("------------>>>> \(error)")
                 }
+                
+                operation.modifySubscriptionsCompletionBlock = { subscriptions, strings, error in
+                    
+                    print("******** modifySubscriptionsCompletionBlock")
+                    if let _ = error {
+                        
+                        print("------------>>>> \(error!)")
+                    }
+                }
+                
+                database.add(operation)
             }
-            
-            database.add(operation)
         }
-    }
 
-    database.add(fetchOp)
+        database.add(fetchOp)
+    }
 }

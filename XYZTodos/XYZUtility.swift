@@ -110,6 +110,36 @@ var firstWeekDay: Int {
     }
 }
 
+var lastChangeToken: Data? {
+    
+    get {
+        
+        let defaults = UserDefaults.standard;
+        return defaults.value(forKey: "LastChangeToken") as? Data
+    }
+    
+    set {
+        
+        let defaults = UserDefaults.standard;
+        defaults.setValue(newValue, forKey: "LastChangeToken")
+    }
+}
+
+var recordZoneInitialized: Bool {
+    
+    get {
+        
+        let defaults = UserDefaults.standard;
+        return defaults.value(forKey: "RecordZoneInitialized") as? Bool ?? false
+    }
+    
+    set {
+        
+        let defaults = UserDefaults.standard;
+        defaults.setValue(newValue, forKey: "RecordZoneInitialized")
+    }
+}
+    
 var enableNotification: Bool {
     
     get {
