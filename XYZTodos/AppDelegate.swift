@@ -46,7 +46,18 @@ class AppDelegate: UIResponder,
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
+        // notification
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .sound, .announcement, .badge];
+        
+        center.requestAuthorization(options: options) { (granted, error) in
+            
+            enableNotification = granted
+        }
+        
+        application.registerForRemoteNotifications()
         
         global = loadGlobalFromManagedContext();
         todos = loadAndConvertTodosFromManagedContext()
@@ -62,22 +73,12 @@ class AppDelegate: UIResponder,
         // can we get the last change token related step 3 without step 4 but step 5?
         XYZCloudCache.intialize(groups: allGroups)
         readAndMergeTodosFromCloudKit()
-
-        // notification
-        let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound, .announcement, .badge];
-        
-        center.requestAuthorization(options: options) { (granted, error) in
-            
-            enableNotification = granted
-        }
-        
-        application.registerForRemoteNotifications()
+        registeriCloudSubscription()
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
         registerDeregisterNotification()
-        registeriCloudSubscription()
+
         WidgetCenter.shared.reloadAllTimelines()
         
         return true
