@@ -55,7 +55,6 @@ struct XYZCloudCacheData {
                 op.savePolicy = .allKeys
                 op.completionBlock = {
                     
-                    print("******** todogroup completionBlock and add todos")
                     let ckreference = CKRecord.Reference(recordID: groupRecordId, action: .deleteSelf)
                     
                     var records = [CKRecord]()
@@ -80,7 +79,6 @@ struct XYZCloudCacheData {
 
                     op.completionBlock = {
                         
-                        print("******** todos completionBlock")
                     }
                     
                     database.add(op)
@@ -135,11 +133,8 @@ struct XYZCloudCache {
             
             op.modifyRecordZonesCompletionBlock = { (saved, deleted, error) in
                 
-                print("---- CKModifyRecordZonesOperation is done")
-                
-                if let error = error {
+                if let _ = error {
                     
-                    print("Error in CKModifyRecordZonesOperation: \(error)")
                 } else {
                     
                     recordZoneInitialized = true
@@ -168,27 +163,19 @@ struct XYZCloudCache {
         intializeRecordZoneAndDo {
                 
             var cacheData = dataDictionary[identifier]
-            
-            if cacheData == nil {
-                
-                cacheData = XYZCloudCacheData(group: identifier)
-            }
-            
-            dataDictionary[identifier] = cacheData
-            
+
             cacheData!.writtingPendingTodos = todos
             
             dataDictionary[identifier] = cacheData
             
             cacheData?.writeToiCloud()
             
-            dataDictionary[identifier] = cacheData
+            dataDictionary[identifier] = cacheData // we reset writtingPendingTodos
         }
     }
     
     static func readFromiCloud(completion: @escaping () -> Void) {
         
-        // not using change token
         var changeToken: CKServerChangeToken? = nil
         
         if let tokenData = lastChangeToken {
@@ -204,8 +191,6 @@ struct XYZCloudCache {
         
         let op = CKFetchRecordZoneChangesOperation(recordZoneIDs: [recordZone.zoneID], configurationsByRecordZoneID: optionsByRecordZoneID)
         op.recordChangedBlock = { (record) in
-            
-            print("********* recordChangedBlock")
             
             if record.recordType == XYZTodo.type {
             
@@ -233,7 +218,6 @@ struct XYZCloudCache {
                     
                     let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr, detail: detail, complete: complete, time: time, timeOn: timeOn)
                     
-                    print("********* recordChangedBlock, new = \(newTodo)")
                     data.todos?.append(newTodo)                    
                     dataDictionary[group] = data
                 }
@@ -242,7 +226,6 @@ struct XYZCloudCache {
         
         op.recordWithIDWasDeletedBlock = { (recordId, recordType) in
         
-            print("********* recordWithIDWasDeletedBlock = \(recordId)")
             let tokens = recordId.recordName.split(separator: "-")
             let group = String(tokens[0])
             var cacheData = dataDictionary[group]
@@ -267,20 +250,16 @@ struct XYZCloudCache {
         
         op.recordZoneChangeTokensUpdatedBlock = { (zoneId, changeToken, data) in
          
-            print("********* recordZoneChangeTokensUpdatedBlock, token = \(changeToken!)")
-            
             let tokenData = try! NSKeyedArchiver.archivedData(withRootObject: changeToken!, requiringSecureCoding: false)
             lastChangeToken = tokenData
         }
         
         op.recordZoneFetchCompletionBlock = { (zoneId, changeToken, _, _, error) in
            
-            print("********* recordZoneFetchCompletionBlock, token = \(changeToken!)")
         }
         
         op.fetchRecordZoneChangesCompletionBlock = { (error) in
 
-            print("********* fetchRecordZoneChangesCompletionBlock")
             completion()
         }
         
@@ -290,7 +269,8 @@ struct XYZCloudCache {
         database.add(op)
     }
     
-    static func read(of identifiers: [String], completion: @escaping (String, [XYZCloudTodo]?) -> Void )  {
+    static func read(of identifiers: [String],
+                     completion: @escaping (String, [XYZCloudTodo]?) -> Void )  {
 
         intializeRecordZoneAndDo {
                 
@@ -318,10 +298,10 @@ struct XYZCloudCache {
     static func printDebug() {
         
         print("---- start of XYZCloudCache.printDebug")
-        for (key, dataCache) in dataDictionary {
+        for (key, cacheData) in dataDictionary {
             
             print("-------- identifier = \(key)")
-            dataCache.printDebug()
+            cacheData.printDebug()
             
             print("")
         }
@@ -331,7 +311,6 @@ struct XYZCloudCache {
 
     static func registeriCloudSubscription() {
         
-        print("-------- registeriCloudSubscription")
         let container = CKContainer.default()
         let database = container.privateCloudDatabase
         
@@ -342,10 +321,8 @@ struct XYZCloudCache {
         
         fetchOp.fetchSubscriptionCompletionBlock = {(subscriptionDict, error) -> Void in
             
-            print("******** fetchSubscriptionCompletionBlock")
             if let _ = subscriptionDict![id] {
                 
-                print("******** already have id")
             } else {
 
                 let subscription = CKRecordZoneSubscription.init(zoneID: (ckrecordzone.zoneID), subscriptionID: id)
@@ -362,10 +339,8 @@ struct XYZCloudCache {
                 
                 operation.modifySubscriptionsCompletionBlock = { subscriptions, strings, error in
                     
-                    print("******** modifySubscriptionsCompletionBlock")
                     if let _ = error {
                         
-                        print("------------>>>> \(error!)")
                     }
                 }
                 
