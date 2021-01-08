@@ -291,6 +291,7 @@ extension String {
 
 extension Date {
     
+    
     static func nextHour(hour: Int = 1) -> Date {
         
         let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour], from: Date())
@@ -316,6 +317,13 @@ extension Date {
         let afterSecond = Calendar.current.date(byAdding: .second, value: second, to: now!)
         
         return afterSecond!
+    }
+    
+    func getWeekday() -> Int {
+        
+        let dateComponent = Calendar.current.dateComponents([.weekday], from: self)
+        
+        return dateComponent.weekday!
     }
     
     func getTimeOfToday() -> Date {

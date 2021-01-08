@@ -127,11 +127,13 @@ class XYZTodoDetailTableViewController: UITableViewController,
             
         } else {
         
-            dowLocalized = todayDowLocalized
-            dow = todayDoW
-    
             timeOn = true
             time = Date.nextHour()
+            
+            let dowTime = time?.getWeekday()
+            dow = DayOfWeek[dowTime!]
+            dowLocalized = dow?.rawValue.localized()
+                
             detail = ""
         }
     }
