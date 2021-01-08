@@ -189,7 +189,12 @@ struct XYZCloudCache {
     static func readFromiCloud(completion: @escaping () -> Void) {
         
         // not using change token
-        let changeToken: CKServerChangeToken? = nil
+        var changeToken: CKServerChangeToken? = nil
+        
+        if let tokenData = lastChangeToken {
+            
+            changeToken = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(tokenData) as? CKServerChangeToken
+        }
    
         let recordZone = CKRecordZone(zoneName: XYZTodo.type)
         var optionsByRecordZoneID = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
@@ -263,6 +268,9 @@ struct XYZCloudCache {
         op.recordZoneChangeTokensUpdatedBlock = { (zoneId, changeToken, data) in
          
             print("********* recordZoneChangeTokensUpdatedBlock, token = \(changeToken!)")
+            
+            let tokenData = try! NSKeyedArchiver.archivedData(withRootObject: changeToken!, requiringSecureCoding: false)
+            lastChangeToken = tokenData
         }
         
         op.recordZoneFetchCompletionBlock = { (zoneId, changeToken, _, _, error) in

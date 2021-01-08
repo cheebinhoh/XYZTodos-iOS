@@ -20,6 +20,8 @@ class AppDelegate: UIResponder,
     var todos: [XYZTodo]?
     var global: XYZGlobal?
     var lastExpandedGroups = [String]()
+    var highlightGroup = ""
+    var highlightSequenceNr = -1
     
     func saveLastExpandedGroups() {
         
@@ -41,6 +43,18 @@ class AppDelegate: UIResponder,
         
         let tableViewController = getTodoTableViewController()
         tableViewController.expandTodos(dows: lastExpandedGroups)
+    }
+    
+    func highlightGroupSequenceNr() {
+        
+        if highlightGroup != "" && highlightSequenceNr >= 0 {
+            
+            let tableViewController = getTodoTableViewController()
+            tableViewController.highlight(todoIndex: highlightSequenceNr, group: highlightGroup)
+        }
+        
+        highlightGroup = ""
+        highlightSequenceNr = -1
     }
     
     @discardableResult
@@ -96,6 +110,7 @@ class AppDelegate: UIResponder,
         // can we get the last change token related step 3 without step 4 but step 5?
         XYZCloudCache.intialize(groups: allGroups)
         XYZCloudCache.registeriCloudSubscription()
+        readAndMergeTodosFromCloudKit()
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
@@ -107,8 +122,10 @@ class AppDelegate: UIResponder,
     }
 
     // MARK: CloudKit methods to get and set
-    func readAndMergeTodosFromCloudKit() {
+    func readAndMergeTodosFromCloudKit(completion: (() -> Void)? = nil) {
  
+        var processedGroup = [String]()
+        
         XYZCloudCache.read(of: allGroups) { (identifier, todosFromCloud) in
 
             if let todosFromCloud = todosFromCloud {
@@ -147,6 +164,16 @@ class AppDelegate: UIResponder,
                     tableViewController.reloadSectionCellModelData()
                     
                     self.restoreLastExpandedGroup()
+                }
+            } // if let todosFromCloud = todosFromCloud
+            
+            processedGroup.append(identifier)
+            
+            if processedGroup.count == allGroups.count {
+                
+                DispatchQueue.main.async {
+                
+                    completion?()
                 }
             }
         }

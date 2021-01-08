@@ -349,7 +349,7 @@ class XYZTodoTableViewController: UITableViewController {
         loadSectionCellModelData()
         tableView.reloadData()
     }
-
+  
     func expandTodos(dows: [String], sequenceNr: Int = -1) {
         
         var expndedSectionCellList = [TableViewSectionCell]()
@@ -393,9 +393,9 @@ class XYZTodoTableViewController: UITableViewController {
         }
         
         let indexPath = IndexPath(row: todoIndex + 1, section: sectionIndex)
-           
+ 
         DispatchQueue.main.async {
-            
+   
             self.tableView.selectRow(at: indexPath,
                                      animated: true,
                                      scrollPosition: .middle)
