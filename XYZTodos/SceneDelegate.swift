@@ -129,9 +129,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             fatalError("Exception: AppDelegate is expected")
         }
-
-        appDelegate.readAndMergeTodosFromCloudKit()
         
+        appDelegate.readAndMergeTodosFromCloudKit()
+
         if appDelegate.reconciliateData() {
             
             switchToTodoTableViewController()

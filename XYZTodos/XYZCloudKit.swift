@@ -97,11 +97,6 @@ struct XYZCloudCacheData {
         lastWrittenToWrite = Date()
     }
     
-    mutating func readFromiCloud(of group: String, changeToken: CKServerChangeToken? = nil) {
-        
-        lastReadFromCloud = Date()
-    }
-    
     func printDebug(todos: [XYZCloudTodo]? = nil) {
         
         print("-------- start of XYZCloudCacheData.printDebug")
@@ -194,13 +189,8 @@ struct XYZCloudCache {
     static func readFromiCloud(completion: @escaping () -> Void) {
         
         // not using change token
-        var changeToken: CKServerChangeToken? = nil
+        let changeToken: CKServerChangeToken? = nil
    
-        if let changeTokenData = lastChangeToken {
-            
-            changeToken = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(changeTokenData) as? CKServerChangeToken
-        }
-        
         let recordZone = CKRecordZone(zoneName: XYZTodo.type)
         var optionsByRecordZoneID = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
         let option = CKFetchRecordZoneChangesOperation.ZoneConfiguration()
@@ -238,6 +228,7 @@ struct XYZCloudCache {
                     
                     let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr, detail: detail, complete: complete, time: time, timeOn: timeOn)
                     
+                    print("********* recordChangedBlock, new = \(newTodo)")
                     data.todos?.append(newTodo)                    
                     dataDictionary[group] = data
                 }
@@ -269,17 +260,14 @@ struct XYZCloudCache {
             dataDictionary[group] = cacheData
         }
         
-        op.recordZoneChangeTokensUpdatedBlock = { (zoneId, token, data) in
+        op.recordZoneChangeTokensUpdatedBlock = { (zoneId, changeToken, data) in
          
-            print("********* recordZoneChangeTokensUpdatedBlock")
+            print("********* recordZoneChangeTokensUpdatedBlock, token = \(changeToken!)")
         }
         
         op.recordZoneFetchCompletionBlock = { (zoneId, changeToken, _, _, error) in
            
-            print("********* recordZoneFetchCompletionBlock")
-            
-            let data = try! NSKeyedArchiver.archivedData(withRootObject: changeToken!, requiringSecureCoding: false)
-            lastChangeToken = data
+            print("********* recordZoneFetchCompletionBlock, token = \(changeToken!)")
         }
         
         op.fetchRecordZoneChangesCompletionBlock = { (error) in
@@ -294,34 +282,28 @@ struct XYZCloudCache {
         database.add(op)
     }
     
-    static func read(of identifier: String, completion: @escaping ([XYZCloudTodo]?) -> Void )  {
+    static func read(of identifiers: [String], completion: @escaping (String, [XYZCloudTodo]?) -> Void )  {
 
         intializeRecordZoneAndDo {
                 
-            var cacheData = dataDictionary[identifier]
-            
-            if cacheData == nil {
-            
-                cacheData = XYZCloudCacheData(group: identifier)
-            }
-        
-            cacheData?.deletedRecordIds.removeAll()
-            dataDictionary[identifier] = cacheData
-        
+            print(">>>>>>>>>>>>>>>>>>>>>>> OK")
             readFromiCloud {
                 
-                var result: [XYZCloudTodo]? = nil
-                let cacheData = dataDictionary[identifier]
-                
-                if let todos = cacheData?.todos {
+                for identifier in identifiers {
                     
-                    result = todos
-                } else if !cacheData!.deletedRecordIds.isEmpty {
+                    var result: [XYZCloudTodo]? = nil
+                    let cacheData = dataDictionary[identifier]
                     
-                    result = [XYZCloudTodo]()
+                    if let todos = cacheData?.todos {
+                        
+                        result = todos
+                    } else if !cacheData!.deletedRecordIds.isEmpty {
+                        
+                        result = [XYZCloudTodo]()
+                    }
+             
+                    completion(identifier, result)
                 }
-         
-                completion(result)
             }
         }
     }

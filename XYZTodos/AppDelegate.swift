@@ -95,7 +95,6 @@ class AppDelegate: UIResponder,
         //
         // can we get the last change token related step 3 without step 4 but step 5?
         XYZCloudCache.intialize(groups: allGroups)
-        readAndMergeTodosFromCloudKit()
         XYZCloudCache.registeriCloudSubscription()
         
         center.delegate = self
@@ -109,45 +108,45 @@ class AppDelegate: UIResponder,
 
     // MARK: CloudKit methods to get and set
     func readAndMergeTodosFromCloudKit() {
-        
-        for group in allGroups {
-            
-            XYZCloudCache.read(of: group) { (groupTodos) in
+ 
+        XYZCloudCache.read(of: allGroups) { (identifier, todosFromCloud) in
 
-                OperationQueue.main.addOperation {
+            if let todosFromCloud = todosFromCloud {
+                
+                for todo in self.todos! {
                     
-                    if let groupTodos = groupTodos {
+                    if todo.group == identifier {
                         
-                        for todo in self.todos! {
-                            
-                            if todo.group == group {
-                                
-                                managedContext()?.delete(todo)
-                            }
-                        }
-                        
-                        for todo in groupTodos {
-                            
-                            let _ = XYZTodo(group: group,
-                                            sequenceNr: todo.sequenceNr!,
-                                            detail: todo.detail!,
-                                            timeOn: todo.timeOn!,
-                                            time: todo.time!,
-                                            complete: todo.complete!,
-                                            context: managedContext())
-                        }
-                        
-                        saveManageContext()
-                        self.todos = loadTodosFromManagedContext(managedContext())
-                        self.todos = sortTodos(todos: self.todos!)
-                        
-                        let tableViewController = getTodoTableViewController()
-                        tableViewController.reloadSectionCellModelData()
-                        
-                        self.restoreLastExpandedGroup()
-                        
-                        self.writeTodosToCloudKit(of: [group])
+                        managedContext()?.delete(todo)
                     }
+                }
+                
+                saveManageContext()
+                
+                for todo in todosFromCloud {
+                    
+                    let _ = XYZTodo(group: identifier,
+                                    sequenceNr: todo.sequenceNr!,
+                                    detail: todo.detail!,
+                                    timeOn: todo.timeOn!,
+                                    time: todo.time!,
+                                    complete: todo.complete!,
+                                    context: managedContext())
+                }
+                
+                saveManageContext()
+                
+                self.todos = loadTodosFromManagedContext(managedContext())
+                self.todos = sortTodos(todos: self.todos!)
+                
+                printTodos(todos: self.todos!)
+                
+                DispatchQueue.main.async {
+                    
+                    let tableViewController = getTodoTableViewController()
+                    tableViewController.reloadSectionCellModelData()
+                    
+                    self.restoreLastExpandedGroup()
                 }
             }
         }
