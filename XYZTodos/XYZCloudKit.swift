@@ -36,9 +36,7 @@ struct XYZCloudCacheData {
         // write to icloud
         printDebug(todos: writtingPendingTodos)
 
-        if let writtingPendingTodos = writtingPendingTodos
-        //   ,!writtingPendingTodos.isEmpty
-        {
+        if let writtingPendingTodos = writtingPendingTodos {
             
             let container = CKContainer.default()
             let database = container.privateCloudDatabase
@@ -295,9 +293,7 @@ struct XYZCloudCache {
                 
                 result = [XYZCloudTodo]()
             }
-            
-            print("-------- \(cacheData)")
-            
+     
             completion(result)
         }
     }
@@ -317,3 +313,49 @@ struct XYZCloudCache {
     }
 }
 
+func registeriCloudSubscription() {
+    
+    print("-------- registeriCloudSubscription")
+    let container = CKContainer.default()
+    let database = container.privateCloudDatabase
+    
+    let ckrecordzone = CKRecordZone(zoneName: XYZTodo.type)
+
+    let id = "\((ckrecordzone.zoneID.zoneName))-\((ckrecordzone.zoneID.ownerName))"
+    let fetchOp = CKFetchSubscriptionsOperation.init(subscriptionIDs: [id])
+    
+    fetchOp.fetchSubscriptionCompletionBlock = {(subscriptionDict, error) -> Void in
+        
+        print("******** fetchSubscriptionCompletionBlock")
+        if let _ = subscriptionDict![id] {
+            
+            print("******** already have id")
+        } else {
+
+            let subscription = CKRecordZoneSubscription.init(zoneID: (ckrecordzone.zoneID), subscriptionID: id)
+            let notificationInfo = CKSubscription.NotificationInfo()
+            
+            notificationInfo.shouldSendContentAvailable = true
+            subscription.notificationInfo = notificationInfo
+            
+            let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
+            operation.qualityOfService = .utility
+            operation.completionBlock = {
+                
+            }
+            
+            operation.modifySubscriptionsCompletionBlock = { subscriptions, strings, error in
+                
+                print("******** modifySubscriptionsCompletionBlock")
+                if let _ = error {
+                    
+                    print("------------>>>> \(error)")
+                }
+            }
+            
+            database.add(operation)
+        }
+    }
+
+    database.add(fetchOp)
+}

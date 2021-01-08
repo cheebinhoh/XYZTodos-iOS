@@ -62,7 +62,7 @@ class AppDelegate: UIResponder,
         // can we get the last change token related step 3 without step 4 but step 5?
         XYZCloudCache.intialize(groups: allGroups)
         readAndMergeTodosFromCloudKit()
-        
+
         // notification
         let center = UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound, .announcement, .badge];
@@ -72,9 +72,12 @@ class AppDelegate: UIResponder,
             enableNotification = granted
         }
         
+        application.registerForRemoteNotifications()
+        
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
         registerDeregisterNotification()
+        registeriCloudSubscription()
         WidgetCenter.shared.reloadAllTimelines()
         
         return true
@@ -152,6 +155,29 @@ class AppDelegate: UIResponder,
         }
     }
 
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+     
+        print("---------- notification")
+        if UIApplication.shared.applicationState == .background {
+            
+            completionHandler(.noData)
+        } else {
+            
+            guard let notification:CKRecordZoneNotification = CKNotification(fromRemoteNotificationDictionary: userInfo)! as? CKRecordZoneNotification else {
+                
+                completionHandler(.failed)
+                
+                return
+            }
+            
+            let _ = "-------- notifiction \(String(describing: notification.recordZoneID?.zoneName))"
+            
+            readAndMergeTodosFromCloudKit()
+            completionHandler(.newData)
+        }
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
     
     func application(_ application: UIApplication,
