@@ -72,7 +72,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         tableViewController.expandTodos(dows: [group], sequenceNr: sequenceNr)
                         tableViewController.highlight(todoIndex: sequenceNr, group: group)
                         
-                        
                         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                             
                             fatalError("Exception: AppDelegate is expected")
