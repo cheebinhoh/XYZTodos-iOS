@@ -484,6 +484,13 @@ class XYZTodoTableViewController: UITableViewController {
                 self.tableView.scrollToRow(at: idp, at: .middle, animated: false)
             }
         }
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        appDelegate.saveLastExpandedGroups()
     }
     
     override func tableView(_ tableView: UITableView,

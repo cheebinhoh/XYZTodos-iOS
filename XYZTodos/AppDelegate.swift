@@ -19,6 +19,27 @@ class AppDelegate: UIResponder,
 
     var todos: [XYZTodo]?
     var global: XYZGlobal?
+    var lastExpandedGroups = [String]()
+    
+    func saveLastExpandedGroups() {
+        
+        let tableViewController = getTodoTableViewController()
+     
+        for section in tableViewController.sectionCellList {
+            
+            if let todoGroup = section.data as? XYZTodoTableViewController.TodoGroup,
+               !todoGroup.collapse {
+                
+                lastExpandedGroups.append(section.identifier)
+            }
+        }
+    }
+    
+    func restoreLastExpandedGroup() {
+        
+        let tableViewController = getTodoTableViewController()
+        tableViewController.expandTodos(dows: lastExpandedGroups)
+    }
     
     @discardableResult
     func reconciliateData() -> Bool {
@@ -120,6 +141,8 @@ class AppDelegate: UIResponder,
                         
                         let tableViewController = getTodoTableViewController()
                         tableViewController.reloadSectionCellModelData()
+                        
+                        self.restoreLastExpandedGroup()
                         
                         self.writeTodosToCloudKit(of: [group])
                     }

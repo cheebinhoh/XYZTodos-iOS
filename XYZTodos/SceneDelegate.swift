@@ -121,6 +121,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             fatalError("Exception: AppDelegate is expected")
         }
+
+        XYZCloudCache.intialize(groups: allGroups)
+        appDelegate.readAndMergeTodosFromCloudKit()
+        XYZCloudCache.registeriCloudSubscription()
         
         if appDelegate.reconciliateData() {
             
@@ -129,11 +133,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let tableViewController = getTodoTableViewController(scene: scene)
             tableViewController.reloadSectionCellModelData()
             tableViewController.expandTodos(dows: [todayDoW.rawValue])
+        } else {
+            
+            appDelegate.restoreLastExpandedGroup()
         }
-        
-        XYZCloudCache.intialize(groups: allGroups)
-        appDelegate.readAndMergeTodosFromCloudKit()
-        XYZCloudCache.registeriCloudSubscription()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         registerDeregisterNotification()
@@ -144,6 +147,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
         
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        appDelegate.saveLastExpandedGroups()
         WidgetCenter.shared.reloadAllTimelines()
     }
 
