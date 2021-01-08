@@ -130,9 +130,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
 
-        XYZCloudCache.intialize(groups: allGroups)
         appDelegate.readAndMergeTodosFromCloudKit()
-        XYZCloudCache.registeriCloudSubscription()
         
         if appDelegate.reconciliateData() {
             

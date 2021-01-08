@@ -94,9 +94,9 @@ class AppDelegate: UIResponder,
         // 6. subscribe change from icloud based on last change token.
         //
         // can we get the last change token related step 3 without step 4 but step 5?
-        //XYZCloudCache.intialize(groups: allGroups)
-        //readAndMergeTodosFromCloudKit()
-        //XYZCloudCache.registeriCloudSubscription()
+        XYZCloudCache.intialize(groups: allGroups)
+        readAndMergeTodosFromCloudKit()
+        XYZCloudCache.registeriCloudSubscription()
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
@@ -195,7 +195,7 @@ class AppDelegate: UIResponder,
             }
             
             let _ = "-------- notifiction \(String(describing: notification.recordZoneID?.zoneName))"
-            print("__________________________ ")
+  
             readAndMergeTodosFromCloudKit()
             completionHandler(.newData)
         }
@@ -271,6 +271,7 @@ class AppDelegate: UIResponder,
                         todoFound.complete = true
                         todoFound.timeReschedule = nil
                         saveManageContext()
+                        writeTodosToCloudKit(of: [group])
                         
                     case "AN_HOUR_LATER_ACTION":
                         todoFound.timeReschedule = Date.nextHour()
@@ -293,8 +294,6 @@ class AppDelegate: UIResponder,
                 appDelegate.lastExpandedGroups = []
                 appDelegate.lastExpandedGroups.append(group)
             }
-            
-            writeTodosToCloudKit(of: [group])
         }
      
         // register notification and refresh widget
