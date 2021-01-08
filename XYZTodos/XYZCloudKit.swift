@@ -276,10 +276,6 @@ struct XYZCloudCache {
         cacheData?.deletedRecordIds.removeAll()
         dataDictionary[identifier] = cacheData
     
-        
-        let defaults = UserDefaults.standard;
-        defaults.setValue(Data(), forKey: "LastChangeToken")
-        
         readFromiCloud {
             
             print("-------- complete")
