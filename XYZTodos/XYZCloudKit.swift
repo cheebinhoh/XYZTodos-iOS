@@ -294,7 +294,6 @@ struct XYZCloudCache {
 
         intializeRecordZoneAndDo {
                 
-            print(">>>>>>>>>>>>>>>>>>>>>>> OK")
             readFromiCloud {
                 
                 for identifier in identifiers {
