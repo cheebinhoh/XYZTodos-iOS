@@ -424,8 +424,24 @@ class XYZTodoTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Retrieve latest update from iCloud".localized())
+        refreshControl.addTarget(self, action: #selector(refreshUpdateFromiCloud), for: .valueChanged)
+        
+        // this is the replacement of implementing: "collectionView.addSubview(refreshControl)"
+        tableView.refreshControl = refreshControl
     }
 
+    @objc func refreshUpdateFromiCloud(refreshControl: UIRefreshControl) {
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            
+            fatalError("Exception: AppDelegate is expected")
+        }
+        
+        appDelegate.readAndMergeTodosFromCloudKit()
+    }
 
     // MARK: - Table view data source
 
