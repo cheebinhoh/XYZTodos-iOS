@@ -24,7 +24,9 @@ class AppDelegate: UIResponder,
     func saveLastExpandedGroups() {
         
         let tableViewController = getTodoTableViewController()
-     
+        
+        lastExpandedGroups = []
+        
         for section in tableViewController.sectionCellList {
             
             if let todoGroup = section.data as? XYZTodoTableViewController.TodoGroup,
