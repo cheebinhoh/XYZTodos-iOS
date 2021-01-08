@@ -71,9 +71,9 @@ class AppDelegate: UIResponder,
         // 6. subscribe change from icloud based on last change token.
         //
         // can we get the last change token related step 3 without step 4 but step 5?
-        XYZCloudCache.intialize(groups: allGroups)
-        readAndMergeTodosFromCloudKit()
-        XYZCloudCache.registeriCloudSubscription()
+        //XYZCloudCache.intialize(groups: allGroups)
+        //readAndMergeTodosFromCloudKit()
+        //XYZCloudCache.registeriCloudSubscription()
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0

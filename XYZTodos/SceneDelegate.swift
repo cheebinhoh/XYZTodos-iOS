@@ -116,6 +116,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             
             fatalError("Exception: AppDelegate is expected")
@@ -129,6 +130,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             tableViewController.reloadSectionCellModelData()
             tableViewController.expandTodos(dows: [todayDoW.rawValue])
         }
+        
+        XYZCloudCache.intialize(groups: allGroups)
+        appDelegate.readAndMergeTodosFromCloudKit()
+        XYZCloudCache.registeriCloudSubscription()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         registerDeregisterNotification()
