@@ -146,7 +146,7 @@ class AppDelegate: UIResponder,
         
         global = loadGlobalFromManagedContext();
         todos = loadAndConvertTodosFromManagedContext()
-        
+
         // cloud kit
         // 1. load data from icloud into temporary buffer based on last change token from global
         // 2. merge data from temporary buffer into todos
@@ -161,9 +161,6 @@ class AppDelegate: UIResponder,
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
-        
-        //registerDeregisterNotification()
-        //WidgetCenter.shared.reloadAllTimelines()
         
         return true
     }
@@ -199,7 +196,7 @@ class AppDelegate: UIResponder,
             writeTodosToCloudKit(of: allGroups) {
 
                 lastChangeDataTime = lastChangeDataWrittenToiCloudTime
-                
+
                 refreshData()
             }
         } else {
@@ -267,7 +264,7 @@ class AppDelegate: UIResponder,
                               completion: (() -> Void)? = nil) {
         
         var outbound = [String: [XYZCloudTodo]]()
-        
+
         for group in groups {
             
             var cloudTodos = [XYZCloudTodo]()
@@ -293,8 +290,11 @@ class AppDelegate: UIResponder,
         
         if !outbound.isEmpty {
         
+            print(">>>>> ootbound = \(outbound)")
+            print(">>>>> outbound todos = \(self.todos!)")
             XYZCloudCache.write(data: outbound) {
 
+                print(">>>>> outbound todos done = \(self.todos!)")
                 lastChangeDataWrittenToiCloudTime = Date()
                 completion?()
             }

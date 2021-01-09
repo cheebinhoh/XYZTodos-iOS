@@ -443,6 +443,8 @@ class XYZTodoTableViewController: UITableViewController {
         appDelegate.saveExpandedGroupsInTodosView()
         
         appDelegate.syncTodosWithiCloudCache()
+        
+        refreshControl.endRefreshing()
     }
 
     // MARK: - Table view data source
