@@ -443,6 +443,7 @@ class XYZTodoTableViewController: UITableViewController {
         appDelegate.readAndMergeTodosFromCloudKit {
             
             refreshControl.endRefreshing()
+            self.reloadSectionCellModelData()
         }
     }
 

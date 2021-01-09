@@ -65,13 +65,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     if let group = group, let sequenceNr = sequenceNr {
                         
-                        /*
-                        switchToTodoTableViewController()
-                        
-                        let tableViewController = getTodoTableViewController(scene: scene)
-                        tableViewController.reloadSectionCellModelData()
-                        */
-                        
                         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                             
                             fatalError("Exception: AppDelegate is expected")
@@ -104,6 +97,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
         guard let _ = (scene as? UIWindowScene) else { return }
         
         if let _ = connectionOptions.shortcutItem {
@@ -134,9 +128,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             fatalError("Exception: AppDelegate is expected")
         }
-        
+
         let refreshData: (() -> Void) = {
-            
+
             appDelegate.readAndMergeTodosFromCloudKit() {
 
                 if appDelegate.reconciliateData() {
@@ -147,11 +141,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 switchToTodoTableViewController()
                 
-                let tableViewController = getTodoTableViewController(scene: scene)
-                tableViewController.reloadSectionCellModelData()
-                
-                appDelegate.restoreLastExpandedGroup()
-                appDelegate.highlightGroupSequenceNr()
+                appDelegate.reloadTodosDataInView()
+                appDelegate.restoreLastExpandedTodoGroupInView()
+                appDelegate.highlightGroupSequenceNrInView()
                 
                 registerDeregisterNotification()
                 WidgetCenter.shared.reloadAllTimelines()
@@ -166,7 +158,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 appDelegate.pendingWrite = false
             }
         } else {
-            
+
             refreshData()
         }
     }

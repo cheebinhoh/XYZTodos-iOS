@@ -40,13 +40,19 @@ class AppDelegate: UIResponder,
         }
     }
     
-    func restoreLastExpandedGroup() {
+    func reloadTodosDataInView() {
+        
+        let tableViewController = getTodoTableViewController()
+        tableViewController.reloadSectionCellModelData()
+    }
+    
+    func restoreLastExpandedTodoGroupInView() {
         
         let tableViewController = getTodoTableViewController()
         tableViewController.expandTodos(dows: lastExpandedGroups)
     }
     
-    func highlightGroupSequenceNr() {
+    func highlightGroupSequenceNrInView() {
         
         if highlightGroup != "" && highlightSequenceNr >= 0 {
             
@@ -129,42 +135,13 @@ class AppDelegate: UIResponder,
     func readAndMergeTodosFromCloudKit(completion: (() -> Void)? = nil) {
  
         var processedGroup = [String]()
+        var saveTodosFromCloud = [String: [XYZCloudTodo]]()
         
         XYZCloudCache.read(of: allGroups) { (identifier, todosFromCloud) in
 
             if let todosFromCloud = todosFromCloud {
                 
-                for todo in self.todos! {
-                    
-                    if todo.group == identifier {
-                        
-                        managedContext()?.delete(todo)
-                    }
-                }
-                
-                saveManageContext()
-                
-                for todo in todosFromCloud {
-                    
-                    let _ = XYZTodo(group: identifier,
-                                    sequenceNr: todo.sequenceNr!,
-                                    detail: todo.detail!,
-                                    timeOn: todo.timeOn!,
-                                    time: todo.time!,
-                                    complete: todo.complete!,
-                                    context: managedContext())
-                }
-                
-                saveManageContext()
-                
-                self.todos = loadTodosFromManagedContext(managedContext())
-                self.todos = sortTodos(todos: self.todos!)
-                
-                DispatchQueue.main.async {
-                    
-                    let tableViewController = getTodoTableViewController()
-                    tableViewController.reloadSectionCellModelData()
-                }
+                saveTodosFromCloud[identifier] = todosFromCloud
             } // if let todosFromCloud = todosFromCloud
             
             processedGroup.append(identifier)
@@ -173,6 +150,7 @@ class AppDelegate: UIResponder,
                 
                 DispatchQueue.main.async {
                 
+                    self.loadTodosFromiCloudCache(todosFromCloud: saveTodosFromCloud)
                     completion?()
                 }
             }
@@ -229,7 +207,12 @@ class AppDelegate: UIResponder,
             
             let _ = "-------- notifiction \(String(describing: notification.recordZoneID?.zoneName))"
   
-            readAndMergeTodosFromCloudKit()
+            readAndMergeTodosFromCloudKit {
+                
+                self.reloadTodosDataInView()
+                self.restoreLastExpandedTodoGroupInView()
+            }
+            
             completionHandler(.newData)
         }
     }
@@ -361,6 +344,36 @@ class AppDelegate: UIResponder,
         }
     }
 
+    func loadTodosFromiCloudCache(todosFromCloud: [String: [XYZCloudTodo]]) {
+        
+        for (identifier, ctodos) in todosFromCloud {
+            
+            for todo in self.todos! {
+                
+                if todo.group == identifier {
+                    
+                    managedContext()?.delete(todo)
+                }
+            }
+               
+            for ctodo in ctodos {
+                
+                let _ = XYZTodo(group: identifier,
+                                sequenceNr: ctodo.sequenceNr!,
+                                detail: ctodo.detail!,
+                                timeOn: ctodo.timeOn!,
+                                time: ctodo.time!,
+                                complete: ctodo.complete!,
+                                context: managedContext())
+            }
+            
+            saveManageContext()
+        }
+        
+        self.todos = loadTodosFromManagedContext(managedContext())
+        self.todos = sortTodos(todos: self.todos!)
+    }
+    
     func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
 
         // load from old storage
