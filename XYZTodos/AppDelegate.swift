@@ -64,19 +64,23 @@ class AppDelegate: UIResponder,
         let refreshTodos = nil == globalDow
                             || ( globalDow != todayDoW
                                  && todayDoW.weekDayNr == firstWeekDay )
-
+        
         if refreshTodos {
             
             for todo in todos! {
-   
+
                 todo.complete = false
             }
         }
         
         global!.dow = todayDoW.rawValue
         todos = reconciliateTodoSequenceNr(todos: todos!)
-        
         saveManageContext()
+        
+        if refreshTodos {
+            
+            writeTodosToCloudKit()
+        }
         
         return refreshTodos
     }
