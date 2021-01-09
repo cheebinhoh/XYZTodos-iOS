@@ -209,10 +209,7 @@ class AppDelegate: UIResponder,
                 }
             }
             
-            if !cloudTodos.isEmpty {
-                
-                outbound[group] = cloudTodos
-            }
+            outbound[group] = cloudTodos
         }
         
         if !outbound.isEmpty {
