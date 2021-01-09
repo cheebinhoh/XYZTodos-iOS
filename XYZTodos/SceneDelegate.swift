@@ -131,16 +131,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
         
-         registerDeregisterNotification()
-         UIApplication.shared.applicationIconBadgeNumber = 0
-         WidgetCenter.shared.reloadAllTimelines()
+        registerDeregisterNotification()
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        WidgetCenter.shared.reloadAllTimelines()
          
-         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
              
-             fatalError("Exception: AppDelegate is expected")
-         }
+            fatalError("Exception: AppDelegate is expected")
+        }
 
-         appDelegate.syncTodosWithiCloudCache()
+        appDelegate.reloadTodosDataInTodosView()
+        appDelegate.syncTodosWithiCloudCache()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
