@@ -187,9 +187,10 @@ class AppDelegate: UIResponder,
             }
         }
         
-        let hasPendingWrite = ( lastChangeDataTime == nil )
-                                || ( nil == lastChangeDataWrittenToiCloudTime
-                                        || lastChangeDataWrittenToiCloudTime! < lastChangeDataTime! )
+        let hasPendingWrite = ( ( lastChangeDataTime == nil )
+                                    || ( nil == lastChangeDataWrittenToiCloudTime
+                                            || lastChangeDataWrittenToiCloudTime! < lastChangeDataTime! ) )
+                                && !todos!.isEmpty
 
         if hasPendingWrite {
             
@@ -290,11 +291,8 @@ class AppDelegate: UIResponder,
         
         if !outbound.isEmpty {
         
-            print(">>>>> ootbound = \(outbound)")
-            print(">>>>> outbound todos = \(self.todos!)")
             XYZCloudCache.write(data: outbound) {
 
-                print(">>>>> outbound todos done = \(self.todos!)")
                 lastChangeDataWrittenToiCloudTime = Date()
                 completion?()
             }
