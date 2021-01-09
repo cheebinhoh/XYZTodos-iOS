@@ -161,14 +161,10 @@ class AppDelegate: UIResponder,
                 self.todos = loadTodosFromManagedContext(managedContext())
                 self.todos = sortTodos(todos: self.todos!)
                 
-                printTodos(todos: self.todos!)
-                
                 DispatchQueue.main.async {
                     
                     let tableViewController = getTodoTableViewController()
                     tableViewController.reloadSectionCellModelData()
-                    
-                    self.restoreLastExpandedGroup()
                 }
             } // if let todosFromCloud = todosFromCloud
             
