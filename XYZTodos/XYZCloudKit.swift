@@ -30,7 +30,7 @@ struct XYZCloudCacheData {
     
     var deletedRecordIds = [String]()
     
-    mutating func writeToiCloud() {
+    mutating func writeToiCloud(completion: @escaping () -> Void) {
 
         let group = self.group
         // write to icloud
@@ -78,7 +78,8 @@ struct XYZCloudCacheData {
                     op.savePolicy = .allKeys
 
                     op.completionBlock = {
-                        
+                    
+                        completion()
                     }
                     
                     database.add(op)
@@ -167,10 +168,39 @@ struct XYZCloudCache {
             cacheData!.writtingPendingTodos = todos
             
             dataDictionary[identifier] = cacheData
-            
-            cacheData?.writeToiCloud()
-            
+
+            cacheData?.writeToiCloud(completion: {})
+     
             dataDictionary[identifier] = cacheData // we reset writtingPendingTodos
+        }
+    }
+    
+    static func write(data: [String: [XYZCloudTodo]],
+                      completion: @escaping () -> Void) {
+        
+        intializeRecordZoneAndDo {
+         
+            var numData = data.count
+            
+            for ( identifier, todos ) in data {
+                
+                var cacheData = dataDictionary[identifier]
+
+                cacheData!.writtingPendingTodos = todos
+                
+                dataDictionary[identifier] = cacheData
+
+                cacheData?.writeToiCloud(completion: {
+                    
+                    numData = numData - 1
+                    if numData == 0 {
+                        
+                        completion()
+                    }
+                })
+         
+                dataDictionary[identifier] = cacheData // we reset writtingPendingTodos
+            }
         }
     }
     
@@ -279,8 +309,8 @@ struct XYZCloudCache {
                 for identifier in identifiers {
                     
                     var result: [XYZCloudTodo]? = nil
-                    let cacheData = dataDictionary[identifier]
-                    
+                    var cacheData = dataDictionary[identifier]
+
                     if let todos = cacheData?.todos {
                         
                         result = todos
@@ -290,6 +320,9 @@ struct XYZCloudCache {
                     }
              
                     completion(identifier, result)
+                    
+                    cacheData?.deletedRecordIds = []
+                    dataDictionary[identifier] = cacheData
                 }
             }
         }

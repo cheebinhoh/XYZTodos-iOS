@@ -22,6 +22,7 @@ class AppDelegate: UIResponder,
     var lastExpandedGroups = [String]()
     var highlightGroup = ""
     var highlightSequenceNr = -1
+    var pendingWrite = false
     
     func saveLastExpandedGroups() {
         
@@ -183,8 +184,11 @@ class AppDelegate: UIResponder,
         }
     }
     
-    func writeTodosToCloudKit(of groups: [String] = allGroups) {
-    
+    func writeTodosToCloudKit(of groups: [String] = allGroups,
+                              completion: (() -> Void)? = nil) {
+        
+        var outbound = [String: [XYZCloudTodo]]()
+        
         for group in groups {
             
             var cloudTodos = [XYZCloudTodo]()
@@ -205,7 +209,15 @@ class AppDelegate: UIResponder,
                 }
             }
             
-            XYZCloudCache.write(todos: cloudTodos, of: group)
+            if !cloudTodos.isEmpty {
+                
+                outbound[group] = cloudTodos
+            }
+        }
+        
+        if !outbound.isEmpty {
+        
+            XYZCloudCache.write(data: outbound, completion: completion ?? { })
         }
     }
 
@@ -300,7 +312,7 @@ class AppDelegate: UIResponder,
                         todoFound.complete = true
                         todoFound.timeReschedule = nil
                         saveManageContext()
-                        writeTodosToCloudKit(of: [group])
+                        pendingWrite = true
                         
                     case "AN_HOUR_LATER_ACTION":
                         todoFound.timeReschedule = Date.nextHour()

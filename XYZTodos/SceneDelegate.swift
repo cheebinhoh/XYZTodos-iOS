@@ -130,22 +130,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        appDelegate.readAndMergeTodosFromCloudKit() {
-
-            if appDelegate.reconciliateData() {
-                
-                switchToTodoTableViewController()
-                
-                let tableViewController = getTodoTableViewController(scene: scene)
-                tableViewController.reloadSectionCellModelData()
-                appDelegate.lastExpandedGroups = []
-                appDelegate.lastExpandedGroups.append(todayDoW.rawValue)
-            }
-                
-            appDelegate.restoreLastExpandedGroup()
-            appDelegate.highlightGroupSequenceNr()
+        let refreshData: (() -> Void) = {
             
-            registerDeregisterNotification()
+            appDelegate.readAndMergeTodosFromCloudKit() {
+
+                if appDelegate.reconciliateData() {
+                    
+                    switchToTodoTableViewController()
+                    
+                    let tableViewController = getTodoTableViewController(scene: scene)
+                    tableViewController.reloadSectionCellModelData()
+                    appDelegate.lastExpandedGroups = []
+                    appDelegate.lastExpandedGroups.append(todayDoW.rawValue)
+                }
+                    
+                appDelegate.restoreLastExpandedGroup()
+                appDelegate.highlightGroupSequenceNr()
+                
+                registerDeregisterNotification()
+            }
+        }
+        
+        if appDelegate.pendingWrite {
+            
+            appDelegate.writeTodosToCloudKit(of: allGroups) {
+                
+                refreshData()
+                appDelegate.pendingWrite = false
+            }
+        } else {
+            
+            refreshData()
         }
         
         UIApplication.shared.applicationIconBadgeNumber = 0
