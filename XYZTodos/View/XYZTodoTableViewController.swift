@@ -440,7 +440,10 @@ class XYZTodoTableViewController: UITableViewController {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        appDelegate.readAndMergeTodosFromCloudKit()
+        appDelegate.readAndMergeTodosFromCloudKit {
+            
+            refreshControl.endRefreshing()
+        }
     }
 
     // MARK: - Table view data source
