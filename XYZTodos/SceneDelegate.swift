@@ -134,12 +134,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             appDelegate.readAndMergeTodosFromCloudKit() {
 
+                switchToTodoTableViewController()
+                
+                let tableViewController = getTodoTableViewController(scene: scene)
+                tableViewController.reloadSectionCellModelData()
+                
                 if appDelegate.reconciliateData() {
                     
-                    switchToTodoTableViewController()
-                    
-                    let tableViewController = getTodoTableViewController(scene: scene)
-                    tableViewController.reloadSectionCellModelData()
                     appDelegate.lastExpandedGroups = []
                     appDelegate.lastExpandedGroups.append(todayDoW.rawValue)
                 }
