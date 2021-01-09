@@ -130,46 +130,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
 
-        let refreshData: (() -> Void) = {
-
-            appDelegate.readAndMergeTodosFromCloudKit() {
-
-                if appDelegate.reconciliateData() {
-                    
-                    appDelegate.resetExpandedGroupInTodosView()
-                    appDelegate.addExpandedGroupInTodosView(group: todayDoW.rawValue)
-                }
-
-                appDelegate.reloadTodosDataInTodosView()
-                appDelegate.restoreExpandedGroupInTodosView()
-                appDelegate.highlightGroupSequenceNrInTodosView()
-                
-                registerDeregisterNotification()
-                WidgetCenter.shared.reloadAllTimelines()
-
-                if nil == lastChangeDataTime {
-                    
-                    appDelegate.writeTodosToCloudKit()
-                    lastChangeDataTime = Date()
-                } else if nil == lastChangeDataWrittenToiCloudTime
-                            || lastChangeDataWrittenToiCloudTime! < lastChangeDataTime! {
-                    
-                    appDelegate.writeTodosToCloudKit()
-                }
-            }
-        }
-        
-        if appDelegate.pendingWrite {
-            
-            appDelegate.writeTodosToCloudKit(of: allGroups) {
-
-                appDelegate.pendingWrite = false
-                refreshData()
-            }
-        } else {
-
-            refreshData()
-        }
+        appDelegate.syncTodosWithiCloudCache()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

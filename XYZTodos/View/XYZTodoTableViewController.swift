@@ -442,14 +442,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         appDelegate.saveExpandedGroupsInTodosView()
         
-        appDelegate.readAndMergeTodosFromCloudKit {
-            
-            refreshControl.endRefreshing()
-            
-            appDelegate.reconciliateData()
-            self.reloadSectionCellModelData()
-            appDelegate.restoreExpandedGroupInTodosView()
-        }
+        appDelegate.syncTodosWithiCloudCache()
     }
 
     // MARK: - Table view data source

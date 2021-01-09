@@ -22,8 +22,7 @@ class AppDelegate: UIResponder,
     var expandedTodoGroups = [String]()
     var highlightGroupInTodosView = ""
     var highlightSequenceNrInTodosView = -1
-    var pendingWrite = false
-
+    
     //MARK: - Todos view manipulation methods
     
     func switchToTodosView(scene: UIScene? = UIApplication.shared.connectedScenes.first) {
@@ -170,6 +169,45 @@ class AppDelegate: UIResponder,
     }
 
     // MARK: - CloudKit methods
+    func syncTodosWithiCloudCache() {
+        
+        let refreshData: (() -> Void) = {
+            
+            self.readAndMergeTodosFromCloudKit() {
+
+                if self.reconciliateData() {
+                    
+                    self.resetExpandedGroupInTodosView()
+                    self.addExpandedGroupInTodosView(group: todayDoW.rawValue)
+                }
+
+                self.reloadTodosDataInTodosView()
+                self.restoreExpandedGroupInTodosView()
+                self.highlightGroupSequenceNrInTodosView()
+                
+                registerDeregisterNotification()
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+        }
+        
+        let hasPendingWrite = ( lastChangeDataTime == nil )
+                                || ( nil == lastChangeDataWrittenToiCloudTime
+                                        || lastChangeDataWrittenToiCloudTime! < lastChangeDataTime! )
+
+        if hasPendingWrite {
+            
+            writeTodosToCloudKit(of: allGroups) {
+
+                lastChangeDataTime = lastChangeDataWrittenToiCloudTime
+                
+                refreshData()
+            }
+        } else {
+
+            refreshData()
+        }
+    }
+    
     func loadTodosFromiCloudCache(todosFromCloud: [String: [XYZCloudTodo]]) {
         
         for (identifier, ctodos) in todosFromCloud {
@@ -193,7 +231,7 @@ class AppDelegate: UIResponder,
                                 context: managedContext())
             }
             
-            saveManageContext()
+            saveManageContext() // we do not adjust lastChangeDataTime as it is not changed by user
         }
         
         self.todos = loadTodosFromManagedContext(managedContext())
@@ -256,7 +294,7 @@ class AppDelegate: UIResponder,
         if !outbound.isEmpty {
         
             XYZCloudCache.write(data: outbound) {
-                
+
                 lastChangeDataWrittenToiCloudTime = Date()
                 completion?()
             }
@@ -310,7 +348,7 @@ class AppDelegate: UIResponder,
                         todoFound.complete = true
                         todoFound.timeReschedule = nil
                         saveManageContext()
-                        pendingWrite = true
+                        lastChangeDataTime = Date()
                         
                     case "AN_HOUR_LATER_ACTION":
                         todoFound.timeReschedule = Date.nextHour()
@@ -445,6 +483,7 @@ class AppDelegate: UIResponder,
             }
             
             saveManageContext()
+            lastChangeDataTime = Date()
             saveManageContextDeprecated()
             
             output = appDelegate.todos
@@ -503,6 +542,7 @@ func deleteTodoInAppDelegate(group: String,
     appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     
     saveManageContext()
+    lastChangeDataTime = Date()
     registerDeregisterNotification()
     
     appDelegate.writeTodosToCloudKit(of: [group!])
@@ -526,6 +566,7 @@ func moveTodoInAppDelegate(fromIndex: Int,
     appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
     
     saveManageContext()
+    lastChangeDataTime = Date()
     registerDeregisterNotification()
     
     appDelegate.writeTodosToCloudKit(of: [group!])
@@ -569,6 +610,7 @@ func editTodoInAppDelegate(oldGroup: String,
     appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
         
     saveManageContext()
+    lastChangeDataTime = Date()
     registerDeregisterNotification()
     
     appDelegate.writeTodosToCloudKit(of: [oldGroup, newGroup])
@@ -600,6 +642,7 @@ func addTodoToAppDelegate(group: String,
     appDelegate.todos = reconciliateTodoSequenceNr(todos: appDelegate.todos!)
         
     saveManageContext()
+    lastChangeDataTime = Date()
     registerDeregisterNotification()
     
     appDelegate.writeTodosToCloudKit(of: [todo.group])
