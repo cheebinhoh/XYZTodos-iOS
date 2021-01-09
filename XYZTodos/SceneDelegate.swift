@@ -70,10 +70,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             fatalError("Exception: AppDelegate is expected")
                         }
 
-                        appDelegate.lastExpandedGroups = []
-                        appDelegate.lastExpandedGroups.append(group)
-                        appDelegate.highlightGroup = group
-                        appDelegate.highlightSequenceNr = sequenceNr
+                        appDelegate.addExpandedGroupInTodosView(group: group)
+                        appDelegate.setHighlightGroupSequenceNrInTodosView(group: group,
+                                                                           sequenceNr: sequenceNr)
+                        appDelegate.switchToTodosView()
                     }
                     
                 default:
@@ -120,7 +120,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-        
+       
+        registerDeregisterNotification()
         UIApplication.shared.applicationIconBadgeNumber = 0
         WidgetCenter.shared.reloadAllTimelines()
         
@@ -135,15 +136,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 if appDelegate.reconciliateData() {
                     
-                    appDelegate.lastExpandedGroups = []
-                    appDelegate.lastExpandedGroups.append(todayDoW.rawValue)
+                    appDelegate.resetExpandedGroupInTodosView()
+                    appDelegate.addExpandedGroupInTodosView(group: todayDoW.rawValue)
                 }
 
-                switchToTodoTableViewController()
-                
-                appDelegate.reloadTodosDataInView()
-                appDelegate.restoreLastExpandedTodoGroupInView()
-                appDelegate.highlightGroupSequenceNrInView()
+                appDelegate.reloadTodosDataInTodosView()
+                appDelegate.restoreExpandedGroupInTodosView()
+                appDelegate.highlightGroupSequenceNrInTodosView()
                 
                 registerDeregisterNotification()
                 WidgetCenter.shared.reloadAllTimelines()
@@ -153,9 +152,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if appDelegate.pendingWrite {
             
             appDelegate.writeTodosToCloudKit(of: allGroups) {
-                
-                refreshData()
+
                 appDelegate.pendingWrite = false
+                refreshData()
             }
         } else {
 
@@ -172,7 +171,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        appDelegate.saveLastExpandedGroups()
+        appDelegate.saveExpandedGroupsInTodosView()
         WidgetCenter.shared.reloadAllTimelines()
     }
 

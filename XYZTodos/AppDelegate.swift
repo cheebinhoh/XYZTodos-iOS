@@ -19,51 +19,93 @@ class AppDelegate: UIResponder,
 
     var todos: [XYZTodo]?
     var global: XYZGlobal?
-    var lastExpandedGroups = [String]()
-    var highlightGroup = ""
-    var highlightSequenceNr = -1
+    var expandedTodoGroups = [String]()
+    var highlightGroupInTodosView = ""
+    var highlightSequenceNrInTodosView = -1
     var pendingWrite = false
+
     
-    func saveLastExpandedGroups() {
+    //MARK: - Todos view manipulation methods
+    
+    func switchToTodosView(scene: UIScene? = UIApplication.shared.connectedScenes.first) {
+        
+        guard let sd = (scene?.delegate as? SceneDelegate) else {
+
+            fatalError("Exception sceneDelegate is expected")
+        }
+        
+        guard let tabBarController = sd.window?.rootViewController as? UITabBarController else {
+            
+            fatalError("Exception: UITabBarController is expected" )
+        }
+        
+        tabBarController.selectedIndex = 0
+    }
+    
+    func resetExpandedGroupInTodosView() {
+    
+        expandedTodoGroups = []
+    }
+    
+    func addExpandedGroupInTodosView(group: String) {
+        
+        if !expandedTodoGroups.contains(group) {
+            
+            expandedTodoGroups.append(group)
+        }
+    }
+    
+    func saveExpandedGroupsInTodosView() {
+        
+        resetExpandedGroupInTodosView()
         
         let tableViewController = getTodoTableViewController()
-        
-        lastExpandedGroups = []
         
         for section in tableViewController.sectionCellList {
             
             if let todoGroup = section.data as? XYZTodoTableViewController.TodoGroup,
                !todoGroup.collapse {
                 
-                lastExpandedGroups.append(section.identifier)
+                addExpandedGroupInTodosView(group: section.identifier)
             }
         }
     }
     
-    func reloadTodosDataInView() {
+    func reloadTodosDataInTodosView() {
         
         let tableViewController = getTodoTableViewController()
         tableViewController.reloadSectionCellModelData()
     }
     
-    func restoreLastExpandedTodoGroupInView() {
+    func restoreExpandedGroupInTodosView() {
         
         let tableViewController = getTodoTableViewController()
-        tableViewController.expandTodos(dows: lastExpandedGroups)
+        tableViewController.expandTodos(dows: expandedTodoGroups)
     }
     
-    func highlightGroupSequenceNrInView() {
+    func highlightGroupSequenceNrInTodosView() {
         
-        if highlightGroup != "" && highlightSequenceNr >= 0 {
+        if highlightGroupInTodosView != ""
+            && highlightSequenceNrInTodosView >= 0 {
             
             let tableViewController = getTodoTableViewController()
-            tableViewController.highlight(todoIndex: highlightSequenceNr, group: highlightGroup)
+            tableViewController.highlight(todoIndex: highlightSequenceNrInTodosView,
+                                          group: highlightGroupInTodosView)
         }
         
-        highlightGroup = ""
-        highlightSequenceNr = -1
+        highlightGroupInTodosView = ""
+        highlightSequenceNrInTodosView = -1
     }
     
+    func setHighlightGroupSequenceNrInTodosView(group: String = "",
+                                                sequenceNr: Int = -1) {
+        
+        highlightGroupInTodosView = group
+        highlightSequenceNrInTodosView = sequenceNr
+    }
+    
+    
+    //MARK: - Miscellaneous
     @discardableResult
     func reconciliateData() -> Bool {
         
@@ -131,7 +173,37 @@ class AppDelegate: UIResponder,
         return true
     }
 
-    // MARK: CloudKit methods to get and set
+    // MARK: - CloudKit methods
+    func loadTodosFromiCloudCache(todosFromCloud: [String: [XYZCloudTodo]]) {
+        
+        for (identifier, ctodos) in todosFromCloud {
+            
+            for todo in self.todos! {
+                
+                if todo.group == identifier {
+                    
+                    managedContext()?.delete(todo)
+                }
+            }
+               
+            for ctodo in ctodos {
+                
+                let _ = XYZTodo(group: identifier,
+                                sequenceNr: ctodo.sequenceNr!,
+                                detail: ctodo.detail!,
+                                timeOn: ctodo.timeOn!,
+                                time: ctodo.time!,
+                                complete: ctodo.complete!,
+                                context: managedContext())
+            }
+            
+            saveManageContext()
+        }
+        
+        self.todos = loadTodosFromManagedContext(managedContext())
+        self.todos = sortTodos(todos: self.todos!)
+    }
+    
     func readAndMergeTodosFromCloudKit(completion: (() -> Void)? = nil) {
  
         var processedGroup = [String]()
@@ -209,14 +281,58 @@ class AppDelegate: UIResponder,
   
             readAndMergeTodosFromCloudKit {
                 
-                self.reloadTodosDataInView()
-                self.restoreLastExpandedTodoGroupInView()
+                self.reconciliateData()
+                self.reloadTodosDataInTodosView()
+                self.restoreExpandedGroupInTodosView()
             }
             
             completionHandler(.newData)
         }
     }
     
+    //MARK: - Notification methods
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        let (group, sequenceNr) = parseGroupAndSequenceNr(of: response.notification.request.identifier)
+
+        if let group = group,
+            let sequenceNr = sequenceNr {
+            
+            if let todoFound = getTodo(group: group, sequenceNr: sequenceNr, from: todos!) {
+
+                switch response.actionIdentifier {
+                
+                    case "DONE_ACTION":
+                        todoFound.complete = true
+                        todoFound.timeReschedule = nil
+                        saveManageContext()
+                        pendingWrite = true
+                        
+                    case "AN_HOUR_LATER_ACTION":
+                        todoFound.timeReschedule = Date.nextHour()
+                        saveManageContext()
+                            
+                    default:
+                        break
+                }
+                
+                addExpandedGroupInTodosView(group: group)
+                setHighlightGroupSequenceNrInTodosView(group: group,
+                                                       sequenceNr: sequenceNr)
+            }
+        }
+     
+        // register notification and refresh widget
+        registerDeregisterNotification()
+        WidgetCenter.shared.reloadAllTimelines()
+        
+        completionHandler()
+    }
     
     // MARK: UISceneSession Lifecycle
     
@@ -236,7 +352,7 @@ class AppDelegate: UIResponder,
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-    // MARK: - Deprecated Core Data stack
+    // MARK: - Core data method and deprecated managed context
 
     lazy var persistentContainerDeprecated: NSPersistentCloudKitContainer = {
         /*
@@ -268,59 +384,6 @@ class AppDelegate: UIResponder,
         return container
     }()
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        
-        let (group, sequenceNr) = parseGroupAndSequenceNr(of: response.notification.request.identifier)
-
-        if let group = group,
-            let sequenceNr = sequenceNr {
-            
-            if let todoFound = getTodo(group: group, sequenceNr: sequenceNr, from: todos!) {
-
-                switch response.actionIdentifier {
-                
-                    case "DONE_ACTION":
-                        todoFound.complete = true
-                        todoFound.timeReschedule = nil
-                        saveManageContext()
-                        pendingWrite = true
-                        
-                    case "AN_HOUR_LATER_ACTION":
-                        todoFound.timeReschedule = Date.nextHour()
-                        saveManageContext()
-                            
-                    default:
-                        break
-                }
-                
-                let tableViewController = getTodoTableViewController()
-                tableViewController.reloadSectionCellModelData()
-                tableViewController.expandTodos(dows: [group], sequenceNr: sequenceNr)
-                tableViewController.highlight(todoIndex: sequenceNr, group: group)
-                
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    
-                    fatalError("Exception: AppDelegate is expected")
-                }
-                
-                appDelegate.lastExpandedGroups = []
-                appDelegate.lastExpandedGroups.append(group)
-            }
-        }
-     
-        // register notification and refresh widget
-        registerDeregisterNotification()
-        WidgetCenter.shared.reloadAllTimelines()
-        
-        completionHandler()
-    }
-    
-    // MARK :- Deprecated managed context
-
     func managedContextDeprecated() -> NSManagedObjectContext? {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -342,36 +405,6 @@ class AppDelegate: UIResponder,
             
             fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")
         }
-    }
-
-    func loadTodosFromiCloudCache(todosFromCloud: [String: [XYZCloudTodo]]) {
-        
-        for (identifier, ctodos) in todosFromCloud {
-            
-            for todo in self.todos! {
-                
-                if todo.group == identifier {
-                    
-                    managedContext()?.delete(todo)
-                }
-            }
-               
-            for ctodo in ctodos {
-                
-                let _ = XYZTodo(group: identifier,
-                                sequenceNr: ctodo.sequenceNr!,
-                                detail: ctodo.detail!,
-                                timeOn: ctodo.timeOn!,
-                                time: ctodo.time!,
-                                complete: ctodo.complete!,
-                                context: managedContext())
-            }
-            
-            saveManageContext()
-        }
-        
-        self.todos = loadTodosFromManagedContext(managedContext())
-        self.todos = sortTodos(todos: self.todos!)
     }
     
     func loadAndConvertTodosFromManagedContext() -> [XYZTodo]? {
@@ -423,7 +456,7 @@ class AppDelegate: UIResponder,
 }
 
 
-// MARK: - functions to manage data in AppDelegate
+// MARK: - AppDelegate data manipulation methods
 
 func reconciliateTodoSequenceNr(todos: [XYZTodo]) -> [XYZTodo] {
     
@@ -712,21 +745,6 @@ func executeAddTodo() {
         tableViewController.performSegue(withIdentifier: "newTodoDetail",
                                          sender: scene)
     }
-}
-
-func switchToTodoTableViewController(scene: UIScene? = UIApplication.shared.connectedScenes.first) {
-    
-    guard let sd = (scene?.delegate as? SceneDelegate) else {
-
-        fatalError("Exception sceneDelegate is expected")
-    }
-    
-    guard let tabBarController = sd.window?.rootViewController as? UITabBarController else {
-        
-        fatalError("Exception: UITabBarController is expected" )
-    }
-    
-    tabBarController.selectedIndex = 0
 }
 
 func getTodoTableViewController(window: UIWindow) -> XYZTodoTableViewController {

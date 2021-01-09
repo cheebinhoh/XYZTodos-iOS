@@ -440,10 +440,15 @@ class XYZTodoTableViewController: UITableViewController {
             fatalError("Exception: AppDelegate is expected")
         }
         
+        appDelegate.saveExpandedGroupsInTodosView()
+        
         appDelegate.readAndMergeTodosFromCloudKit {
             
             refreshControl.endRefreshing()
+            
+            appDelegate.reconciliateData()
             self.reloadSectionCellModelData()
+            appDelegate.restoreExpandedGroupInTodosView()
         }
     }
 
@@ -510,7 +515,7 @@ class XYZTodoTableViewController: UITableViewController {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        appDelegate.saveLastExpandedGroups()
+        appDelegate.saveExpandedGroupsInTodosView()
     }
     
     override func tableView(_ tableView: UITableView,

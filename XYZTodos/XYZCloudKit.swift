@@ -159,22 +159,6 @@ struct XYZCloudCache {
         }
     }
     
-    static func write(todos: [XYZCloudTodo], of identifier: String) {
-        
-        intializeRecordZoneAndDo {
-                
-            var cacheData = dataDictionary[identifier]
-
-            cacheData!.writtingPendingTodos = todos
-            
-            dataDictionary[identifier] = cacheData
-
-            cacheData?.writeToiCloud(completion: {})
-     
-            dataDictionary[identifier] = cacheData // we reset writtingPendingTodos
-        }
-    }
-    
     static func write(data: [String: [XYZCloudTodo]],
                       completion: @escaping () -> Void) {
         
