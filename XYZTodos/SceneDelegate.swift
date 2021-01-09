@@ -127,6 +127,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
         
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        WidgetCenter.shared.reloadAllTimelines()
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             
             fatalError("Exception: AppDelegate is expected")
@@ -151,6 +154,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 appDelegate.highlightGroupSequenceNr()
                 
                 registerDeregisterNotification()
+                WidgetCenter.shared.reloadAllTimelines()
             }
         }
         
@@ -165,9 +169,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             refreshData()
         }
-        
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

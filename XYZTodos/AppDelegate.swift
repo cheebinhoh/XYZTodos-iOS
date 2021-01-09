@@ -115,13 +115,12 @@ class AppDelegate: UIResponder,
         // can we get the last change token related step 3 without step 4 but step 5?
         XYZCloudCache.intialize(groups: allGroups)
         XYZCloudCache.registeriCloudSubscription()
-        readAndMergeTodosFromCloudKit()
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
-        registerDeregisterNotification()
-
-        WidgetCenter.shared.reloadAllTimelines()
+        
+        //registerDeregisterNotification()
+        //WidgetCenter.shared.reloadAllTimelines()
         
         return true
     }
@@ -169,7 +168,7 @@ class AppDelegate: UIResponder,
             } // if let todosFromCloud = todosFromCloud
             
             processedGroup.append(identifier)
-            
+
             if processedGroup.count == allGroups.count {
                 
                 DispatchQueue.main.async {
