@@ -110,6 +110,37 @@ var firstWeekDay: Int {
     }
 }
 
+var lastChangeDataTime: Date? {
+    
+    get {
+        
+        let defaults = UserDefaults.standard;
+        return defaults.value(forKey: "lastChangeDataTime") as? Date
+    }
+    
+    set {
+        
+        let defaults = UserDefaults.standard;
+        defaults.setValue(newValue, forKey: "lastChangeDataTime")
+    }
+}
+
+var lastChangeDataWrittenToiCloudTime: Date? {
+    
+    get {
+        
+        let defaults = UserDefaults.standard;
+        return defaults.value(forKey: "lastChangeDataWrittenToiCloudTime") as? Date
+    }
+    
+    set {
+        
+        let defaults = UserDefaults.standard;
+        defaults.setValue(newValue, forKey: "lastChangeDataWrittenToiCloudTime")
+    }
+}
+
+
 var lastChangeToken: Data? {
     
     get {

@@ -24,7 +24,6 @@ class AppDelegate: UIResponder,
     var highlightSequenceNrInTodosView = -1
     var pendingWrite = false
 
-    
     //MARK: - Todos view manipulation methods
     
     func switchToTodosView(scene: UIScene? = UIApplication.shared.connectedScenes.first) {
@@ -120,16 +119,13 @@ class AppDelegate: UIResponder,
 
                 todo.complete = false
             }
+            
+            todos = reconciliateTodoSequenceNr(todos: todos!)
+            saveManageContext()
+            lastChangeDataTime = Date()
         }
         
         global!.dow = todayDoW.rawValue
-        todos = reconciliateTodoSequenceNr(todos: todos!)
-        saveManageContext()
-        
-        if refreshTodos {
-            
-            writeTodosToCloudKit()
-        }
         
         return refreshTodos
     }
@@ -259,7 +255,11 @@ class AppDelegate: UIResponder,
         
         if !outbound.isEmpty {
         
-            XYZCloudCache.write(data: outbound, completion: completion ?? { })
+            XYZCloudCache.write(data: outbound) {
+                
+                lastChangeDataWrittenToiCloudTime = Date()
+                completion?()
+            }
         }
     }
 
@@ -281,7 +281,6 @@ class AppDelegate: UIResponder,
   
             readAndMergeTodosFromCloudKit {
                 
-                self.reconciliateData()
                 self.reloadTodosDataInTodosView()
                 self.restoreExpandedGroupInTodosView()
             }

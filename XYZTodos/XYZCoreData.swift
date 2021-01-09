@@ -24,6 +24,7 @@ func saveManageContext() {
         do {
             
             try aContext?.save()
+            lastChangeDataTime = Date()
         } catch let nserror as NSError {
             
             fatalError("Exception: Unresolved error \(nserror), \(nserror.userInfo)")

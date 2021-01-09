@@ -146,6 +146,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 registerDeregisterNotification()
                 WidgetCenter.shared.reloadAllTimelines()
+
+                if nil == lastChangeDataTime {
+                    
+                    appDelegate.writeTodosToCloudKit()
+                    lastChangeDataTime = Date()
+                } else if nil == lastChangeDataWrittenToiCloudTime
+                            || lastChangeDataWrittenToiCloudTime! < lastChangeDataTime! {
+                    
+                    appDelegate.writeTodosToCloudKit()
+                }
             }
         }
         
