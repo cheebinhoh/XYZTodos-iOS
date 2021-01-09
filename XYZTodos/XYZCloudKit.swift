@@ -121,6 +121,67 @@ struct XYZCloudCache {
     
     static var dataDictionary = [String : XYZCloudCacheData]()
     
+    static func UpdateRecords(todos updateTodos: [XYZCloudTodo], completion: @escaping () -> Void) {
+        
+        var recordsToBeSaved = [CKRecord]()
+        let recordZone = CKRecordZone(zoneName: XYZTodo.type)
+        
+        for todo in updateTodos {
+            
+            var cacheData = dataDictionary[todo.group!]
+            
+            if let index = cacheData?.todos?.firstIndex(where: {
+                
+                return $0.recordId == todo.recordId
+            }) {
+                
+                cacheData?.todos?.remove(at: index)
+            }
+            
+            cacheData?.lastWrittenToWrite = Date()
+            cacheData?.todos?.append(todo)
+            dataDictionary[todo.group!] = cacheData
+            
+            let groupRecordId = CKRecord.ID(recordName: todo.group!, zoneID: recordZone.zoneID)
+            let ckreference = CKRecord.Reference(recordID: groupRecordId, action: .deleteSelf)
+            let ckrecordId = CKRecord.ID(recordName: todo.recordId!, zoneID: recordZone.zoneID)
+
+            let record = CKRecord(recordType: XYZTodo.type, recordID: ckrecordId)
+            record[XYZTodo.group] = todo.group
+            record[XYZTodo.sequenceNr] = todo.sequenceNr
+            record[XYZTodo.detail] = todo.detail
+            record[XYZTodo.complete] = todo.complete
+            record[XYZTodo.time] = XYZTodo.time
+            record[XYZTodo.timeOn] = XYZTodo.timeOn
+            record["todogroup"] = ckreference
+            
+            recordsToBeSaved.append(record)
+        }
+        
+        
+        let container = CKContainer.default()
+        let database = container.privateCloudDatabase
+        
+        /*
+        database.save(recordsToBeSaved.first!) { (record, error) in
+            
+            if let error = error {
+                
+                print("-------->> \(error)")
+            }
+        }
+        */
+
+        let op = CKModifyRecordsOperation(recordsToSave: recordsToBeSaved, recordIDsToDelete: [])
+        op.savePolicy = .allKeys
+        op.completionBlock = {
+
+            completion()
+        }
+
+        database.add(op)
+    }
+    
     static func intializeRecordZoneAndDo(completion: @escaping () -> Void) {
         
         if recordZoneInitialized {

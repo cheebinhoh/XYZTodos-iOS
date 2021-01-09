@@ -166,6 +166,22 @@ class AppDelegate: UIResponder,
     }
 
     // MARK: - CloudKit methods
+    func updateTodo(todo: XYZTodo, completion: (() -> Void)? = nil) {
+        
+        let ctodo = XYZCloudTodo(recordId: todo.recordId,
+                                 group: todo.group,
+                                 sequenceNr: todo.sequenceNr,
+                                 detail: todo.detail,
+                                 complete: todo.complete,
+                                 time: todo.time,
+                                 timeOn: todo.timeOn)
+        
+        XYZCloudCache.UpdateRecords(todos: [ctodo]) {
+            
+           completion?()
+        }
+    }
+    
     func syncTodosWithiCloudCache() {
         
         let refreshData: (() -> Void) = {
@@ -347,6 +363,13 @@ class AppDelegate: UIResponder,
                         todoFound.timeReschedule = nil
                         saveManageContext()
                         lastChangeDataTime = Date()
+                        
+                        /* this does not work for some reason that Cloudkit operation can not be submit in background
+                        updateTodo(todo: todoFound) {
+                            
+                            lastChangeDataWrittenToiCloudTime = Date()
+                        }
+                         */
                         
                     case "AN_HOUR_LATER_ACTION":
                         todoFound.timeReschedule = Date.nextHour()
