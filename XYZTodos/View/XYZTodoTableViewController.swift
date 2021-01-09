@@ -387,7 +387,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         let todoGroup = sectionCellList[sectionIndex].data as? TodoGroup
         
-        guard (todoGroup?.todos.count)! > todoIndex else {
+        guard (todoGroup?.todos.count)! > todoIndex && todoIndex >= 0 else {
             
             return
         }
