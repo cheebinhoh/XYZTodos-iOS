@@ -140,9 +140,15 @@ class AppDelegate: UIResponder,
         center.requestAuthorization(options: options) { (granted, error) in
             
             enableNotification = granted
+            
+            if granted {
+ 
+                DispatchQueue.main.async {
+           
+                    application.registerForRemoteNotifications()
+                }
+            }
         }
-        
-        application.registerForRemoteNotifications()
         
         global = loadGlobalFromManagedContext();
         todos = loadAndConvertTodosFromManagedContext()
@@ -164,6 +170,8 @@ class AppDelegate: UIResponder,
         
         center.delegate = self
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        addExpandedGroupInTodosView(group: todayDoW.rawValue)
         
         return true
     }
@@ -322,7 +330,6 @@ class AppDelegate: UIResponder,
                      didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
      
-        print("========= hello")
         if UIApplication.shared.applicationState == .background {
             
             completionHandler(.noData)
