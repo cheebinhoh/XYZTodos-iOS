@@ -193,7 +193,8 @@ class AppDelegate: UIResponder,
     }
     
     // MARK: - CloudKit methods
-    func updateTodoToiCloud(todo: XYZTodo, completion: (() -> Void)? = nil) {
+    func updateTodoToiCloud(todo: XYZTodo,
+                            completion: (() -> Void)? = nil) {
         
         let ctodo = XYZCloudTodo(recordId: todo.recordId,
                                  group: todo.group,
@@ -322,10 +323,10 @@ class AppDelegate: UIResponder,
                                     complete: ctodo.complete!,
                                     context: managedContext())
                 }
-                
-                saveManageContext() // we do not adjust lastChangeDataTime as it is not changed by user
             }
         }
+        
+        saveManageContext() // we do not adjust lastChangeDataTime as it is not changed by user
         
         self.todos = loadTodosFromManagedContext(managedContext())
 
@@ -355,7 +356,7 @@ class AppDelegate: UIResponder,
             if let todosFromCloud = todosFromCloud {
                 
                 saveTodosFromCloud[identifier] = todosFromCloud
-            } // if let todosFromCloud = todosFromCloud
+            }
             
             processedGroup.append(identifier)
 
@@ -409,6 +410,7 @@ class AppDelegate: UIResponder,
                 }
                 
                 lastChangeDataWrittenToiCloudTime = Date()
+                
                 completion?()
             }
         }

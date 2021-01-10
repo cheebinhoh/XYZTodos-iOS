@@ -19,15 +19,16 @@ struct XYZCloudTodo: Equatable {
     var timeOn: Bool?
 }
 
-func removeCloudTodos(todos:[XYZCloudTodo], recordIDs: [String]) -> [XYZCloudTodo] {
+func removeCloudTodos(todos:[XYZCloudTodo],
+                      recordIDs: [String]) -> [XYZCloudTodo] {
     
     var result = todos
     
     for recordId in recordIDs {
         
-        if let index = result.firstIndex(where: { (todo) -> Bool in
+        if let index = result.firstIndex(where: {
             
-            return todo.recordId == recordId
+            return $0.recordId == recordId
         }) {
             
             result.remove(at: index)
@@ -35,24 +36,6 @@ func removeCloudTodos(todos:[XYZCloudTodo], recordIDs: [String]) -> [XYZCloudTod
     }
     
     return result
-}
-
-func sortCloudTodos(todos: [XYZCloudTodo]) -> [XYZCloudTodo] {
-    
-    return todos.sorted { (todo1, todo2) -> Bool in
-        
-        var swap = todo1.sequenceNr! < todo2.sequenceNr!
-        
-        if !swap {
-            
-            let t1 = todo1.time!.timeIntervalSinceReferenceDate
-            let t2 = todo2.time!.timeIntervalSinceReferenceDate
-            
-            swap = t1 < t2
-        }
-        
-        return swap
-    }
 }
 
 struct XYZCloudCacheData {
@@ -311,7 +294,6 @@ struct XYZCloudCache {
                     let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr, detail: detail, complete: complete, time: time, timeOn: timeOn)
                     
                     data.inboundTodos?.append(newTodo)
-                    data.inboundTodos = sortCloudTodos(todos: data.inboundTodos!)
                     dataDictionary[group] = data
                 }
             }

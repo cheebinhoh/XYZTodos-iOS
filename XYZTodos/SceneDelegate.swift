@@ -74,7 +74,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         appDelegate.addExpandedGroupInTodosView(group: group)
                         appDelegate.setHighlightGroupSequenceNrInTodosView(group: group,
                                                                            sequenceNr: sequenceNr)
-                        appDelegate.switchToTodosView()
                     }
                     
                 default:
@@ -134,13 +133,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         registerDeregisterNotification()
         UIApplication.shared.applicationIconBadgeNumber = 0
-        WidgetCenter.shared.reloadAllTimelines()
          
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
              
             fatalError("Exception: AppDelegate is expected")
         }
 
+        appDelegate.switchToTodosView()
+        
+        if appDelegate.expandedTodoGroups.isEmpty {
+        
+            appDelegate.addExpandedGroupInTodosView(group: todayDoW.rawValue)
+        }
+        
         appDelegate.reloadTodosDataInTodosView()
         appDelegate.syncTodosWithiCloud()
     }
@@ -156,7 +161,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Exception: AppDelegate is expected")
         }
         
-        saveManageContext()
         appDelegate.saveExpandedGroupsInTodosView()
         registerDeregisterNotification()
         WidgetCenter.shared.reloadAllTimelines()
