@@ -22,6 +22,7 @@ class AppDelegate: UIResponder,
     var expandedTodoGroups = [String]()
     var highlightGroupInTodosView = ""
     var highlightSequenceNrInTodosView = -1
+    var todosFromiCloudCache = [String: [XYZCloudTodo]]()
     
     //MARK: - Todos view manipulation methods
     
@@ -152,7 +153,9 @@ class AppDelegate: UIResponder,
         
         global = loadGlobalFromManagedContext();
         todos = loadAndConvertTodosFromManagedContext()
-
+        todosFromiCloudCache = loadTodosIntoiCloudCache(todos: todos!)
+        
+        print(">>>>>>>> \(todosFromiCloudCache)")
         /* There are 3 layers in storage:
          * 0. data is manipulated via UI and stored in controller AppDelegate.todos, this storage is alive
          *    as long as app instance
@@ -233,30 +236,76 @@ class AppDelegate: UIResponder,
         }
     }
     
+    func loadTodosIntoiCloudCache(todos: [XYZTodo]) -> [String: [XYZCloudTodo]] {
+    
+        var todosFromCloud = [String: [XYZCloudTodo]]()
+        let sortedTodos = sortTodos(todos: todos)
+        var identifier = ""
+        var cacheTodos = [XYZCloudTodo]()
+        
+        for todo in sortedTodos {
+            
+            let group = todo.group
+            
+            if identifier != ""
+                && identifier != group {
+                
+                todosFromCloud[identifier] = cacheTodos
+                cacheTodos = []
+            }
+            
+            let ctodo = XYZCloudTodo(recordId: todo.recordId,
+                                     group: todo.group,
+                                     sequenceNr: todo.sequenceNr,
+                                     detail: todo.detail,
+                                     complete: todo.complete,
+                                     time: todo.time,
+                                     timeOn: todo.timeOn)
+            
+            identifier = group
+            cacheTodos.append(ctodo)
+        }
+        
+        if identifier != "" {
+            
+            todosFromCloud[identifier] = cacheTodos
+        }
+
+        return todosFromCloud
+    }
+    
     func loadTodosFromiCloudCache(todosFromCloud: [String: [XYZCloudTodo]]) {
         
         for (identifier, ctodos) in todosFromCloud {
             
-            for todo in self.todos! {
+            let cacheTodos = todosFromiCloudCache[identifier]
+ 
+            if nil == cacheTodos
+                || cacheTodos != ctodos {
                 
-                if todo.group == identifier {
+                todosFromiCloudCache[identifier] = ctodos
+                
+                for todo in self.todos! {
                     
-                    managedContext()?.delete(todo)
+                    if todo.group == identifier {
+                        
+                        managedContext()?.delete(todo)
+                    }
                 }
-            }
-               
-            for ctodo in ctodos {
+                   
+                for ctodo in ctodos {
+                    
+                    let _ = XYZTodo(group: identifier,
+                                    sequenceNr: ctodo.sequenceNr!,
+                                    detail: ctodo.detail!,
+                                    timeOn: ctodo.timeOn!,
+                                    time: ctodo.time!,
+                                    complete: ctodo.complete!,
+                                    context: managedContext())
+                }
                 
-                let _ = XYZTodo(group: identifier,
-                                sequenceNr: ctodo.sequenceNr!,
-                                detail: ctodo.detail!,
-                                timeOn: ctodo.timeOn!,
-                                time: ctodo.time!,
-                                complete: ctodo.complete!,
-                                context: managedContext())
+                saveManageContext() // we do not adjust lastChangeDataTime as it is not changed by user
             }
-            
-            saveManageContext() // we do not adjust lastChangeDataTime as it is not changed by user
         }
         
         self.todos = loadTodosFromManagedContext(managedContext())

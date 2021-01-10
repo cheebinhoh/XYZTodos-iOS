@@ -8,7 +8,7 @@
 import Foundation
 import CloudKit
 
-struct XYZCloudTodo {
+struct XYZCloudTodo: Equatable {
         
     var recordId: String?
     var group: String?
@@ -17,6 +17,24 @@ struct XYZCloudTodo {
     var complete: Bool?
     var time: Date?
     var timeOn: Bool?
+}
+
+func sortCloudTodo(todos: [XYZCloudTodo]) -> [XYZCloudTodo] {
+    
+    return todos.sorted { (todo1, todo2) -> Bool in
+        
+        var swap = todo1.sequenceNr! < todo2.sequenceNr!
+        
+        if !swap {
+            
+            let t1 = todo1.time!.timeIntervalSinceReferenceDate
+            let t2 = todo2.time!.timeIntervalSinceReferenceDate
+            
+            swap = t1 < t2
+        }
+        
+        return swap
+    }
 }
 
 struct XYZCloudCacheData {
@@ -291,7 +309,8 @@ struct XYZCloudCache {
                     
                     let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr, detail: detail, complete: complete, time: time, timeOn: timeOn)
                     
-                    data.todos?.append(newTodo)                    
+                    data.todos?.append(newTodo)
+                    data.todos = sortCloudTodo(todos: data.todos!)
                     dataDictionary[group] = data
                 }
             }
