@@ -33,8 +33,6 @@ struct XYZCloudCacheData {
     mutating func writeToiCloud(completion: @escaping () -> Void) {
 
         let group = self.group
-        // write to icloud
-        printDebug(todos: writtingPendingTodos)
 
         if let writtingPendingTodos = writtingPendingTodos {
             

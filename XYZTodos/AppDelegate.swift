@@ -147,15 +147,18 @@ class AppDelegate: UIResponder,
         global = loadGlobalFromManagedContext();
         todos = loadAndConvertTodosFromManagedContext()
 
-        // cloud kit
-        // 1. load data from icloud into temporary buffer based on last change token from global
-        // 2. merge data from temporary buffer into todos
-        // 3. push todos back to icloud
-        // 4. pull data from icloud and update last change token.
-        // 5. overwrite all data from icloud (2nd pull) into todos 
-        // 6. subscribe change from icloud based on last change token.
-        //
-        // can we get the last change token related step 3 without step 4 but step 5?
+        /* There are 3 layers in storage:
+         * 0. data is manipulated via UI and stored in controller AppDelegate.todos, this storage is alive
+         *    as long as app instance
+         *
+         * 1. data is stored persistently on CoreData, it is as long as the app is still installed on the device
+         *
+         * 2. data is sync and upload to iCloud and it is stored beyond app installation.
+         *
+         * Data is manipulated per group, so if a group todo is changed, we delete the whole group, and update all
+         * the group todos. It is not the most efficient method, but it allows us to make sure that we always see
+         * a correct # of todos per group and in correct ordering.
+         */
         XYZCloudCache.intialize(groups: allGroups)
         XYZCloudCache.registeriCloudSubscription()
         
