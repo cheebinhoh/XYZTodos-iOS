@@ -142,7 +142,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         appDelegate.reloadTodosDataInTodosView()
-        appDelegate.syncTodosWithiCloudCache()
+        appDelegate.syncTodosWithiCloud()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

@@ -19,7 +19,25 @@ struct XYZCloudTodo: Equatable {
     var timeOn: Bool?
 }
 
-func sortCloudTodo(todos: [XYZCloudTodo]) -> [XYZCloudTodo] {
+func removeCloudTodos(todos:[XYZCloudTodo], recordIDs: [String]) -> [XYZCloudTodo] {
+    
+    var result = todos
+    
+    for recordId in recordIDs {
+        
+        if let index = result.firstIndex(where: { (todo) -> Bool in
+            
+            return todo.recordId == recordId
+        }) {
+            
+            result.remove(at: index)
+        }
+    }
+    
+    return result
+}
+
+func sortCloudTodos(todos: [XYZCloudTodo]) -> [XYZCloudTodo] {
     
     return todos.sorted { (todo1, todo2) -> Bool in
         
@@ -40,19 +58,20 @@ func sortCloudTodo(todos: [XYZCloudTodo]) -> [XYZCloudTodo] {
 struct XYZCloudCacheData {
 
     let group: String
-    var todos: [XYZCloudTodo]?
-    var lastReadFromCloud: Date?
-
-    var writtingPendingTodos: [XYZCloudTodo]?
-    var lastWrittenToWrite: Date?
-    
+    var inboundTodos: [XYZCloudTodo]?
+    var outboundTodos: [XYZCloudTodo]?
     var deletedRecordIds = [String]()
     
+    /* The update strategy is that:
+     * - we delete the group which will delete all todos under the group as well
+     * - we recreate the group
+     * - we recreate todos under the group
+     */
     mutating func writeToiCloud(completion: @escaping () -> Void) {
 
         let group = self.group
 
-        if let writtingPendingTodos = writtingPendingTodos {
+        if let writtingPendingTodos = outboundTodos {
             
             let container = CKContainer.default()
             let database = container.privateCloudDatabase
@@ -107,16 +126,12 @@ struct XYZCloudCacheData {
             database.add(op)
         }
         
-        todos = writtingPendingTodos
-        writtingPendingTodos = []
-        lastWrittenToWrite = Date()
+        outboundTodos = []
     }
     
     func printDebug(todos: [XYZCloudTodo]? = nil) {
         
         print("-------- start of XYZCloudCacheData.printDebug")
-        print("-------- lastReadFromCloud = \(String(describing: lastReadFromCloud))")
-        print("-------- lastWrittenToWrite = \(String(describing: lastWrittenToWrite))")
         
         if let todos = todos, !todos.isEmpty {
             
@@ -144,20 +159,6 @@ struct XYZCloudCache {
         
         for todo in updateTodos {
             
-            var cacheData = dataDictionary[todo.group!]
-            
-            if let index = cacheData?.todos?.firstIndex(where: {
-                
-                return $0.recordId == todo.recordId
-            }) {
-                
-                cacheData?.todos?.remove(at: index)
-            }
-            
-            cacheData?.lastWrittenToWrite = Date()
-            cacheData?.todos?.append(todo)
-            dataDictionary[todo.group!] = cacheData
-            
             let groupRecordId = CKRecord.ID(recordName: todo.group!, zoneID: recordZone.zoneID)
             let ckreference = CKRecord.Reference(recordID: groupRecordId, action: .deleteSelf)
             let ckrecordId = CKRecord.ID(recordName: todo.recordId!, zoneID: recordZone.zoneID)
@@ -173,7 +174,6 @@ struct XYZCloudCache {
             
             recordsToBeSaved.append(record)
         }
-        
         
         let container = CKContainer.default()
         let database = container.privateCloudDatabase
@@ -207,7 +207,8 @@ struct XYZCloudCache {
             
             let recordZone = CKRecordZone(zoneName: XYZTodo.type)
             
-            let op = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil)
+            let op = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone],
+                                                  recordZoneIDsToDelete: nil)
             
             op.modifyRecordZonesCompletionBlock = { (saved, deleted, error) in
                 
@@ -247,7 +248,7 @@ struct XYZCloudCache {
                 
                 var cacheData = dataDictionary[identifier]
 
-                cacheData!.writtingPendingTodos = todos
+                cacheData!.outboundTodos = todos
                 
                 dataDictionary[identifier] = cacheData
 
@@ -294,23 +295,23 @@ struct XYZCloudCache {
 
                 if var data = dataDictionary[group] {
                 
-                    if data.todos == nil {
+                    if data.inboundTodos == nil {
                         
-                        data.todos = [XYZCloudTodo]()
+                        data.inboundTodos = [XYZCloudTodo]()
                     }
                     
-                    if let index = data.todos?.firstIndex(where: { (todo) -> Bool in
+                    if let index = data.inboundTodos?.firstIndex(where: { (todo) -> Bool in
                         
                         return todo.recordId == record.recordID.recordName
                     }) {
                         
-                        data.todos?.remove(at: index)
+                        data.inboundTodos?.remove(at: index)
                     }
                     
                     let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr, detail: detail, complete: complete, time: time, timeOn: timeOn)
                     
-                    data.todos?.append(newTodo)
-                    data.todos = sortCloudTodo(todos: data.todos!)
+                    data.inboundTodos?.append(newTodo)
+                    data.inboundTodos = sortCloudTodos(todos: data.inboundTodos!)
                     dataDictionary[group] = data
                 }
             }
@@ -323,20 +324,6 @@ struct XYZCloudCache {
             var cacheData = dataDictionary[group]
             
             cacheData?.deletedRecordIds.append(recordId.recordName)
-            if var todos = cacheData?.todos,
-               !todos.isEmpty {
-                
-                if let index = todos.firstIndex(where: { (todo) -> Bool in
-                    
-                    return todo.recordId == recordId.recordName
-                }) {
-                    
-                    todos.remove(at: index)
-                    
-                    cacheData?.todos = todos
-                }
-            }
-            
             dataDictionary[group] = cacheData
         }
         
@@ -351,7 +338,7 @@ struct XYZCloudCache {
         }
         
         op.fetchRecordZoneChangesCompletionBlock = { (error) in
-
+            
             completion()
         }
         
@@ -372,8 +359,16 @@ struct XYZCloudCache {
                     
                     var result: [XYZCloudTodo]? = nil
                     var cacheData = dataDictionary[identifier]
+     
+                    if let todos = cacheData!.inboundTodos,
+                       !todos.isEmpty
+                        && !cacheData!.deletedRecordIds.isEmpty {
+                        
+                        cacheData!.inboundTodos = removeCloudTodos(todos: todos,
+                                                                   recordIDs: cacheData!.deletedRecordIds)
+                    }
 
-                    if let todos = cacheData?.todos {
+                    if let todos = cacheData?.inboundTodos {
                         
                         result = todos
                     } else if !cacheData!.deletedRecordIds.isEmpty {
@@ -383,6 +378,7 @@ struct XYZCloudCache {
              
                     completion(identifier, result)
                     
+                    cacheData?.inboundTodos = nil
                     cacheData?.deletedRecordIds = []
                     dataDictionary[identifier] = cacheData
                 }

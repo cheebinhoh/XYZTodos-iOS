@@ -143,7 +143,7 @@ class XYZTodoTableViewController: UITableViewController {
         todoGroup.collapse = todoGroup.todos.isEmpty
         section.data = todoGroup
         sectionCellList[indexPath.section] = section
-        
+
         deleteTodoInAppDelegate(group: section.identifier, sequenceNr: row)
         
         tableView.reloadData()
@@ -442,7 +442,7 @@ class XYZTodoTableViewController: UITableViewController {
         
         appDelegate.saveExpandedGroupsInTodosView()
         
-        appDelegate.syncTodosWithiCloudCache()
+        appDelegate.syncTodosWithiCloud()
         
         refreshControl.endRefreshing()
     }

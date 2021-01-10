@@ -153,9 +153,22 @@ class AppDelegate: UIResponder,
         
         global = loadGlobalFromManagedContext();
         todos = loadAndConvertTodosFromManagedContext()
-        todosFromiCloudCache = loadTodosIntoiCloudCache(todos: todos!)
         
-        print(">>>>>>>> \(todosFromiCloudCache)")
+        let adjustedTodos = reconciliateTodoSequenceNr(todos: todos!)
+        let adjustedSortTodos = sortTodos(todos: adjustedTodos)
+        if adjustedSortTodos != todos! {
+            
+            todos = adjustedSortTodos
+            
+            writeTodosToiCloud {
+                
+                self.todosFromiCloudCache = self.loadTodosIntoiCloudCache(todos: adjustedSortTodos)
+            }
+        } else {
+    
+            todosFromiCloudCache = loadTodosIntoiCloudCache(todos: todos!)
+        }
+        
         /* There are 3 layers in storage:
          * 0. data is manipulated via UI and stored in controller AppDelegate.todos, this storage is alive
          *    as long as app instance
@@ -180,7 +193,7 @@ class AppDelegate: UIResponder,
     }
     
     // MARK: - CloudKit methods
-    func updateTodo(todo: XYZTodo, completion: (() -> Void)? = nil) {
+    func updateTodoToiCloud(todo: XYZTodo, completion: (() -> Void)? = nil) {
         
         let ctodo = XYZCloudTodo(recordId: todo.recordId,
                                  group: todo.group,
@@ -196,11 +209,13 @@ class AppDelegate: UIResponder,
         }
     }
     
-    func syncTodosWithiCloudCache() {
+    func syncTodosWithiCloud() {
         
         let refreshData: (() -> Void) = {
             
-            self.readAndMergeTodosFromCloudKit() {
+            let oldTodos = self.todos
+            
+            self.readAndMergeTodosFromiCloud() {
 
                 if self.reconciliateData() {
                     
@@ -208,7 +223,11 @@ class AppDelegate: UIResponder,
                     self.addExpandedGroupInTodosView(group: todayDoW.rawValue)
                 }
 
-                self.reloadTodosDataInTodosView()
+                if oldTodos != self.todos {
+                    
+                    self.reloadTodosDataInTodosView()
+                }
+                
                 self.restoreExpandedGroupInTodosView()
                 self.highlightGroupSequenceNrInTodosView()
                 
@@ -224,7 +243,7 @@ class AppDelegate: UIResponder,
 
         if hasPendingWrite {
             
-            writeTodosToCloudKit(of: allGroups) {
+            writeTodosToiCloud {
 
                 lastChangeDataTime = lastChangeDataWrittenToiCloudTime
 
@@ -279,7 +298,7 @@ class AppDelegate: UIResponder,
         for (identifier, ctodos) in todosFromCloud {
             
             let cacheTodos = todosFromiCloudCache[identifier]
- 
+
             if nil == cacheTodos
                 || cacheTodos != ctodos {
                 
@@ -309,10 +328,24 @@ class AppDelegate: UIResponder,
         }
         
         self.todos = loadTodosFromManagedContext(managedContext())
-        self.todos = sortTodos(todos: self.todos!)
+
+        let adjustedTodos = reconciliateTodoSequenceNr(todos: self.todos!)
+        let adjustedSortTodos = sortTodos(todos: adjustedTodos)
+        if adjustedSortTodos != self.todos! {
+            
+            self.todos = adjustedSortTodos
+            
+            self.writeTodosToiCloud {
+                
+                self.todosFromiCloudCache = self.loadTodosIntoiCloudCache(todos: adjustedSortTodos)
+            }
+        } else {
+    
+            self.todosFromiCloudCache = self.loadTodosIntoiCloudCache(todos: self.todos!)
+        }
     }
     
-    func readAndMergeTodosFromCloudKit(completion: (() -> Void)? = nil) {
+    func readAndMergeTodosFromiCloud(completion: (() -> Void)? = nil) {
  
         var processedGroup = [String]()
         var saveTodosFromCloud = [String: [XYZCloudTodo]]()
@@ -331,14 +364,15 @@ class AppDelegate: UIResponder,
                 DispatchQueue.main.async {
                 
                     self.loadTodosFromiCloudCache(todosFromCloud: saveTodosFromCloud)
+                    
                     completion?()
                 }
             }
         }
     }
-    
-    func writeTodosToCloudKit(of groups: [String] = allGroups,
-                              completion: (() -> Void)? = nil) {
+
+    func writeTodosToiCloud(of groups: [String] = allGroups,
+                            completion: (() -> Void)? = nil) {
         
         var outbound = [String: [XYZCloudTodo]]()
 
@@ -369,6 +403,11 @@ class AppDelegate: UIResponder,
         
             XYZCloudCache.write(data: outbound) {
 
+                for (identifier, cloudTodos) in outbound {
+                
+                    self.todosFromiCloudCache[identifier] = cloudTodos
+                }
+                
                 lastChangeDataWrittenToiCloudTime = Date()
                 completion?()
             }
@@ -393,7 +432,7 @@ class AppDelegate: UIResponder,
             
             let _ = "-------- notifiction \(String(describing: notification.recordZoneID?.zoneName))"
   
-            readAndMergeTodosFromCloudKit {
+            readAndMergeTodosFromiCloud {
                 
                 self.reloadTodosDataInTodosView()
                 self.restoreExpandedGroupInTodosView()
@@ -606,7 +645,7 @@ func deleteTodoInAppDelegate(group: String,
         
         fatalError("Exception: AppDelegate is expected")
     }
-    
+ 
     guard let index = appDelegate.todos?.firstIndex(where: {
     
         let gr = $0.group
@@ -627,8 +666,8 @@ func deleteTodoInAppDelegate(group: String,
     saveManageContext()
     lastChangeDataTime = Date()
     registerDeregisterNotification()
-    
-    appDelegate.writeTodosToCloudKit(of: [group!])
+
+    appDelegate.writeTodosToiCloud(of: [group!])
     XYZCloudCache.printDebug()
 }
 
@@ -652,7 +691,7 @@ func moveTodoInAppDelegate(fromIndex: Int,
     lastChangeDataTime = Date()
     registerDeregisterNotification()
     
-    appDelegate.writeTodosToCloudKit(of: [group!])
+    appDelegate.writeTodosToiCloud(of: [group!])
     XYZCloudCache.printDebug()
 }
 
@@ -696,7 +735,7 @@ func editTodoInAppDelegate(oldGroup: String,
     lastChangeDataTime = Date()
     registerDeregisterNotification()
     
-    appDelegate.writeTodosToCloudKit(of: [oldGroup, newGroup])
+    appDelegate.writeTodosToiCloud(of: [oldGroup, newGroup])
     XYZCloudCache.printDebug()
 }
 
@@ -728,7 +767,7 @@ func addTodoToAppDelegate(group: String,
     lastChangeDataTime = Date()
     registerDeregisterNotification()
     
-    appDelegate.writeTodosToCloudKit(of: [todo.group])
+    appDelegate.writeTodosToiCloud(of: [todo.group])
     XYZCloudCache.printDebug()
 }
 
