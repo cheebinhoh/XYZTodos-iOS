@@ -108,8 +108,8 @@ class AppDelegate: UIResponder,
     func reconciliateData() -> Bool {
         
         let globalDow = DayOfWeek(rawValue: global!.dow )
-        let refreshTodos = nil == globalDow
-                            || ( globalDow != todayDoW
+        let refreshTodos = nil != globalDow
+                            && ( globalDow != todayDoW
                                  && todayDoW.weekDayNr == firstWeekDay )
         
         if refreshTodos {
