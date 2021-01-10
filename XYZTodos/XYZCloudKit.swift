@@ -397,31 +397,28 @@ struct XYZCloudCache {
         
         fetchOp.fetchSubscriptionCompletionBlock = {(subscriptionDict, error) -> Void in
             
-            if let _ = subscriptionDict![id] {
-                
-            } else {
+            let subscription = CKRecordZoneSubscription.init(zoneID: (ckrecordzone.zoneID), subscriptionID: id)
+            let notificationInfo = CKSubscription.NotificationInfo()
 
-                let subscription = CKRecordZoneSubscription.init(zoneID: (ckrecordzone.zoneID), subscriptionID: id)
-                let notificationInfo = CKSubscription.NotificationInfo()
+            notificationInfo.alertBody = "XYZTodo has new update from iCloud"
+            notificationInfo.shouldSendContentAvailable = true
+            subscription.notificationInfo = notificationInfo
+            
+            let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
+            operation.qualityOfService = .utility
+            operation.completionBlock = {
                 
-                notificationInfo.shouldSendContentAvailable = true
-                subscription.notificationInfo = notificationInfo
-                
-                let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
-                operation.qualityOfService = .utility
-                operation.completionBlock = {
-                    
-                }
-                
-                operation.modifySubscriptionsCompletionBlock = { subscriptions, strings, error in
-                    
-                    if let _ = error {
-                        
-                    }
-                }
-                
-                database.add(operation)
             }
+            
+            operation.modifySubscriptionsCompletionBlock = { subscriptions, strings, error in
+                
+                if let error = error {
+                
+                    print(">>>>>>>>>> error = \(error)")
+                }
+            }
+            
+            database.add(operation)
         }
 
         database.add(fetchOp)

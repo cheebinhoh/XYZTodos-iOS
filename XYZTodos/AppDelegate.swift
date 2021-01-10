@@ -167,7 +167,7 @@ class AppDelegate: UIResponder,
         
         return true
     }
-
+    
     // MARK: - CloudKit methods
     func updateTodo(todo: XYZTodo, completion: (() -> Void)? = nil) {
         
@@ -318,8 +318,11 @@ class AppDelegate: UIResponder,
         }
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
      
+        print("========= hello")
         if UIApplication.shared.applicationState == .background {
             
             completionHandler(.noData)

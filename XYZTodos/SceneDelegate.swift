@@ -7,6 +7,7 @@
 
 import UIKit
 import WidgetKit
+import CloudKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
