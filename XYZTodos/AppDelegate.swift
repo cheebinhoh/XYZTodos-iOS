@@ -420,28 +420,24 @@ class AppDelegate: UIResponder,
                      didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
      
-        if UIApplication.shared.applicationState == .background {
+        guard let notification:CKRecordZoneNotification = CKNotification(fromRemoteNotificationDictionary: userInfo)! as? CKRecordZoneNotification else {
             
-            completionHandler(.noData)
-        } else {
+            completionHandler(.failed)
             
-            guard let notification:CKRecordZoneNotification = CKNotification(fromRemoteNotificationDictionary: userInfo)! as? CKRecordZoneNotification else {
-                
-                completionHandler(.failed)
-                
-                return
-            }
-            
-            let _ = "-------- notifiction \(String(describing: notification.recordZoneID?.zoneName))"
-  
-            readAndMergeTodosFromiCloud {
-                
-                self.reloadTodosDataInTodosView()
-                self.restoreExpandedGroupInTodosView()
-            }
-            
-            completionHandler(.newData)
+            return
         }
+        
+        let _ = "-------- notifiction \(String(describing: notification.recordZoneID?.zoneName))"
+
+        readAndMergeTodosFromiCloud {
+            
+            self.reloadTodosDataInTodosView()
+            self.restoreExpandedGroupInTodosView()
+            registerDeregisterNotification()
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+        
+        completionHandler(.newData)
     }
     
     //MARK: - Notification methods
