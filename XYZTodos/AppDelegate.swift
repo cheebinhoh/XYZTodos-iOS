@@ -11,6 +11,7 @@ import CloudKit
 import NotificationCenter
 import UserNotifications
 import WidgetKit
+import BackgroundTasks
 
 @main
 class AppDelegate: UIResponder,
@@ -190,6 +191,39 @@ class AppDelegate: UIResponder,
         addExpandedGroupInTodosView(group: todayDoW.rawValue)
         
         return true
+    }
+    
+    func registerBackgroundTasks() {
+        
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.cbHOH.XYZTodos.refresh",
+                                        using: .global()) { (task) in
+  
+            print("--------->>>>>>>>>> hello")
+            task.setTaskCompleted(success: true)
+        }
+        
+        print("-------- registerBackgroundTasks")
+    }
+    
+    func cancelScheduleBackgroundRefresh() {
+        
+        BGTaskScheduler.shared.cancelAllTaskRequests()
+    }
+    
+    func scheduleBackgroundRefresh() {
+        
+        let request = BGAppRefreshTaskRequest(identifier: "com.cbHOH.XYZTodos.refresh")
+        
+        request.earliestBeginDate = Calendar.current.date(byAdding: .second, value: 5, to: Date())
+        
+        do {
+            
+            try BGTaskScheduler.shared.submit(request)
+            print("-------- Schedule background refresh")
+        } catch {
+            
+            print("-------- could not schedule app refresh: (error)")
+        }
     }
     
     // MARK: - CloudKit methods
@@ -431,6 +465,7 @@ class AppDelegate: UIResponder,
 
         readAndMergeTodosFromiCloud {
             
+            print("-------- completion of readAndMergeTodosFromiCloud")
             if UIApplication.shared.applicationState != .background {
                 
                 self.reloadTodosDataInTodosView()
@@ -441,7 +476,7 @@ class AppDelegate: UIResponder,
             WidgetCenter.shared.reloadAllTimelines()
          
             completionHandler(.newData)
-        }
+        } 
     }
     
     //MARK: - Notification methods
