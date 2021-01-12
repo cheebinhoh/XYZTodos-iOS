@@ -439,9 +439,9 @@ class AppDelegate: UIResponder,
 
             registerDeregisterNotification()
             WidgetCenter.shared.reloadAllTimelines()
+         
+            completionHandler(.newData)
         }
-        
-        completionHandler(.newData)
     }
     
     //MARK: - Notification methods
