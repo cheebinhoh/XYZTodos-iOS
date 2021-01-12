@@ -431,8 +431,12 @@ class AppDelegate: UIResponder,
 
         readAndMergeTodosFromiCloud {
             
-            self.reloadTodosDataInTodosView()
-            self.restoreExpandedGroupInTodosView()
+            if UIApplication.shared.applicationState != .background {
+                
+                self.reloadTodosDataInTodosView()
+                self.restoreExpandedGroupInTodosView()
+            }
+
             registerDeregisterNotification()
             WidgetCenter.shared.reloadAllTimelines()
         }
