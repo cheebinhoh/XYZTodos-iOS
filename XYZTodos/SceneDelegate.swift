@@ -165,8 +165,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         appDelegate.saveExpandedGroupsInTodosView()
         registerDeregisterNotification()
         WidgetCenter.shared.reloadAllTimelines()
-
-        //appDelegate.scheduleBackgroundRefresh()
     }
     
     func windowScene(_ windowScene: UIWindowScene,
