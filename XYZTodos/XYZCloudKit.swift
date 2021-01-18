@@ -397,7 +397,7 @@ struct XYZCloudCache {
             let subscription = CKRecordZoneSubscription.init(zoneID: (ckrecordzone.zoneID), subscriptionID: id)
             let notificationInfo = CKSubscription.NotificationInfo()
 
-            //notificationInfo.alertBody = "XYZTodo has new update from iCloud"
+            notificationInfo.alertBody = "Updated todo from iCloud".localized()
             notificationInfo.shouldSendContentAvailable = true
             subscription.notificationInfo = notificationInfo
             
