@@ -8,7 +8,7 @@
 import UIKit
 
 @objc
-protocol XYZTextViewTableViewCellDelegate : class {
+protocol XYZTextViewTableViewCellDelegate: AnyObject {
 
     func textViewDidChange(_ text: String, sender: XYZTextViewTableViewCell)
     func textViewDidBeginEditing(sender: XYZTextViewTableViewCell)

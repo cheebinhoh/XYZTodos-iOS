@@ -99,7 +99,7 @@ struct SimpleEntry: TimelineEntry {
     var overdues = [Bool]()
 }
 
-struct XYZTodosWidgetEntryView : View {
+struct XYZTodosWidgetEntryView: View {
     
     var entry: Provider.Entry
 

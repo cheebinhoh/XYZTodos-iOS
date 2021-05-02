@@ -8,7 +8,7 @@
 import UIKit
 
 @objc
-protocol XYZTodoDetailTimeTableViewCellDelegate : class {
+protocol XYZTodoDetailTimeTableViewCellDelegate: AnyObject {
 
     func timeChanged(select: Bool, time: Date, sender: XYZTodoDetailTimeTableViewCell)
 }

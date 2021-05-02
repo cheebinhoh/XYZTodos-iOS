@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 @objc(XYZTodo)
-class XYZTodo : NSManagedObject {
+class XYZTodo: NSManagedObject {
     
     
     // MARK: - static property
