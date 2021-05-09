@@ -4,6 +4,8 @@
 //
 //  Created by Chee Bin Hoh on 12/18/20.
 //
+//  Copyright © 2020 - 2021 Chee Bin Hoh. All rights reserved.
+//
 
 import UIKit
 

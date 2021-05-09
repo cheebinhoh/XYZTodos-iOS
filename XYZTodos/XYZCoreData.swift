@@ -4,6 +4,8 @@
 //
 //  Created by Chee Bin Hoh on 1/5/21.
 //
+//  Copyright © 2020 - 2021 Chee Bin Hoh. All rights reserved.
+//
 
 import Foundation
 import CoreData

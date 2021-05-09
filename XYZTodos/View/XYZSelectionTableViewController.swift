@@ -6,8 +6,6 @@
 //
 //  Copyright © 2020 - 2020 Chee Bin Hoh. All rights reserved.
 //
-//  Copyright © 2020 - 2020 Chee Bin Hoh. All rights reserved.
-//
 
 import UIKit
 
