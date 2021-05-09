@@ -4,6 +4,10 @@
 //
 //  Created by Chee Bin Hoh on 10/30/20.
 //
+//  Copyright © 2020 - 2020 Chee Bin Hoh. All rights reserved.
+//
+//  Copyright © 2020 - 2020 Chee Bin Hoh. All rights reserved.
+//
 
 import UIKit
 
@@ -79,9 +83,9 @@ class XYZSelectionTableViewController: UITableViewController {
         
         var title = item?.localized()
         
-        if let _ = displayString {
+        if let displayString = displayString {
             
-            title = displayString!
+            title = displayString
         } else if !self.displayStrings.isEmpty {
             
             for tablesection in self.tableSectionList {

@@ -867,16 +867,14 @@ class XYZTodoTableViewController: UITableViewController {
 
         var fromSection = sectionCellList[fromIndexPath.section]
         var toSection = sectionCellList[to.section]
-        var fromSectionTodoGroup = fromSection.data as? TodoGroup
-        var toSectionTodoGroup = toSection.data as? TodoGroup
         
-        if let _ = fromSectionTodoGroup,
-           let _ = toSectionTodoGroup {
+        if var fromSectionTodoGroup = fromSection.data as? TodoGroup,
+           var toSectionTodoGroup = toSection.data as? TodoGroup {
   
             let fromRow = fromIndexPath.row - 1
             let toRow = to.row - 1
             
-            var todo = fromSectionTodoGroup!.todos.remove(at: fromRow)
+            var todo = fromSectionTodoGroup.todos.remove(at: fromRow)
             todo.complete = false
             
             // same section
@@ -896,7 +894,7 @@ class XYZTodoTableViewController: UITableViewController {
                 moveTodoInAppDelegate(fromIndex: fromIndexBase + fromRow,
                                       toIndex: fromIndexBase + toRow)
                 
-                fromSectionTodoGroup!.todos.insert(todo, at: toRow)
+                fromSectionTodoGroup.todos.insert(todo, at: toRow)
                 
                 fromSection.data = fromSectionTodoGroup
                 sectionCellList[fromIndexPath.section] = fromSection
@@ -918,21 +916,21 @@ class XYZTodoTableViewController: UITableViewController {
                                      time: todo.time,
                                      complete: false)
                 
-                toSectionTodoGroup!.todos.insert(todo, at: toRow)
+                toSectionTodoGroup.todos.insert(todo, at: toRow)
                 
-                fromSectionTodoGroup!.collapse = fromSectionTodoGroup!.todos.isEmpty
+                fromSectionTodoGroup.collapse = fromSectionTodoGroup.todos.isEmpty
                 fromSection.data = fromSectionTodoGroup
                 copiedSectionCellList[fromIndexPath.section] = fromSection
                 
-                toSectionTodoGroup!.collapse = false
+                toSectionTodoGroup.collapse = false
                 toSection.data = toSectionTodoGroup
                 copiedSectionCellList[to.section] = toSection
                 
                 sectionCellList = copiedSectionCellList
             }//  if fromIndexPath.section == to.section ... else
-        } // if let _ = fromSectionTodoGroup,
-             // let _ = toSectionTodoGroup
-
+        } // if var fromSectionTodoGroup = fromSectionTodoGroup,
+          //    var toSectionTodoGroup = toSectionTodoGroup
+        
         self.reloadModelData()
     }
 

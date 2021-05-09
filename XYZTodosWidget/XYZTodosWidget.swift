@@ -4,6 +4,8 @@
 //
 //  Created by Chee Bin Hoh on 1/1/21.
 //
+//  Copyright © 2020 - 2020 Chee Bin Hoh. All rights reserved.
+//
 
 import WidgetKit
 import SwiftUI

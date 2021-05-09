@@ -4,6 +4,8 @@
 //
 //  Created by Chee Bin Hoh on 1/5/21.
 //
+//  Copyright © 2020 - 2020 Chee Bin Hoh. All rights reserved.
+//
 
 import Foundation
 import CloudKit
@@ -32,7 +34,7 @@ func removeCloudTodos(todos:[XYZCloudTodo],
         }) {
             
             result.remove(at: index)
-        }
+        } // if let index = result.firstIndex(where: {
     }
     
     return result
@@ -161,16 +163,6 @@ struct XYZCloudCache {
         let container = CKContainer.default()
         let database = container.privateCloudDatabase
         
-        /*
-        database.save(recordsToBeSaved.first!) { (record, error) in
-            
-            if let error = error {
-                
-                print("-------->> \(error)")
-            }
-        }
-        */
-
         let op = CKModifyRecordsOperation(recordsToSave: recordsToBeSaved, recordIDsToDelete: [])
         op.savePolicy = .allKeys
         op.completionBlock = {
@@ -342,8 +334,7 @@ struct XYZCloudCache {
                     var result: [XYZCloudTodo]? = nil
                     var cacheData = dataDictionary[identifier]
      
-                    if let todos = cacheData!.inboundTodos,
-                       !todos.isEmpty
+                    if let todos = cacheData!.inboundTodos,!todos.isEmpty
                         && !cacheData!.deletedRecordIds.isEmpty {
                         
                         cacheData!.inboundTodos = removeCloudTodos(todos: todos,
