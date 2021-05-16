@@ -103,13 +103,13 @@ struct XYZCloudCacheData {
                     }
                     
                     database.add(op)
-                }
+                } // op.completionBlock
                 
                 database.add(op)
-            }
+            } // op.completionBlock = {
             
             database.add(op)
-        }
+        } //  if let writtingPendingTodos = outboundTodos
         
         outboundTodos = []
     }
@@ -289,7 +289,7 @@ struct XYZCloudCache {
                     dataDictionary[group] = data
                 }
             }
-        }
+        } // op.recordChangedBlock = { (record) in
         
         op.recordWithIDWasDeletedBlock = { (recordId, recordType) in
         
