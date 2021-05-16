@@ -52,7 +52,6 @@ class XYZTodoTableViewController: UITableViewController {
     }
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        // code here
          
         guard let canUndo = undoManager?.canUndo, canUndo else {
         
@@ -450,6 +449,7 @@ class XYZTodoTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        
         // #warning Incomplete implementation, return the number of sections
         
         return sectionCellList.count
@@ -457,6 +457,7 @@ class XYZTodoTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
+        
         // #warning Incomplete implementation, return the number of rows
         
         let todoGroup = sectionCellList[section].data as? TodoGroup
@@ -851,9 +852,11 @@ class XYZTodoTableViewController: UITableViewController {
                             forRowAt indexPath: IndexPath) {
                 
         if editingStyle == .delete {
+            
             // Delete the row from the data source
             deleteRow(indexPath: indexPath)
         } else if editingStyle == .insert {
+            
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
             
             fatalError("Exception: yet to be implemented")
@@ -937,6 +940,7 @@ class XYZTodoTableViewController: UITableViewController {
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView,
                             canMoveRowAt indexPath: IndexPath) -> Bool {
+        
         // Return false if you do not want the item to be re-orderable.
         return true
     }
@@ -958,6 +962,7 @@ class XYZTodoTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue,
                           sender: Any?) {
+        
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)

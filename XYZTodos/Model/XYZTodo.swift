@@ -127,7 +127,7 @@ class XYZTodo: NSManagedObject {
     
     // MARK: - function
     
-    init(group: String?,
+    init(group: String,
          sequenceNr: Int,
          detail: String,
          timeOn: Bool,
@@ -139,7 +139,7 @@ class XYZTodo: NSManagedObject {
         
         super.init(entity: entity, insertInto: context!)
     
-        self.group = group ?? ""
+        self.group = group
         self.sequenceNr = sequenceNr
         self.detail = detail
         self.timeOn = timeOn
