@@ -66,7 +66,7 @@ class AppDelegate: UIResponder,
         for section in tableViewController.sectionCellList {
             
             if let todoGroup = section.data as? XYZTodoTableViewController.TodoGroup,
-               !todoGroup.collapse {
+                !todoGroup.collapse {
                 
                 addExpandedGroupInTodosView(group: section.identifier)
             }

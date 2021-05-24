@@ -30,8 +30,8 @@ func removeCloudTodos(todos:[XYZCloudTodo],
         
         if let index = result.firstIndex(where: {
             
-            return $0.recordId == recordId
-        }) {
+                return $0.recordId == recordId
+            }) {
             
             result.remove(at: index)
         } // if let index = result.firstIndex(where: {
@@ -89,7 +89,7 @@ struct XYZCloudCacheData {
                         record[XYZTodo.complete] = todo.complete
                         record[XYZTodo.time] = todo.time
                         record[XYZTodo.timeOn] = todo.timeOn
-                        record["todogroup"] = ckreference
+                        record[XYZTodo.todogroup] = ckreference
         
                         records.append(record)
                     }
@@ -118,7 +118,8 @@ struct XYZCloudCacheData {
         
         print("-------- start of XYZCloudCacheData.printDebug")
         
-        if let todos = todos, !todos.isEmpty {
+        if let todos = todos,
+            !todos.isEmpty {
             
             for todo in todos {
                 
@@ -155,7 +156,7 @@ struct XYZCloudCache {
             record[XYZTodo.complete] = todo.complete
             record[XYZTodo.time] = XYZTodo.time
             record[XYZTodo.timeOn] = XYZTodo.timeOn
-            record["todogroup"] = ckreference
+            record[XYZTodo.todogroup] = ckreference
             
             recordsToBeSaved.append(record)
         }
@@ -219,7 +220,7 @@ struct XYZCloudCache {
          
             var numData = data.count
             
-            for ( identifier, todos ) in data {
+            for (identifier, todos) in data {
                 
                 var cacheData = dataDictionary[identifier]
 
@@ -334,8 +335,8 @@ struct XYZCloudCache {
                     var result: [XYZCloudTodo]? = nil
                     var cacheData = dataDictionary[identifier]
      
-                    if let todos = cacheData!.inboundTodos,!todos.isEmpty
-                        && !cacheData!.deletedRecordIds.isEmpty {
+                    if let todos = cacheData!.inboundTodos,
+                       !todos.isEmpty && !cacheData!.deletedRecordIds.isEmpty {
                         
                         cacheData!.inboundTodos = removeCloudTodos(todos: todos,
                                                                    recordIDs: cacheData!.deletedRecordIds)

@@ -324,7 +324,6 @@ extension String {
 
 extension Date {
     
-    
     static func nextHour(hour: Int = 1) -> Date {
         
         let nowComponents = Calendar.current.dateComponents([.day, .month, .year, .hour], from: Date())
@@ -374,7 +373,8 @@ extension Date {
 extension URL {
 
     /// Returns a URL for the given app group and database pointing to the sqlite database.
-    static func storeURL(for appGroup: String, databaseName: String) -> URL {
+    static func storeURL(for appGroup: String,
+                         databaseName: String) -> URL {
         
         guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
             
@@ -387,7 +387,8 @@ extension URL {
 
 // MARK: - Miscallenous
 
-func getTodo(group: String, sequenceNr: Int, from todos: [XYZTodo]) -> XYZTodo? {
+func getTodo(group: String, sequenceNr: Int,
+             from todos: [XYZTodo]) -> XYZTodo? {
     
     return todos.first { (todo) -> Bool in
         
@@ -433,9 +434,9 @@ func parseGroupAndSequenceNr(of parameter: String) -> (String?, Int?) {
                     
                 default:
                     break
-            }
-        }
-    }
+            } // switch name {
+        } // for (index, name) in parameterNameValue.enumerated() {
+    } // for parameter in parameterList {
 
     return (group, sequenceNr)
 }

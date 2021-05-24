@@ -24,7 +24,7 @@ class XYZTodo: NSManagedObject {
     static let time = "time"
     static let timeOn = "timeOn"
     static let timeReschedule = "timeReschedule"
-    
+    static let todogroup = "todogroup"
     
     // MARK: - property
     var recordId: String {

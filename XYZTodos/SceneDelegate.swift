@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    func handleAppUrl(_ scene: UIScene, openURLContexts urlContexts:Set<UIOpenURLContext>) {
+    func handleAppUrl(_ scene: UIScene,
+                      openURLContexts urlContexts:Set<UIOpenURLContext>) {
         
         let urllink = urlContexts.first {
        
@@ -67,7 +68,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     }
                     
-                    if let group = group, let sequenceNr = sequenceNr {
+                    if let group = group,
+                        let sequenceNr = sequenceNr {
                         
                         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                             
@@ -86,7 +88,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     // App opened from background
-    func scene(_ scene: UIScene, openURLContexts urlContexts: Set<UIOpenURLContext>) {
+    func scene(_ scene: UIScene,
+               openURLContexts urlContexts: Set<UIOpenURLContext>) {
         
         if !urlContexts.isEmpty {
 
