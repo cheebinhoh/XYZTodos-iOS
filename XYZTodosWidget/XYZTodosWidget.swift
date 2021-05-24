@@ -17,13 +17,15 @@ struct Provider: TimelineProvider {
         SimpleEntry(date: Date(), todos: [XYZTodo]())
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    func getSnapshot(in context: Context,
+                     completion: @escaping (SimpleEntry) -> ()) {
         
         let entry = SimpleEntry(date: Date(), todos: [XYZTodo]())
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context,
+                     completion: @escaping (Timeline<Entry>) -> ()) {
         
         var entries: [SimpleEntry] = []
 
@@ -63,8 +65,8 @@ struct Provider: TimelineProvider {
                 let nowOnwardEpoch = nowOnward.timeIntervalSinceReferenceDate
                 let nextTodoEpoch = todosForWidget.first!.time.getTimeOfToday().timeIntervalSinceReferenceDate
 
-                if abs( nowOnwardEpoch - lastDueTodoEpoch )
-                    < abs( nextTodoEpoch - nowOnwardEpoch ) {
+                if abs(nowOnwardEpoch - lastDueTodoEpoch)
+                    < abs(nextTodoEpoch - nowOnwardEpoch) {
                     
                     let todo = todosDue.removeLast()
                     todosForWidget.insert(todo, at: 0)
