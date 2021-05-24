@@ -11,11 +11,9 @@ import UIKit
 
 class XYZMoreAboutTableViewController: UITableViewController {
 
-    
     // MARK: - Property
     
     var sectionCellList = [TableViewSectionCell]()
-    
     
     // MARK: - IBAction
     
@@ -23,7 +21,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
         
         dismiss(animated: true, completion: nil)
     }
-    
     
     // MARK: - Function
     
@@ -71,7 +68,6 @@ class XYZMoreAboutTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

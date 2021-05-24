@@ -11,7 +11,6 @@ import UIKit
 
 class XYZTodoTableViewController: UITableViewController {
  
-    
     // MARK: - Type
     
     struct Todo {
@@ -35,7 +34,6 @@ class XYZTodoTableViewController: UITableViewController {
             }
         }
     }
-    
     
     // MARK: - Property
     var dupGroup: String?
@@ -113,7 +111,6 @@ class XYZTodoTableViewController: UITableViewController {
         
         indexPathToBeRemovedAfterDup = nil
     }
-    
     
     // MARK: - Function
     
@@ -955,7 +952,6 @@ class XYZTodoTableViewController: UITableViewController {
         
         return target
     }
-
 
     // MARK: - Navigation
 

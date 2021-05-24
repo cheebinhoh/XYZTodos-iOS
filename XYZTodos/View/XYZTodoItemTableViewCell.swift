@@ -11,12 +11,10 @@ import UIKit
 
 class XYZTodoItemTableViewCell: UITableViewCell {
 
-    
     // MARK: - IBOutlet
     
     @IBOutlet weak var detail: UILabel!
     @IBOutlet weak var time: UILabel!
-    
     
     // MARK: - Function
     

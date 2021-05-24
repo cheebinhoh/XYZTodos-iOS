@@ -14,7 +14,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
                                         XYZTextViewTableViewCellDelegate,
                                         XYZTodoDetailTimeTableViewCellDelegate {
     
-    
     // MARK: - XYZTodoDetailTimeTableViewCellDelegate
     
     func timeChanged(select: Bool, time: Date, sender: XYZTodoDetailTimeTableViewCell) {
@@ -22,7 +21,6 @@ class XYZTodoDetailTableViewController: UITableViewController,
         self.timeOn = select
         self.time = time
     }
-    
     
     // MARK: - XYZTextViewTableViewCellDelegate
     
@@ -44,8 +42,7 @@ class XYZTodoDetailTableViewController: UITableViewController,
         
         tableView.beginUpdates()
         tableView.endUpdates()
-    }
-    
+    }    
     
     // MARK: - XYZSelectionDelegate
     

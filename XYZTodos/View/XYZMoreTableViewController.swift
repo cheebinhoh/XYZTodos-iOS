@@ -12,7 +12,6 @@ import UIKit
 class XYZMoreTableViewController: UITableViewController,
                                   XYZSelectionDelegate {
     
-    
     // MARK: - XYZSelectionDelegate
     
     func selectedItem(_ item: String?, sender: XYZSelectionTableViewController) {
@@ -31,11 +30,9 @@ class XYZMoreTableViewController: UITableViewController,
         tableView.reloadData()
     }
 
-    
     // MARK: - Property
     
     var sectionCellList = [TableViewSectionCell]()
-    
     
     // MARK: - Function
     
@@ -73,7 +70,6 @@ class XYZMoreTableViewController: UITableViewController,
         loadSectionCellData()
     }
 
-    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -224,11 +220,11 @@ class XYZMoreTableViewController: UITableViewController,
                         
                     default:
                         fatalError("Exception: unsupport cell id \(cellId)")
-                }
+                } // switch cellId {
                 
             default:
                 fatalError("Exception: Unsupport section id \(sectionId)")
-        }
+        } // switch sectionId {
         
         tableView.deselectRow(at: indexPath, animated: false)
     }
