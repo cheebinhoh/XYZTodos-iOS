@@ -16,7 +16,6 @@ protocol XYZSelectionDelegate: AnyObject {
 
 class XYZSelectionTableViewController: UITableViewController {
 
-    
     // MARK: - property
     
     var displayTitleForHeader = true

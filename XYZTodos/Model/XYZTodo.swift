@@ -13,7 +13,6 @@ import CoreData
 @objc(XYZTodo)
 class XYZTodo: NSManagedObject {
     
-    
     // MARK: - static property
     
     static let type = "XYZTodo"

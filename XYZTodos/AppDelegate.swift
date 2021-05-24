@@ -687,11 +687,11 @@ func deleteTodoInAppDelegate(group: String,
  
     guard let index = appDelegate.todos?.firstIndex(where: {
     
-        let gr = $0.group
-        let seqNr = $0.sequenceNr
+            let gr = $0.group
+            let seqNr = $0.sequenceNr
         
-        return group == gr && seqNr == sequenceNr
-    }) else {
+            return group == gr && seqNr == sequenceNr
+        }) else {
         
         return
     }
@@ -750,11 +750,11 @@ func editTodoInAppDelegate(oldGroup: String,
     
     guard let todo = appDelegate.todos?.first(where: {
     
-        let gr = $0.group
-        let seqNr = $0.sequenceNr
+            let gr = $0.group
+            let seqNr = $0.sequenceNr
         
-        return oldGroup == gr && seqNr == oldSequenceNr
-    }) else {
+            return oldGroup == gr && seqNr == oldSequenceNr
+        }) else {
         
         fatalError("Exception: todo is not found for \(oldGroup), \(oldSequenceNr)")
     }
@@ -935,7 +935,7 @@ func registerDeregisterNotification() {
         }
         
         lastDoW = todoDow
-    }
+    } // for todo in appDelegate.todos! {
 } // func registerDeregisterNotification()
 
 func executeAddTodo() {

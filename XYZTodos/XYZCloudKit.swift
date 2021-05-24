@@ -278,8 +278,8 @@ struct XYZCloudCache {
                     
                     if let index = data.inboundTodos?.firstIndex(where: { (todo) -> Bool in
                         
-                        return todo.recordId == record.recordID.recordName
-                    }) {
+                            return todo.recordId == record.recordID.recordName
+                        }) {
                         
                         data.inboundTodos?.remove(at: index)
                     }
@@ -289,7 +289,7 @@ struct XYZCloudCache {
                     data.inboundTodos?.append(newTodo)
                     dataDictionary[group] = data
                 }
-            }
+            } // if record.recordType == XYZTodo.type {
         } // op.recordChangedBlock = { (record) in
         
         op.recordWithIDWasDeletedBlock = { (recordId, recordType) in
