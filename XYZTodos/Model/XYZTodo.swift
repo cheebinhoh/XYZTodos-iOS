@@ -181,8 +181,8 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
             time2 = timeComponent.hour! * 100 + timeComponent.minute!
         }
 
-        let dow1Index = ( DayOfWeek(rawValue: g1)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
-        let dow2Index = ( DayOfWeek(rawValue: g2)?.weekDayNr ) ?? DayOfWeek.lastWeekDayNr + 1
+        let dow1Index = DayOfWeek(rawValue: g1)?.weekDayNr ?? DayOfWeek.lastWeekDayNr + 1
+        let dow2Index = DayOfWeek(rawValue: g2)?.weekDayNr ?? DayOfWeek.lastWeekDayNr + 1
            
         var swap = dow1Index < dow2Index
         
@@ -199,8 +199,8 @@ func sortTodos(todos: [XYZTodo]) -> [XYZTodo] {
                     swap = s1 < s2
                 }
             }
-        }
+        } // if !swap && dow1Index == dow2Index {
         
         return swap
-    }
+    } // return todos.sorted { (todo1, todo2) -> Bool in
 }
