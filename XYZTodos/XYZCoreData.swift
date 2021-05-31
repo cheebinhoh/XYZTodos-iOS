@@ -2,9 +2,9 @@
 //  XYZCoreData.swift
 //  XYZTodos
 //
-//  Created by Chee Bin Hoh on 1/5/21.
+//  Created by Chee Bin HOH on 1/5/21.
 //
-//  Copyright © 2020 - 2021 Chee Bin Hoh. All rights reserved.
+//  Copyright © 2020 - 2021 Chee Bin HOH. All rights reserved.
 //
 
 import Foundation
