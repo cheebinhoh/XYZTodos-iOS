@@ -80,10 +80,10 @@ struct Provider: TimelineProvider {
         todosForWidget.append(contentsOf: todosDue)
         let overdues = todosForWidget.map { (todo) -> Bool in
             
-                let time = todo.time.getTimeOfToday()
+            let time = todo.time.getTimeOfToday()
             
-                return time < nowOnward
-            }
+            return time < nowOnward
+        }
 
         let entry = SimpleEntry(date: Date(), todos: todosForWidget, overdues: overdues)
         entries.append(entry)
