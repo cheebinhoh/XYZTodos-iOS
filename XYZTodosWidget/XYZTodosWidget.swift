@@ -2,9 +2,9 @@
 //  XYZTodosWidget.swift
 //  XYZTodosWidget
 //
-//  Created by Chee Bin Hoh on 1/1/21.
+//  Created by Chee Bin HOH on 1/1/21.
 //
-//  Copyright © 2020 - 2021 Chee Bin Hoh. All rights reserved.
+//  Copyright © 2020 - 2021 Chee Bin HOH. All rights reserved.
 //
 
 import WidgetKit
@@ -21,6 +21,7 @@ struct Provider: TimelineProvider {
                      completion: @escaping (SimpleEntry) -> ()) {
         
         let entry = SimpleEntry(date: Date(), todos: [XYZTodo]())
+        
         completion(entry)
     }
 
@@ -28,7 +29,6 @@ struct Provider: TimelineProvider {
                      completion: @escaping (Timeline<Entry>) -> ()) {
         
         var entries: [SimpleEntry] = []
-
         let todos = loadTodosFromManagedContext(managedContext())
         var todosForWidget = [XYZTodo]()
         var todosDue = [XYZTodo]()
@@ -37,7 +37,7 @@ struct Provider: TimelineProvider {
         for todo in todos! {
 
             if let dow = DayOfWeek(rawValue: todo.group),
-               dow == todayDoW && !todo.complete {
+                dow == todayDoW && !todo.complete {
                 
                 if !todo.timeOn {
                     
@@ -53,9 +53,9 @@ struct Provider: TimelineProvider {
                         
                         todosDue.append(todo)
                     }
-                }
-            }
-        }
+                } // if !todo.timeOn {
+            } // if let dow = DayOfWeek(rawValue: todo.group),
+        } // for todo in todos! {
  
         if !todosDue.isEmpty {
             
@@ -69,12 +69,13 @@ struct Provider: TimelineProvider {
                     < abs(nextTodoEpoch - nowOnwardEpoch) {
                     
                     let todo = todosDue.removeLast()
+                    
                     todosForWidget.insert(todo, at: 0)
                 }
-            }
+            } // if !todosForWidget.isEmpty {
             
             todosDue.reverse()
-        }
+        } // if !todosDue.isEmpty {
         
         todosForWidget.append(contentsOf: todosDue)
         let overdues = todosForWidget.map { (todo) -> Bool in
@@ -112,7 +113,7 @@ struct XYZTodosWidgetEntryView: View {
         VStack(alignment: .leading, spacing: 5, content: {
             
             if let first = entry.todos.first,
-               let firstoverdue = entry.overdues.first  {
+                let firstoverdue = entry.overdues.first  {
             
                 if firstoverdue {
                     

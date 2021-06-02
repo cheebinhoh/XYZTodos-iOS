@@ -2,9 +2,9 @@
 //  XYZTodoPreviewViewController.swift
 //  XYZTodos
 //
-//  Created by Chee Bin Hoh on 12/18/20.
+//  Created by Chee Bin HOH on 12/18/20.
 //
-//  Copyright © 2020 - 2021 Chee Bin Hoh. All rights reserved.
+//  Copyright © 2020 - 2021 Chee Bin HOH. All rights reserved.
 //
 
 import UIKit
