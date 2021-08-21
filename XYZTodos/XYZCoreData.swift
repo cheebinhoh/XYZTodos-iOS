@@ -60,6 +60,7 @@ func loadGlobalFromManagedContext() -> XYZGlobal? {
     if nil == global {
         
         global = XYZGlobal(dow: "", context: managedContext())
+        
         saveManageContext()
     }
     

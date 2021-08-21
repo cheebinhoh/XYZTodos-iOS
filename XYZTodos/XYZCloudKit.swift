@@ -253,11 +253,13 @@ struct XYZCloudCache {
    
         let recordZone = CKRecordZone(zoneName: XYZTodo.type)
         var optionsByRecordZoneID = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
+        
         let option = CKFetchRecordZoneChangesOperation.ZoneConfiguration()
         option.previousServerChangeToken = changeToken
         optionsByRecordZoneID[recordZone.zoneID] = option
         
-        let op = CKFetchRecordZoneChangesOperation(recordZoneIDs: [recordZone.zoneID], configurationsByRecordZoneID: optionsByRecordZoneID)
+        let op = CKFetchRecordZoneChangesOperation(recordZoneIDs: [recordZone.zoneID],
+                                                   configurationsByRecordZoneID: optionsByRecordZoneID)
         op.recordChangedBlock = { (record) in
             
             if record.recordType == XYZTodo.type {
@@ -284,7 +286,8 @@ struct XYZCloudCache {
                         data.inboundTodos?.remove(at: index)
                     }
                     
-                    let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr, detail: detail, complete: complete, time: time, timeOn: timeOn)
+                    let newTodo = XYZCloudTodo(recordId: record.recordID.recordName, group: group, sequenceNr: sequenceNr,
+                                               detail: detail, complete: complete, time: time, timeOn: timeOn)
                     
                     data.inboundTodos?.append(newTodo)
                     dataDictionary[group] = data
