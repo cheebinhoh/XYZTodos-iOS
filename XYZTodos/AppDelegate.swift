@@ -661,9 +661,11 @@ func reconciliateTodoSequenceNr(todos: [XYZTodo]) -> [XYZTodo] {
     
     var index = 0
     var lastGroup = ""
+    
     for todo in todos {
         
         let group = todo.group
+        
         if lastGroup == "" || lastGroup != group {
             
             lastGroup = group
