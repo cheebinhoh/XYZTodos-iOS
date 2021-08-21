@@ -7,7 +7,6 @@
 //  Copyright © 2020 - 2021 Chee Bin HOH. All rights reserved.
 //
 
-
 import Foundation
 import CoreData
 
@@ -284,6 +283,7 @@ enum DayOfWeek: String, CaseIterable {
         var hitStartOfTheWeek = false
         var daysOfWeek = [DayOfWeek]()
         var nextIndex = 0
+        
         for dayOfWeek in DayOfWeek.allCases {
 
             if hitStartOfTheWeek
@@ -430,7 +430,7 @@ func parseGroupAndSequenceNr(of parameter: String) -> (String?, Int?) {
                         fatalError("Exception: missing parameter value for SequenceNr")
                     }
                 
-                   group = String(parameterNameValue[index + 1])
+                    group = String(parameterNameValue[index + 1])
                     
                 default:
                     break
