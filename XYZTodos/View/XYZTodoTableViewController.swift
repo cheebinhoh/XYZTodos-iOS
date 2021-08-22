@@ -669,7 +669,8 @@ class XYZTodoTableViewController: UITableViewController {
         
         copyToMenu.popoverPresentationController?.sourceView = self.view
         copyToMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-        copyToMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+        copyToMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY,
+                                                                      width: 0, height: 0)
         
         self.present(copyToMenu, animated: true, completion: nil)
     }
@@ -713,7 +714,8 @@ class XYZTodoTableViewController: UITableViewController {
         
         moveToMenu.popoverPresentationController?.sourceView = self.view
         moveToMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-        moveToMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+        moveToMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY,
+                                                                      width: 0, height: 0)
         
         self.present(moveToMenu, animated: true, completion: nil)
     }
@@ -812,7 +814,8 @@ class XYZTodoTableViewController: UITableViewController {
             
             optionMenu.popoverPresentationController?.sourceView = self.view
             optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-            optionMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            optionMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY,
+                                                                          width: 0, height: 0)
             
             self.present(optionMenu, animated: true, completion: nil)
  
